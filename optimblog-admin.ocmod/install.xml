@@ -1,0 +1,3336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>  OptimBlog - admin</name>
+  <code>optimblog-admin</code>
+  <version>3.0.0.0</version>
+  <author>Dmitriy Khokhlov | optimlab.com</author>
+  <link>http://optimlab.com</link>
+  
+  <file path="admin/controller/startup/permission.php">
+      <operation error="skip">
+        <search><![CDATA[
+			$extension = array(
+        ]]></search>
+        <add position="after"><![CDATA[
+				'extension/information',
+        ]]></add>
+      </operation>
+  </file>
+  
+  <!-- Category -->
+  <file path="admin/controller/catalog/category.php">
+      <operation error="skip">
+        <search><![CDATA[
+		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+        ]]></search>
+        <add position="after"><![CDATA[
+		// Images
+		if (isset($this->request->post['category_image'])) {
+			$category_images = $this->request->post['category_image'];
+		} elseif (isset($this->request->get['category_id'])) {
+			$category_images = $this->model_catalog_category->getCategoryImages($this->request->get['category_id']);
+		} else {
+			$category_images = array();
+		}
+
+		$data['category_images'] = array();
+
+		foreach ($category_images as $category_image) {
+			if (is_file(DIR_IMAGE . $category_image['image'])) {
+				$image = $category_image['image'];
+				$thumb = $category_image['image'];
+			} else {
+				$image = '';
+				$thumb = 'no_image.png';
+			}
+
+			$data['category_images'][] = array(
+				'image'      => $image,
+				'thumb'      => $this->model_tool_image->resize($thumb, 100, 100),
+				'sort_order' => $category_image['sort_order']
+			);
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->request->post['category_seo_url'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($this->request->post['information'])) {
+			$data['information'] = $this->request->post['information'];
+		} elseif (!empty($category_info)) {
+			$data['information'] = $category_info['information'];
+		} else {
+			$data['information'] = isset($this->request->get['information']) ? $this->request->get['information'] : '';
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				'filter_name' => $this->request->get['filter_name'],
+        ]]></search>
+        <add position="after"><![CDATA[
+				'information' => isset($this->request->get['information']) ? $this->request->get['information'] : 0,
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$url = '';
+        ]]></search>
+        <add position="after"><![CDATA[
+		if (isset($this->request->get['information'])) {
+			$url .= '&information=' . $this->request->get['information'];
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$data['sort_sort_order'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&sort=sort_order' . $url, true);
+        ]]></search>
+        <add position="after"><![CDATA[
+        $data['sort_information'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&sort=information' . $url, true);
+
+		$url = '';
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		$data['type_all'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . $url, true);
+		$data['type_product'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&information=0' . $url, true);
+		$data['type_information'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&information=1' . $url, true);
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$category_total = $this->model_catalog_category->getTotalCategories();
+        ]]></search>
+        <add position="replace"><![CDATA[
+		if (isset($this->request->get['information'])) {
+			$category_total = $this->model_catalog_category->getTotalCategoriesByInformation($this->request->get['information']);
+		} else {
+			$category_total = $this->model_catalog_category->getTotalCategories();
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	protected function getList() {
+        ]]></search>
+        <add position="after"><![CDATA[
+		if (isset($this->request->get['information'])) {
+			$information = $this->request->get['information'];
+		} else {
+			$information = null;
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			'order' => $order,
+        ]]></search>
+        <add position="after"><![CDATA[
+			'information' => $information,
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				'sort_order'  => $result['sort_order'],
+        ]]></search>
+        <add position="after"><![CDATA[
+				'information' => $result['information'],
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$data['order'] = $order;
+        ]]></search>
+        <add position="after"><![CDATA[
+		$data['information'] = $information;
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/en-gb/catalog/category.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="before"><![CDATA[
+$_['column_information']     = 'Type';
+
+// Button
+$_['button_type_category']   = 'Type category';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']            = 'Header';
+$_['entry_short_description'] = 'Short Description';
+$_['entry_information']       = 'Category of articles';
+$_['entry_type']              = 'All';
+$_['entry_type_product']      = 'Products';
+$_['entry_type_information']  = 'Articles';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']            = 'HTML Tag H1';
+$_['help_information']       = 'Category type: Products or Articles. (Default - Products)';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/ru-ru/catalog/category.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="before"><![CDATA[
+$_['column_information']     = 'Тип';
+
+// Button
+$_['button_type_category']   = 'Тип категорий';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']            = 'Заголовок';
+$_['entry_short_description'] = 'Краткое описание';
+$_['entry_information']       = 'Категория статей';
+$_['entry_type']              = 'Все';
+$_['entry_type_product']      = 'Товары';
+$_['entry_type_information']  = 'Статьи';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']            = 'HTML-тег H1';
+$_['help_information']       = 'Тип категории: Товары или Статьи. (По умолчанию - Товары)';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/model/catalog/category.php">
+      <operation error="skip">
+        <search><![CDATA[description = '" . $this->db->escape($value['description']) . "', ]]></search>
+        <add position="replace"><![CDATA[header = '" . $this->db->escape($value['header']) . "', short_description = '" . $this->db->escape($value['short_description']) . "', description = '" . $this->db->escape($value['description']) . "', ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				'name'             => $result['name'],
+        ]]></search>
+        <add position="after"><![CDATA[
+				'header'            => $result['header'],
+				'short_description' => $result['short_description'],
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[date_modified = NOW()]]></search>
+        <add position="replace"><![CDATA[information = '" . (isset($data['information']) ? (int)$data['information'] : 0) . "', date_modified = NOW()]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="0"><![CDATA[
+		foreach ($data['category_description'] as $language_id => $value) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($data['category_image'])) {
+			foreach ($data['category_image'] as $category_image) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "category_image SET category_id = '" . (int)$category_id . "', image = '" . $this->db->escape($category_image['image']) . "', sort_order = '" . (int)$category_image['sort_order'] . "'");
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="0"><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description WHERE category_id = '" . (int)$category_id . "'");
+        ]]></search>
+        <add position="before"><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_image WHERE category_id = '" . (int)$category_id . "'");
+
+		if (isset($data['category_image'])) {
+			foreach ($data['category_image'] as $category_image) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "category_image SET category_id = '" . (int)$category_id . "', image = '" . $this->db->escape($category_image['image']) . "', sort_order = '" . (int)$category_image['sort_order'] . "'");
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="1"><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description WHERE category_id = '" . (int)$category_id . "'");
+        ]]></search>
+        <add position="before"><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_image WHERE category_id = '" . (int)$category_id . "'");
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	public function getCategorySeoUrls($category_id) {
+        ]]></search>
+        <add position="before"><![CDATA[
+	public function getCategoryImages($category_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_image WHERE category_id = '" . (int)$category_id . "' ORDER BY sort_order ASC");
+
+		return $query->rows;
+	}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[c1.sort_order]]></search>
+        <add position="replace"><![CDATA[c1.sort_order, c1.information]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$sql .= " GROUP BY cp.category_id";
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($data['information'])) {
+			$sql .= " AND c1.information = '" . (int)$data['information'] . "' AND c2.information = '" . (int)$data['information'] . "'";
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$sort_data = array(
+        ]]></search>
+        <add position="after"><![CDATA[
+			'information',
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	public function getTotalCategoriesByLayoutId($layout_id) {
+        ]]></search>
+        <add position="before"><![CDATA[
+	public function getTotalCategoriesByInformation($information) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category WHERE information = '" . (int)$information . "'");
+
+		return $query->row['total'];
+	}
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/view/template/catalog/category_form.twig">
+      <operation error="skip">
+        <search index="0"><![CDATA[
+                  <div class="form-group">
+        ]]></search>
+        <add position="before"><![CDATA[
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-header{{ language.language_id }}"><span data-toggle="tooltip" title="{{ help_header }}">{{ entry_header }}</span></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="category_description[{{ language.language_id }}][header]" value="{{ category_description[language.language_id] ? category_description[language.language_id].header }}" placeholder="{{ entry_header }}" id="input-header{{ language.language_id }}" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-short-description{{ language.language_id }}">{{ entry_short_description }}<br /><button type="button" class="btn btn-primary btn-xs summernote" data-toggle="button" aria-pressed="false" autocomplete="off" data-language="{{ language.language_id }}">Summernote</button></label>
+                    <div class="col-sm-10">
+                      <textarea name="category_description[{{ language.language_id }}][short_description]" placeholder="{{ entry_short_description }}" id="input-short-description{{ language.language_id }}" class="form-control">{{ category_description[language.language_id] ? category_description[language.language_id].short_description }}</textarea>
+                    </div>
+                  </div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+            <li><a href="#tab-seo" data-toggle="tab">{{ tab_seo }}</a></li>
+        ]]></search>
+        <add position="before"><![CDATA[
+            <li><a href="#tab-image" data-toggle="tab">{{ tab_image }}</a></li>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+            <div class="tab-pane" id="tab-seo">
+        ]]></search>
+        <add position="before"><![CDATA[
+            <div class="tab-pane" id="tab-image">
+              <div class="table-responsive">
+                <table id="images" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ entry_additional_image }}</td>
+                      <td class="text-right">{{ entry_sort_order }}</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                  {% set image_row = 0 %}
+                  {% for category_image in category_images %}
+                  <tr id="image-row{{ image_row }}">
+                    <td class="text-left"><a href="" id="thumb-image{{ image_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ category_image.thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                      <input type="hidden" name="category_image[{{ image_row }}][image]" value="{{ category_image.image }}" id="input-image{{ image_row }}" /></td>
+                    <td class="text-right"><input type="text" name="category_image[{{ image_row }}][sort_order]" value="{{ category_image.sort_order }}" placeholder="{{ entry_sort_order }}" class="form-control" /></td>
+                    <td class="text-left"><button type="button" onclick="$('#image-row{{ image_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+                  </tr>
+                  {% set image_row = image_row + 1 %}
+                  {% endfor %}
+                    </tbody>
+                  
+                  <tfoot>
+                    <tr>
+                      <td colspan="2"></td>
+                      <td class="text-left"><button type="button" onclick="addImage();" data-toggle="tooltip" title="{{ button_image_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+        ]]></search>
+        <add position="before"><![CDATA[
+                <label class="col-sm-2 control-label" for="input-information"><span data-toggle="tooltip" title="{{ help_information }}">{{ entry_information }}</span></label>
+                <div class="col-sm-10">
+                  <div class="checkbox">
+                    <label>
+                      {% if information %}
+                      <input type="checkbox" name="information" value="1" checked="checked" id="input-information" />
+                      {% else %}
+                      <input type="checkbox" name="information" value="1" id="input-information" />
+                      {% endif %}
+                      &nbsp; </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="2"><![CDATA[
+  <script type="text/javascript"><!--
+        ]]></search>
+        <add position="before"><![CDATA[
+  <script type="text/javascript"><!--
+var image_row = {{ image_row }};
+
+function addImage() {
+	html  = '<tr id="image-row' + image_row + '">';
+	html += '  <td class="text-left"><a href="" id="thumb-image' + image_row + '"data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="category_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+	html += '  <td class="text-right"><input type="text" name="category_image[' + image_row + '][sort_order]" value="" placeholder="{{ entry_sort_order }}" class="form-control" /></td>';
+	html += '  <td class="text-left"><button type="button" onclick="$(\'#image-row' + image_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	html += '</tr>';
+
+	$('#images tbody').append(html);
+
+	image_row++;
+}
+//--></script> 
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+        ]]></search>
+        <add position="replace"><![CDATA[
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}{% if information %}&information=1{% endif %}&filter_name=' +  encodeURIComponent(request),
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+{{ footer }} 
+        ]]></search>
+        <add position="before"><![CDATA[
+  <script type="text/javascript"><!--
+$('.summernote').on('click', function () {
+	if ($(this).hasClass('active')) {
+		$('#input-short-description' + $(this).data('language')).summernote('destroy');
+	} else {
+		$('#input-short-description' + $(this).data('language')).summernote({
+			focus: true,
+			lang: '{{ summernote }}'
+		});
+	}
+})
+
+$(document).ready(function() {
+	$('[name*=\'[short_description]\']').each(function() {
+		if ($(this).val()) {
+            $(this).parent().prev().children('.summernote').trigger('click');
+		}
+	});
+});
+//--></script>
+        ]]></add>
+      </operation>  </file>
+
+  <file path="admin/view/template/catalog/category_list.twig">
+      <operation error="skip">
+        <search><![CDATA[
+      <div class="pull-right"><a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a> <a href="{{ repair }}" data-toggle="tooltip" title="{{ button_rebuild }}" class="btn btn-default"><i class="fa fa-refresh"></i></a>
+        ]]></search>
+        <add position="replace"><![CDATA[
+      <div class="pull-right">
+        <div class="btn-group">
+          {% if information is not null %}
+          <span class="btn btn-default" data-toggle="tooltip" title="{{ information ? entry_type_information : entry_type_product }}">
+          {{ information ? '<i class="fa fa-file-text-o fa-fw"></i>' : '<i class="fa fa-shopping-cart fa-fw"></i>' }} 
+          {% else %}
+          <span class="btn btn-default" data-toggle="tooltip" title="{{ entry_type }}">
+            <i class="fa fa-list fa-fw"></i>
+          {% endif %}
+          </span>
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ button_type_category }} <span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="{{ type_all }}"><i class="fa fa-list fa-fw"></i> {{ entry_type }}</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ type_product }}"><i class="fa fa-shopping-cart fa-fw"></i> {{ entry_type_product }}</a></li>
+            <li><a href="{{ type_information }}"><i class="fa fa-file-text-o fa-fw"></i> {{ entry_type_information }}</a></li>
+          </ul>
+        </div>
+        <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        <a href="{{ repair }}" data-toggle="tooltip" title="{{ button_rebuild }}" class="btn btn-default"><i class="fa fa-refresh"></i></a>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td class="text-left">{% if sort %}
+        ]]></search>
+        <add position="replace"><![CDATA[
+                  <td class="text-left">{% if sort == 'name' %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td class="text-right">{% if sort == 'sort_order' %}
+        ]]></search>
+        <add position="before"><![CDATA[
+                  <td class="text-right">{% if sort == 'information' %}
+                    <a href="{{ sort_information }}" class="{{ order|lower }}">{{ column_information }}</a>
+                    {% else %}
+                    <a href="{{ sort_information }}">{{ column_information }}</a>
+                    {% endif %}</td>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td class="text-right">{{ category.sort_order }}</td>
+        ]]></search>
+        <add position="before"><![CDATA[
+                  <td class="text-right">{{ category.information ? entry_type_information : entry_type_product }}</td>
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Information -->
+  <file path="admin/controller/catalog/information.php">
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->request->post['bottom'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($this->request->get['information_id'])) {
+			$data['information_id'] = $this->request->get['information_id'];
+		}
+
+		if (isset($this->request->post['date_available'])) {
+			$data['date_available'] = $this->request->post['date_available'];
+		} elseif (!empty($information_info)) {
+			$data['date_available'] = $information_info['date_available'];
+		} else {
+			$data['date_available'] = date('Y-m-d H:i:s');
+		}
+
+		if (isset($this->request->post['date_end'])) {
+			$data['date_end'] = $this->request->post['date_end'];
+		} elseif (!empty($information_info)) {
+			$data['date_end'] = $information_info['date_end'];
+		} else {
+			$data['date_end'] = '2100-01-01 00:00:00';
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->request->post['information_seo_url'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		// User
+		$this->load->model('user/user');
+		$this->load->model('user/user_group');
+
+		$user_groups = $this->model_user_user_group->getUserGroups();
+
+		foreach ($user_groups as $group) {
+			$users = array();
+
+			$users = $this->model_user_user->getUsersByGroup($group['user_group_id']);
+
+			if ($users) {
+				$data['user_groups'][] = array(
+					'name'  => $group['name'],
+					'users' => $users
+				);
+			}
+		}
+
+		if (isset($this->request->post['user_id'])) {
+			$data['user_id'] = $this->request->post['user_id'];
+		} elseif (!empty($information_info)) {
+			$data['user_id'] = $this->model_catalog_information->getInformationUser($this->request->get['information_id']);
+		} else {
+			$data['user_id'] = $this->user->getId();
+		}
+
+		// Manufacturer
+		$this->load->model('catalog/manufacturer');
+
+		if (isset($this->request->post['manufacturer_id'])) {
+			$data['manufacturer_id'] = $this->request->post['manufacturer_id'];
+		} elseif (!empty($information_info)) {
+			$data['manufacturer_id'] = $information_info['manufacturer_id'];
+		} else {
+			$data['manufacturer_id'] = 0;
+		}
+
+		if (isset($this->request->post['manufacturer'])) {
+			$data['manufacturer'] = $this->request->post['manufacturer'];
+		} elseif (!empty($information_info)) {
+			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($information_info['manufacturer_id']);
+
+			if ($manufacturer_info) {
+				$data['manufacturer'] = $manufacturer_info['name'];
+			} else {
+				$data['manufacturer'] = '';
+			}
+		} else {
+			$data['manufacturer'] = '';
+		}
+
+		// Categories
+		$this->load->model('catalog/category');
+
+		if (isset($this->request->post['information_category'])) {
+			$categories = $this->request->post['information_category'];
+		} elseif (isset($this->request->get['information_id'])) {
+			$categories = $this->model_catalog_information->getInformationCategories($this->request->get['information_id']);
+		} else {
+			$categories = array();
+		}
+
+		$data['information_categories'] = array();
+
+		foreach ($categories as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_categories'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => ($category_info['path']) ? $category_info['path'] . ' &gt; ' . $category_info['name'] : $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['main_category'])) {
+			$data['main_category'] = $this->request->post['main_category'];
+		} elseif (isset($this->request->get['information_id']) && $categories) {
+			$data['main_category'] = $this->model_catalog_information->getMainCategory($this->request->get['information_id']);
+		} else {
+			$data['main_category'] = '';
+		}
+
+		// Filters
+		$this->load->model('catalog/filter');
+
+		if (isset($this->request->post['information_filter'])) {
+			$filters = $this->request->post['information_filter'];
+		} elseif (isset($this->request->get['information_id'])) {
+			$filters = $this->model_catalog_information->getInformationFilters($this->request->get['information_id']);
+		} else {
+			$filters = array();
+		}
+
+		$data['information_filters'] = array();
+
+		foreach ($filters as $filter_id) {
+			$filter_info = $this->model_catalog_filter->getFilter($filter_id);
+
+			if ($filter_info) {
+				$data['information_filters'][] = array(
+					'filter_id' => $filter_info['filter_id'],
+					'name'      => $filter_info['group'] . ' &gt; ' . $filter_info['name']
+				);
+			}
+		}
+
+		// Attributes
+		$this->load->model('catalog/attribute');
+
+		if (isset($this->request->post['information_attribute'])) {
+			$information_attributes = $this->request->post['information_attribute'];
+		} elseif (isset($this->request->get['information_id'])) {
+			$information_attributes = $this->model_catalog_information->getInformationAttributes($this->request->get['information_id']);
+		} else {
+			$information_attributes = array();
+		}
+
+		$data['information_attributes'] = array();
+
+		foreach ($information_attributes as $information_attribute) {
+			$attribute_info = $this->model_catalog_attribute->getAttribute($information_attribute['attribute_id']);
+
+			if ($attribute_info) {
+				$data['information_attributes'][] = array(
+					'attribute_id'                  => $information_attribute['attribute_id'],
+					'name'                          => $attribute_info['name'],
+					'information_attribute_description' => $information_attribute['information_attribute_description']
+				);
+			}
+		}
+
+		// Image
+		if (isset($this->request->post['image'])) {
+			$data['image'] = $this->request->post['image'];
+		} elseif (!empty($information_info)) {
+			$data['image'] = $information_info['image'];
+		} else {
+			$data['image'] = '';
+		}
+
+		$this->load->model('tool/image');
+
+		if (isset($this->request->post['image']) && is_file(DIR_IMAGE . $this->request->post['image'])) {
+			$data['thumb'] = $this->model_tool_image->resize($this->request->post['image'], 100, 100);
+		} elseif (!empty($information_info) && is_file(DIR_IMAGE . $information_info['image'])) {
+			$data['thumb'] = $this->model_tool_image->resize($information_info['image'], 100, 100);
+		} else {
+			$data['thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		}
+
+		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+
+		// Images
+		if (isset($this->request->post['information_image'])) {
+			$information_images = $this->request->post['information_image'];
+		} elseif (isset($this->request->get['information_id'])) {
+			$information_images = $this->model_catalog_information->getInformationImages($this->request->get['information_id']);
+		} else {
+			$information_images = array();
+		}
+
+		$data['information_images'] = array();
+
+		foreach ($information_images as $information_image) {
+			if (is_file(DIR_IMAGE . $information_image['image'])) {
+				$image = $information_image['image'];
+				$thumb = $information_image['image'];
+			} else {
+				$image = '';
+				$thumb = 'no_image.png';
+			}
+
+			$data['information_images'][] = array(
+				'image'      => $image,
+				'thumb'      => $this->model_tool_image->resize($thumb, 100, 100),
+				'sort_order' => $information_image['sort_order']
+			);
+		}
+
+		// Information Related
+		if (isset($this->request->post['information_related'])) {
+			$informations = $this->request->post['information_related'];
+		} elseif (isset($this->request->get['information_id'])) {
+			$informations = $this->model_catalog_information->getInformationRelated($this->request->get['information_id']);
+		} else {
+			$informations = array();
+		}
+
+		$data['information_relateds'] = array();
+
+		foreach ($informations as $information_related) {
+			$related_info = $this->model_catalog_information->getInformation($information_related['information_id']);
+
+			if ($related_info) {
+				$data['information_relateds'][] = array(
+					'information_id' => $related_info['information_id'],
+					'title'          => $related_info['title'],
+                    'route'          => $information_related['route']
+				);
+			}
+		}
+        
+		// Product Related
+		if (isset($this->request->post['product_related'])) {
+			$products = $this->request->post['product_related'];
+		} elseif (isset($this->request->get['information_id'])) {
+			$products = $this->model_catalog_information->getProductRelated($this->request->get['information_id']);
+		} else {
+			$products = array();
+		}
+
+		$data['product_relateds'] = array();
+
+        $this->load->model('catalog/product');
+
+		foreach ($products as $product_related) {
+			$related_info = $this->model_catalog_product->getProduct($product_related['product_id']);
+
+			if ($related_info) {
+				$data['product_relateds'][] = array(
+					'product_id' => $related_info['product_id'],
+					'name'       => $related_info['name'],
+                    'route'      => $product_related['route']
+				);
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	protected function validateForm() {
+        ]]></search>
+        <add position="before"><![CDATA[
+	protected function validateCopy() {
+		if (!$this->user->hasPermission('modify', 'catalog/information')) {
+			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		return !$this->error;
+	}
+
+	public function autocomplete() {
+		$json = array();
+
+		if (isset($this->request->get['filter_name'])) {
+			$this->load->model('catalog/information');
+
+			if (isset($this->request->get['filter_name'])) {
+				$filter_name = $this->request->get['filter_name'];
+			} else {
+				$filter_name = '';
+			}
+
+			if (isset($this->request->get['limit'])) {
+				$limit = $this->request->get['limit'];
+			} else {
+				$limit = 5;
+			}
+
+			$filter_data = array(
+				'filter_name'  => $filter_name,
+				'start'        => 0,
+				'limit'        => $limit
+			);
+
+			$results = $this->model_catalog_information->getInformations($filter_data);
+
+			foreach ($results as $result) {
+				if (isset($this->request->get['information_id']) && $this->request->get['information_id'] == $result['information_id']) {
+					continue;
+				}
+        
+				$json[] = array(
+					'information_id' => $result['information_id'],
+					'title'          => strip_tags(html_entity_decode($result['title'], ENT_QUOTES, 'UTF-8'))
+				);	
+			}
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	protected function getList() {
+        ]]></search>
+        <add position="before"><![CDATA[
+	public function copy() {
+		$this->load->language('catalog/information');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('catalog/information');
+
+		if (isset($this->request->post['selected']) && $this->validateCopy()) {
+			foreach ($this->request->post['selected'] as $information_id) {
+				$this->model_catalog_information->copyInformation($information_id);
+			}
+
+			$this->session->data['success'] = $this->language->get('text_success');
+
+			$url = '';
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			$this->response->redirect($this->url->link('catalog/information', 'user_token=' . $this->session->data['user_token'] . $url, true));
+		}
+
+		$this->getList();
+	}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	protected function getList() {
+        ]]></search>
+        <add position="after"><![CDATA[
+		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = '';
+		}
+
+		if (isset($this->request->get['filter_viewed'])) {
+			$filter_viewed = $this->request->get['filter_viewed'];
+		} else {
+			$filter_viewed = '';
+		}
+
+		if (isset($this->request->get['filter_status'])) {
+			$filter_status = $this->request->get['filter_status'];
+		} else {
+			$filter_status = '';
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$url = '';
+        ]]></search>
+        <add position="after"><![CDATA[
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_viewed'])) {
+			$url .= '&filter_viewed=' . urlencode(html_entity_decode($this->request->get['filter_viewed'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_status'])) {
+			$url .= '&filter_status=' . $this->request->get['filter_status'];
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$data['delete'] = $this->url->link('catalog/information/delete', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        ]]></search>
+        <add position="after"><![CDATA[
+		$data['copy'] = $this->url->link('catalog/information/copy', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
+        ]]></search>
+        <add position="after"><![CDATA[
+			'filter_name'	  => $filter_name,
+			'filter_viewed'	  => $filter_viewed,
+			'filter_status'   => $filter_status,
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$information_total = $this->model_catalog_information->getTotalInformations();
+        ]]></search>
+        <add position="replace"><![CDATA[
+		$information_total = $this->model_catalog_information->getTotalInformations($filter_data);
+
+		$this->load->model('tool/image');
+
+		$data['user_token'] = $this->session->data['user_token'];
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$data['informations'][] = array(
+        ]]></search>
+        <add position="before"><![CDATA[
+			if (is_file(DIR_IMAGE . $result['image'])) {
+				$image = $this->model_tool_image->resize($result['image'], 40, 40);
+			} else {
+				$image = $this->model_tool_image->resize('no_image.png', 40, 40);
+			}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$data['informations'][] = array(
+        ]]></search>
+        <add position="after"><![CDATA[
+				'image'          => $image,
+                'status'         => $result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+				'viewed'         => $result['viewed'],
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$data['sort_sort_order'] = $this->url->link('catalog/information', 'user_token=' . $this->session->data['user_token'] . '&sort=i.sort_order' . $url, true);
+        ]]></search>
+        <add position="after"><![CDATA[
+		$data['sort_viewed'] = $this->url->link('catalog/information', 'user_token=' . $this->session->data['user_token'] . '&sort=i.viewed' . $url, true);
+		$data['sort_status'] = $this->url->link('catalog/information', 'user_token=' . $this->session->data['user_token'] . '&sort=i.status' . $url, true);
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$data['sort'] = $sort;
+        ]]></search>
+        <add position="before"><![CDATA[
+		$data['filter_name'] = $filter_name;
+		$data['filter_viewed'] = $filter_viewed;
+		$data['filter_status'] = $filter_status;
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/en-gb/catalog/information.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Column
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['column_image']              = 'Image';
+$_['column_viewed']             = 'Viewed';
+$_['column_status']             = 'Status';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']              = 'Header';
+$_['entry_short_description']   = 'Short description';
+$_['entry_tag']                 = 'Article Tags';
+$_['entry_manufacturer']        = 'Manufacturer';
+$_['entry_date_available']      = 'Date Available';
+$_['entry_date_end']            = 'Date End';
+$_['entry_date_added']          = 'Date Added';
+$_['entry_date_modified']       = 'Date Modified';
+$_['entry_user']                = 'Author';
+$_['entry_image']               = 'Image';
+$_['entry_additional_image']    = 'Additional Images';
+$_['entry_priority']            = 'Priority';
+$_['entry_attribute']           = 'Attribute';
+$_['entry_attribute_group']     = 'Attribute Group';
+$_['entry_text']                = 'Text';
+$_['entry_required']            = 'Required';
+$_['entry_category']            = 'Categories';
+$_['entry_filter']              = 'Filters';
+$_['entry_download']            = 'Downloads';
+$_['entry_related_information'] = 'Related Articles';
+$_['entry_related_product']     = 'Related Products';
+$_['entry_viewed']              = 'Viewed';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']               = 'HTML Tag H1';
+$_['help_tag']                  = 'Comma separated';
+$_['help_manufacturer']         = '(Autocomplete)';
+$_['help_category']             = '(Autocomplete)';
+$_['help_main_category']        = 'Main Category';
+$_['help_main_category_add']    = 'Add Main Category';
+$_['help_filter']               = '(Autocomplete)';
+$_['help_download']             = '(Autocomplete)';
+$_['help_related']              = '(Autocomplete)';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/ru-ru/catalog/information.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Column
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['column_image']              = 'Изображения';
+$_['column_viewed']             = 'Просмотров';
+$_['column_status']             = 'Статус';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']              = 'Заголовок';
+$_['entry_short_description']   = 'Краткое описание';
+$_['entry_tag']                 = 'Теги статьи';
+$_['entry_manufacturer']        = 'Производитель';
+$_['entry_date_available']      = 'Начало публикации';
+$_['entry_date_end']            = 'Окончание публикации';
+$_['entry_date_added']          = 'Дата добавления';
+$_['entry_date_modified']       = 'Дата изменения';
+$_['entry_user']                = 'Автор';
+$_['entry_image']               = 'Изображение статьи';
+$_['entry_additional_image']    = 'Дополнительные изображения';
+$_['entry_priority']            = 'Приоритет';
+$_['entry_attribute']           = 'Атрибут';
+$_['entry_attribute_group']     = 'Группы атрибутов';
+$_['entry_text']                = 'Текст';
+$_['entry_required']            = 'Необходимо';
+$_['entry_category']            = 'Показывать в категориях';
+$_['entry_filter']              = 'Фильтры';
+$_['entry_download']            = 'Загрузки';
+$_['entry_related_information'] = 'Рекомендуемые статьи';
+$_['entry_related_product']     = 'Рекомендуемые товары';
+$_['entry_viewed']              = 'Количество просмотров';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']               = 'HTML-тег H1';
+$_['help_tag']                  = 'Теги разделяются запятой';
+$_['help_manufacturer']         = '(Автозаполнение)';
+$_['help_category']             = '(Автозаполнение)';
+$_['help_main_category']        = 'Главная категория';
+$_['help_main_category_add']    = 'Добавить главную категорию';
+$_['help_filter']               = '(Автозаполнение)';
+$_['help_download']             = '(Автозаполнение)';
+$_['help_related']              = '(Автозаполнение)';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/model/catalog/information.php">
+      <operation error="skip">
+        <search><![CDATA[description = '" . $this->db->escape($value['description']) . "']]></search>
+        <add position="replace"><![CDATA[header = '" . $this->db->escape($value['header']) . "', short_description = '" . $this->db->escape($value['short_description']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "']]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				'id.title',
+        ]]></search>
+        <add position="after"><![CDATA[
+				'i.viewed',
+				'i.status',
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				'title'            => $result['title'],
+        ]]></search>
+        <add position="after"><![CDATA[
+				'header'            => $result['header'],
+				'short_description' => $result['short_description'],
+				'tag'               => $result['tag'],
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="0"><![CDATA[status = '" . (int)$data['status'] . "']]></search>
+        <add position="replace"><![CDATA[manufacturer_id = '" . (int)$data['manufacturer_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', date_end = '" . $this->db->escape($data['date_end']) . "', date_added = NOW(), date_modified = NOW(), status = '" . (int)$data['status'] . "']]></add>
+      </operation>
+      <operation error="skip">
+        <search index="1"><![CDATA[status = '" . (int)$data['status'] . "']]></search>
+        <add position="replace"><![CDATA[manufacturer_id = '" . (int)$data['manufacturer_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', date_end = '" . $this->db->escape($data['date_end']) . "', date_modified = NOW(), status = '" . (int)$data['status'] . "']]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		// SEO URL
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (!empty($data['user_id'])) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "information_to_user SET information_id = '" . (int)$information_id . "', user_id = '" . (int)$data['user_id'] . "'");
+		}
+
+		if (isset($data['information_attribute'])) {
+			foreach ($data['information_attribute'] as $information_attribute) {
+				if ($information_attribute['attribute_id']) {
+					// Removes duplicates
+					$this->db->query("DELETE FROM " . DB_PREFIX . "information_attribute WHERE information_id = '" . (int)$information_id . "' AND attribute_id = '" . (int)$information_attribute['attribute_id'] . "'");
+
+					foreach ($information_attribute['information_attribute_description'] as $language_id => $information_attribute_description) {
+						$this->db->query("DELETE FROM " . DB_PREFIX . "information_attribute WHERE information_id = '" . (int)$information_id . "' AND attribute_id = '" . (int)$information_attribute['attribute_id'] . "' AND language_id = '" . (int)$language_id . "'");
+
+						$this->db->query("INSERT INTO " . DB_PREFIX . "information_attribute SET information_id = '" . (int)$information_id . "', attribute_id = '" . (int)$information_attribute['attribute_id'] . "', language_id = '" . (int)$language_id . "', text = '" .  $this->db->escape($information_attribute_description['text']) . "'");
+					}
+				}
+			}
+		}
+
+		if (isset($data['image'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "information SET image = '" . $this->db->escape($data['image']) . "' WHERE information_id = '" . (int)$information_id . "'");
+		}
+
+		if (isset($data['information_image'])) {
+			foreach ($data['information_image'] as $information_image) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_image SET information_id = '" . (int)$information_id . "', image = '" . $this->db->escape($information_image['image']) . "', sort_order = '" . (int)$information_image['sort_order'] . "'");
+			}
+		}
+
+		if (isset($data['information_category'])) {
+			foreach ($data['information_category'] as $category_id) {
+				if (!empty($data['main_category']) && $data['main_category'] == (int)$category_id) {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "information_to_category SET information_id = '" . (int)$information_id . "', category_id = '" . (int)$category_id . "', main_category = '1'");
+				} else {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "information_to_category SET information_id = '" . (int)$information_id . "', category_id = '" . (int)$category_id . "'");
+				}
+			}
+		}
+
+		if (isset($data['information_filter'])) {
+			foreach ($data['information_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_filter SET information_id = '" . (int)$information_id . "', filter_id = '" . (int)$filter_id . "'");
+			}
+		}
+
+		if (isset($data['information_related'])) {
+			foreach ($data['information_related'] as $information_related) {
+				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_id . "' AND related_id = '" . (int)$information_related['information_id'] . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_id . "', related_id = '" . (int)$information_related['information_id'] . "', route = '" . (int)$information_related['route'] . "'");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_related['information_id'] . "' AND related_id = '" . (int)$information_id . "'");
+                
+                switch ($information_related['route']) {
+                    case '1':
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '-1'");
+                        break;
+                    case '-1':
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '1'");
+                        break;
+                    default:
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "'");
+                }
+			}
+		}
+
+		if (isset($data['product_related'])) {
+			$this->db->query("DELETE FROM " . DB_PREFIX . "information_product_related WHERE information_id = '" . (int)$information_id . "'");
+
+			foreach ($data['product_related'] as $product_related) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_product_related SET information_id = '" . (int)$information_id . "', product_id = '" . (int)$product_related['product_id'] . "', route = '" . (int)$product_related['route'] . "'");
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "seo_url WHERE query = 'information_id=" . (int)$information_id . "'");
+        ]]></search>
+        <add position="before"><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_to_user WHERE information_id = '" . (int)$information_id . "'");
+
+		if (!empty($data['user_id'])) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "information_to_user SET information_id = '" . (int)$information_id . "', user_id = '" . (int)$data['user_id'] . "'");
+		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_attribute WHERE information_id = '" . (int)$information_id . "'");
+
+		if (!empty($data['information_attribute'])) {
+			foreach ($data['information_attribute'] as $information_attribute) {
+				if ($information_attribute['attribute_id']) {
+					// Removes duplicates
+					$this->db->query("DELETE FROM " . DB_PREFIX . "information_attribute WHERE information_id = '" . (int)$information_id . "' AND attribute_id = '" . (int)$information_attribute['attribute_id'] . "'");
+
+					foreach ($information_attribute['information_attribute_description'] as $language_id => $information_attribute_description) {
+						$this->db->query("INSERT INTO " . DB_PREFIX . "information_attribute SET information_id = '" . (int)$information_id . "', attribute_id = '" . (int)$information_attribute['attribute_id'] . "', language_id = '" . (int)$language_id . "', text = '" .  $this->db->escape($information_attribute_description['text']) . "'");
+					}
+				}
+			}
+		}
+
+		if (isset($data['image'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "information SET image = '" . $this->db->escape($data['image']) . "' WHERE information_id = '" . (int)$information_id . "'");
+		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_image WHERE information_id = '" . (int)$information_id . "'");
+
+		if (isset($data['information_image'])) {
+			foreach ($data['information_image'] as $information_image) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_image SET information_id = '" . (int)$information_id . "', image = '" . $this->db->escape($information_image['image']) . "', sort_order = '" . (int)$information_image['sort_order'] . "'");
+			}
+		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_to_category WHERE information_id = '" . (int)$information_id . "'");
+
+		if (isset($data['information_category'])) {
+			foreach ($data['information_category'] as $category_id) {
+				if (!empty($data['main_category']) && $data['main_category'] == (int)$category_id) {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "information_to_category SET information_id = '" . (int)$information_id . "', category_id = '" . (int)$category_id . "', main_category = '1'");
+				} else {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "information_to_category SET information_id = '" . (int)$information_id . "', category_id = '" . (int)$category_id . "'");
+				}
+			}
+		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_filter WHERE information_id = '" . (int)$information_id . "'");
+
+		if (isset($data['information_filter'])) {
+			foreach ($data['information_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_filter SET information_id = '" . (int)$information_id . "', filter_id = '" . (int)$filter_id . "'");
+			}
+		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE related_id = '" . (int)$information_id . "'");
+
+		if (isset($data['information_related'])) {
+			foreach ($data['information_related'] as $information_related) {
+				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_id . "' AND related_id = '" . (int)$information_related['information_id'] . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_id . "', related_id = '" . (int)$information_related['information_id'] . "', route = '" . (int)$information_related['route'] . "'");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_related['information_id'] . "' AND related_id = '" . (int)$information_id . "'");
+
+                switch ($information_related['route']) {
+                    case '1':
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '-1'");
+                        break;
+                    case '-1':
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '1'");
+                        break;
+                    default:
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "'");
+                }
+			}
+		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_product_related WHERE information_id = '" . (int)$information_id . "'");
+
+		if (isset($data['product_related'])) {
+			foreach ($data['product_related'] as $product_related) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_product_related SET information_id = '" . (int)$information_id . "', product_id = '" . (int)$product_related['product_id'] . "', route = '" . (int)$product_related['route'] . "'");
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[" . DB_PREFIX . "information WHERE information_id = '" . (int)$information_id . "']]></search>
+        <add position="replace"><![CDATA[" . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) WHERE i.information_id = '" . (int)$information_id . "' AND id.language_id = '" . (int)$this->config->get('config_language_id') . "']]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	public function deleteInformation($information_id) {
+        ]]></search>
+        <add position="before"><![CDATA[
+	public function copyInformation($information_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "information WHERE information_id = '" . (int)$information_id . "'");
+
+		if ($query->num_rows) {
+			$data = $query->row;
+
+			$data['viewed'] = '0';
+			$data['keyword'] = '';
+			$data['status'] = '0';
+
+			$data['information_attribute'] = $this->getInformationAttributes($information_id);
+			$data['information_description'] = $this->getInformationDescriptions($information_id);
+			$data['information_filter'] = $this->getInformationFilters($information_id);
+			$data['information_image'] = $this->getInformationImages($information_id);
+			$data['information_related'] = $this->getInformationRelated($information_id);
+			$data['product_related'] = $this->getProductRelated($information_id);
+			$data['information_category'] = $this->getInformationCategories($information_id);
+			$data['main_category'] = $this->getMainCategory($information_id);
+			$data['information_layout'] = $this->getInformationLayouts($information_id);
+			$data['information_store'] = $this->getInformationStores($information_id);
+			$data['user_id'] = $this->getInformationUser($information_id);
+
+			$this->addInformation($data);
+		}
+	}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE query = 'information_id=" . (int)$information_id . "'");
+        ]]></search>
+        <add position="after"><![CDATA[
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_attribute` WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_filter` WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_image` WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_related` WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_related` WHERE related_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_product_related` WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_to_category` WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_to_user` WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "review` WHERE information_id = '" . (int)$information_id . "'");
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	public function getTotalInformations() {
+        ]]></search>
+        <add position="before"><![CDATA[
+	public function getInformationUser($information_id) {
+		$query = $this->db->query("SELECT user_id FROM " . DB_PREFIX . "information_to_user WHERE information_id = '" . (int)$information_id . "'");
+
+		return $query->row['user_id'];
+	}
+
+	public function getInformationsByCategoryId($category_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) LEFT JOIN " . DB_PREFIX . "information_to_category i2c ON (i.information_id = i2c.information_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND i2c.category_id = '" . (int)$category_id . "' ORDER BY id.title ASC");
+
+		return $query->rows;
+	}
+
+	public function getInformationCategories($information_id) {
+		$information_category_data = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_to_category WHERE information_id = '" . (int)$information_id . "'");
+
+		foreach ($query->rows as $result) {
+			$information_category_data[] = $result['category_id'];
+		}
+
+		return $information_category_data;
+	}
+
+	public function getMainCategory($information_id) {
+		$query = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "information_to_category WHERE information_id = '" . (int)$information_id . "' AND main_category = '1'");
+
+		if ($query->row) {
+			return $query->row['category_id'];
+		} else {
+			return '';
+		}
+	}
+
+	public function getInformationFilters($information_id) {
+		$information_filter_data = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_filter WHERE information_id = '" . (int)$information_id . "'");
+
+		foreach ($query->rows as $result) {
+			$information_filter_data[] = $result['filter_id'];
+		}
+
+		return $information_filter_data;
+	}
+
+	public function getInformationAttributes($information_id) {
+		$information_attribute_data = array();
+
+		$information_attribute_query = $this->db->query("SELECT attribute_id FROM " . DB_PREFIX . "information_attribute WHERE information_id = '" . (int)$information_id . "' GROUP BY attribute_id");
+
+		foreach ($information_attribute_query->rows as $information_attribute) {
+			$information_attribute_description_data = array();
+
+			$information_attribute_description_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_attribute WHERE information_id = '" . (int)$information_id . "' AND attribute_id = '" . (int)$information_attribute['attribute_id'] . "'");
+
+			foreach ($information_attribute_description_query->rows as $information_attribute_description) {
+				$information_attribute_description_data[$information_attribute_description['language_id']] = array('text' => $information_attribute_description['text']);
+			}
+
+			$information_attribute_data[] = array(
+				'attribute_id'                  => $information_attribute['attribute_id'],
+				'information_attribute_description' => $information_attribute_description_data
+			);
+		}
+
+		return $information_attribute_data;
+	}
+
+	public function getInformationImages($information_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_image WHERE information_id = '" . (int)$information_id . "' ORDER BY sort_order ASC");
+
+		return $query->rows;
+	}
+	
+	public function getInformationRelated($information_id) {
+		$information_related_data = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_id . "'");
+
+		foreach ($query->rows as $result) {
+			$information_related_data[] = array(
+				'information_id' => $result['related_id'],
+				'route'          => $result['route']
+            );
+		}
+
+		return $information_related_data;
+	}
+
+	public function getProductRelated($information_id) {
+		$product_related_data = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_product_related WHERE information_id = '" . (int)$information_id . "'");
+
+		foreach ($query->rows as $result) {
+			$product_related_data[] = array(
+				'product_id' => $result['product_id'],
+				'route'      => $result['route']
+            );
+		}
+
+		return $product_related_data;
+	}
+
+	public function getTotalInformationsByManufacturerId($manufacturer_id) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "information WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
+
+		return $query->row['total'];
+	}
+
+	public function getTotalInformationsByAttributeId($attribute_id) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "information_attribute WHERE attribute_id = '" . (int)$attribute_id . "'");
+
+		return $query->row['total'];
+	}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$sort_data = array(
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (!empty($data['filter_name'])) {
+			$sql .= " AND id.title LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+		}
+
+		if (!empty($data['filter_viewed'])) {
+			$sql .= " AND i.viewed LIKE '" . $this->db->escape($data['filter_viewed']) . "%'";
+		}
+
+		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
+			$sql .= " AND i.status = '" . (int)$data['filter_status'] . "'";
+		}
+
+		$sql .= " GROUP BY i.information_id";
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	public function getTotalInformations() {
+        ]]></search>
+        <add position="replace"><![CDATA[
+	public function getTotalInformations($data = array()) {
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "information");
+        ]]></search>
+        <add position="replace"><![CDATA[
+		$sql = "SELECT COUNT(DISTINCT i.information_id) AS total FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id)";
+
+		$sql .= " WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+		if (!empty($data['filter_name'])) {
+			$sql .= " AND id.title LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+		}
+
+		if (isset($data['filter_viewed']) && $data['filter_viewed'] !== '') {
+			$sql .= " AND i.viewed = '" . (int)$data['filter_viewed'] . "'";
+		}
+
+		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
+			$sql .= " AND i.status = '" . (int)$data['filter_status'] . "'";
+		}
+
+		$query = $this->db->query($sql);
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/view/template/catalog/information_form.twig">
+      <operation error="skip">
+        <search index="1"><![CDATA[
+                  <div class="form-group required">
+        ]]></search>
+        <add position="before"><![CDATA[
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-header{{ language.language_id }}"><span data-toggle="tooltip" title="{{ help_header }}">{{ entry_header }}</span></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="information_description[{{ language.language_id }}][header]" value="{{ information_description[language.language_id] ? information_description[language.language_id].header }}" placeholder="{{ entry_header }}" id="input-header{{ language.language_id }}" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-short-description{{ language.language_id }}">{{ entry_short_description }}<br /><button type="button" class="btn btn-primary btn-xs summernote" data-toggle="button" aria-pressed="false" autocomplete="off" data-language="{{ language.language_id }}">Summernote</button></label>
+                    <div class="col-sm-10">
+                      <textarea name="information_description[{{ language.language_id }}][short_description]" placeholder="{{ entry_short_description }}" id="input-short-description{{ language.language_id }}" class="form-control">{{ information_description[language.language_id] ? information_description[language.language_id].short_description }}</textarea>
+                     </div>
+                  </div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                      <textarea name="information_description[{{ language.language_id }}][meta_keyword]" rows="5" placeholder="{{ entry_meta_keyword }}" id="input-meta-keyword{{ language.language_id }}" class="form-control">{{ information_description[language.language_id] ? information_description[language.language_id].meta_keyword }}</textarea>
+        ]]></search>
+        <add position="after"><![CDATA[
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-tag{{ language.language_id }}"><span data-toggle="tooltip" title="{{ help_tag }}">{{ entry_tag }}</span></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="information_description[{{ language.language_id }}][tag]" value="{{ information_description[language.language_id] ? information_description[language.language_id].tag }}" placeholder="{{ entry_tag }}" id="input-tag{{ language.language_id }}" class="form-control" />
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+            <div class="tab-pane" id="tab-data">
+        ]]></search>
+        <add position="after"><![CDATA[
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-date-available">{{ entry_date_available }}</label>
+                <div class="col-sm-3">
+                  <div class="input-group datetime">
+                    <input type="text" name="date_available" value="{{ date_available }}" placeholder="{{ entry_date_available }}" data-date-format="YYYY-MM-DD HH:mm:ss" id="input-date-available" class="form-control" />
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                    </span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-date-end">{{ entry_date_end }}</label>
+                <div class="col-sm-3">
+                  <div class="input-group datetime">
+                    <input type="text" name="date_end" value="{{ date_end }}" placeholder="{{ entry_date_end }}" data-date-format="YYYY-MM-DD HH:mm:ss" id="input-date-end" class="form-control" />
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                    </span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-user">{{ entry_user }}</label>
+                <div class="col-sm-10">
+                  <select name="user_id" id="input-user" class="form-control">
+                    {% for user_group in user_groups %}
+                    <optgroup label="{{ user_group.name }}">
+                    {% for user in user_group.users %}
+                    {% if user.user_id == user_id %}
+                    <option value="{{ user.user_id }}" selected="selected">{{ user.username }}</option>
+                    {% else %}
+                    <option value="{{ user.user_id }}">{{ user.username }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    </optgroup>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
+        ]]></search>
+        <add position="after"><![CDATA[
+  <script type="text/javascript"><!--
+// Manufacturer
+$('input[name=\'manufacturer\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manufacturer/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				json.unshift({
+					manufacturer_id: 0,
+					name: '{{ text_none }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['manufacturer_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'manufacturer\']').val(item['label']);
+		$('input[name=\'manufacturer_id\']').val(item['value']);
+	}
+});
+
+// Category
+$('input[name=\'category\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&information=1&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'category\']').val('');
+
+		$('#information-category' + item['value']).remove();
+
+		$('#information-category').append('<div id="information-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> <i class="fa fa-circle-o" data-toggle="tooltip" title="{{ help_main_category_add }}"></i> ' + item['label'] + '<input type="hidden" name="information_category[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('#information-category').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+
+$('#information-category').delegate('.fa-circle-o', 'click', function() {
+	$('#information-category div').children('.fa-dot-circle-o').toggleClass('fa-circle-o fa-dot-circle-o');
+    $('#information-category div').removeClass('text-success');
+    $(this).toggleClass('fa-circle-o fa-dot-circle-o');
+    $(this).parent().addClass('text-success');
+    $('input[name=\'main_category\']').remove();
+    $(this).parent().append('<input type="hidden" name="main_category" value="' + $(this).parent().find('input[name=\'information_category[]\']').val() + '" />');
+	$('#information-category div').children('.fa-circle-o').attr({'title':'{{ help_main_category_add }}', 'data-original-title':'{{ help_main_category_add }}'});
+    $(this).attr({'title':'{{ help_main_category }}', 'data-original-title':'{{ help_main_category }}'});
+});
+$('#information-category').delegate('.fa-dot-circle-o', 'click', function() {
+    $(this).toggleClass('fa-circle-o fa-dot-circle-o');
+    $('input[name=\'main_category\']').remove();
+    $(this).parent().removeClass('text-success');
+    $(this).attr({'title':'{{ help_main_category_add }}', 'data-original-title':'{{ help_main_category_add }}'});
+});
+
+// Filter
+$('input[name=\'filter\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/filter/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['filter_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter\']').val('');
+
+		$('#information-filter' + item['value']).remove();
+
+		$('#information-filter').append('<div id="information-filter' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="information_filter[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('#information-filter').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+
+// Related Information
+$('input[name=\'related_information\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}{% if information_id %}&information_id={{ information_id }}{% endif %}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['title'],
+						value: item['information_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'related_information\']').val('');
+
+		$('#information-related' + item['value']).remove();
+
+		$('#information-related').append('<div id="information-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> <i class="fa fa-exchange"></i> ' + item['label'] + '<input type="hidden" name="information_related[' + item['value'] + '][information_id]" value="' + item['value'] + '" /><input type="hidden" name="information_related[' + item['value'] + '][route]" value="0" /></div>');
+	}
+});
+
+$('#information-related').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+
+$('#information-related').delegate('.fa-exchange', 'click', function() {
+    $(this).toggleClass('fa-exchange fa-long-arrow-right');
+	$(this).parent().find('input[name$=\'[route]\']').val('1');
+});
+$('#information-related').delegate('.fa-long-arrow-right', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-right fa-long-arrow-left');
+	$(this).parent().find('input[name$=\'[route]\']').val('-1');
+});
+$('#information-related').delegate('.fa-long-arrow-left', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-left fa-exchange');
+	$(this).parent().find('input[name$=\'[route]\']').val('0');
+});
+
+// Related Product
+$('input[name=\'related_product\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'related_product\']').val('');
+
+		$('#product-related' + item['value']).remove();
+
+		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> <i class="fa fa-exchange"></i> ' + item['label'] + '<input type="hidden" name="product_related[' + item['value'] + '][product_id]" value="' + item['value'] + '" /><input type="hidden" name="product_related[' + item['value'] + '][route]" value="0" /></div>');
+	}
+});
+
+$('#product-related').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+
+$('#product-related').delegate('.fa-exchange', 'click', function() {
+    $(this).toggleClass('fa-exchange fa-long-arrow-right');
+	$(this).parent().find('input[name$=\'[route]\']').val('1');
+});
+$('#product-related').delegate('.fa-long-arrow-right', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-right fa-long-arrow-left');
+	$(this).parent().find('input[name$=\'[route]\']').val('-1');
+});
+$('#product-related').delegate('.fa-long-arrow-left', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-left fa-exchange');
+	$(this).parent().find('input[name$=\'[route]\']').val('0');
+});
+//--></script> 
+  <script type="text/javascript"><!--
+var attribute_row = {{ attribute_row }};
+
+function addAttribute() {
+    html  = '<tr id="attribute-row' + attribute_row + '">';
+	html += '  <td class="text-left" style="width: 20%;"><input type="text" name="information_attribute[' + attribute_row + '][name]" value="" placeholder="{{ entry_attribute }}" class="form-control" /><input type="hidden" name="information_attribute[' + attribute_row + '][attribute_id]" value="" /></td>';
+	html += '  <td class="text-left">';
+	{% for language in languages %}
+	html += '<div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span><textarea name="information_attribute[' + attribute_row + '][information_attribute_description][{{ language.language_id }}][text]" rows="5" placeholder="{{ entry_text }}" class="form-control"></textarea></div>';
+    {% endfor %}
+	html += '  </td>';
+	html += '  <td class="text-right"><button type="button" onclick="$(\'#attribute-row' + attribute_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+    html += '</tr>';
+
+	$('#attribute tbody').append(html);
+
+	attributeautocomplete(attribute_row);
+
+	attribute_row++;
+}
+
+function attributeautocomplete(attribute_row) {
+	$('input[name=\'information_attribute[' + attribute_row + '][name]\']').autocomplete({
+		'source': function(request, response) {
+			$.ajax({
+				url: 'index.php?route=catalog/attribute/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+				dataType: 'json',
+				success: function(json) {
+					response($.map(json, function(item) {
+						return {
+							category: item.attribute_group,
+							label: item.name,
+							value: item.attribute_id
+						}
+					}));
+				}
+			});
+		},
+		'select': function(item) {
+			$('input[name=\'information_attribute[' + attribute_row + '][name]\']').val(item['label']);
+			$('input[name=\'information_attribute[' + attribute_row + '][attribute_id]\']').val(item['value']);
+		}
+	});
+}
+
+$('#attribute tbody tr').each(function(index, element) {
+	attributeautocomplete(index);
+});
+//--></script> 
+  <script type="text/javascript"><!--
+var image_row = {{ image_row }};
+
+function addImage() {
+	html  = '<tr id="image-row' + image_row + '">';
+	html += '  <td class="text-left"><a href="" id="thumb-image' + image_row + '"data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="information_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+	html += '  <td class="text-right"><input type="text" name="information_image[' + image_row + '][sort_order]" value="" placeholder="{{ entry_sort_order }}" class="form-control" /></td>';
+	html += '  <td class="text-left"><button type="button" onclick="$(\'#image-row' + image_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	html += '</tr>';
+
+	$('#images tbody').append(html);
+
+	image_row++;
+}
+//--></script> 
+  <script type="text/javascript"><!--
+$('.date').datetimepicker({
+	language: '{{ datepicker }}',
+	pickTime: false
+});
+
+$('.time').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: false
+});
+
+$('.datetime').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: true,
+	pickTime: true
+});
+//--></script> 
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+            <li><a href="#tab-seo" data-toggle="tab">{{ tab_seo }}</a></li>
+        ]]></search>
+        <add position="before"><![CDATA[
+            <li><a href="#tab-links" data-toggle="tab">{{ tab_links }}</a></li>
+            <li><a href="#tab-attribute" data-toggle="tab">{{ tab_attribute }}</a></li>
+            <li><a href="#tab-image" data-toggle="tab">{{ tab_image }}</a></li>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+{{ footer }} 
+        ]]></search>
+        <add position="before"><![CDATA[
+  <style type="text/css"><!--
+#information-category .fa-circle-o {
+    display: none;
+}
+#information-category div:hover .fa-circle-o {
+    display: inline;
+}
+--></style>
+  <script type="text/javascript"><!--
+$('.summernote').on('click', function () {
+	if ($(this).hasClass('active')) {
+		$('#input-short-description' + $(this).data('language')).summernote('destroy');
+	} else {
+		$('#input-short-description' + $(this).data('language')).summernote({
+			focus: true,
+			lang: '{{ summernote }}'
+		});
+	}
+})
+
+$(document).ready(function() {
+	$('[name*=\'[short_description]\']').each(function() {
+		if ($(this).val()) {
+            $(this).parent().prev().children('.summernote').trigger('click');
+		}
+	});
+});
+//--></script>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+            <div class="tab-pane" id="tab-seo">
+        ]]></search>
+        <add position="before"><![CDATA[
+            <div class="tab-pane" id="tab-links">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="{{ help_manufacturer }}">{{ entry_manufacturer }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="manufacturer" value="{{ manufacturer }}" placeholder="{{ entry_manufacturer }}" id="input-manufacturer" class="form-control" />
+                  <input type="hidden" name="manufacturer_id" value="{{ manufacturer_id }}" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-category"><span data-toggle="tooltip" title="{{ help_category }}">{{ entry_category }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="category" value="" placeholder="{{ entry_category }}" id="input-category" class="form-control" />
+                  <div id="information-category" class="well well-sm" style="height: 150px; overflow: auto;"> {% for information_category in information_categories %}
+                    {% if main_category and main_category == information_category.category_id %}
+                    <div id="information-category{{ information_category.category_id }}" class="text-success"><i class="fa fa-minus-circle"></i> <i class="fa fa-dot-circle-o" data-toggle="tooltip" title="{{ help_main_category }}"></i> {{ information_category.name }}
+                      <input type="hidden" name="information_category[]" value="{{ information_category.category_id }}" />
+                      <input type="hidden" name="main_category" value="{{ information_category.category_id }}" />
+                    </div>
+                    {% else %}
+                    <div id="information-category{{ information_category.category_id }}"><i class="fa fa-minus-circle"></i> <i class="fa fa-circle-o" data-toggle="tooltip" title="{{ help_main_category_add }}"></i> {{ information_category.name }}
+                      <input type="hidden" name="information_category[]" value="{{ information_category.category_id }}" />
+                    </div>
+                    {% endif %}
+                    {% endfor %}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-filter"><span data-toggle="tooltip" title="{{ help_filter }}">{{ entry_filter }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="filter" value="" placeholder="{{ entry_filter }}" id="input-filter" class="form-control" />
+                  <div id="information-filter" class="well well-sm" style="height: 150px; overflow: auto;"> {% for information_filter in information_filters %}
+                    <div id="information-filter{{ information_filter.filter_id }}"><i class="fa fa-minus-circle"></i> {{ information_filter.name }}
+                      <input type="hidden" name="information_filter[]" value="{{ information_filter.filter_id }}" />
+                    </div>
+                    {% endfor %}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-related-product"><span data-toggle="tooltip" title="{{ help_related }}">{{ entry_related_product }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="related_product" value="" placeholder="{{ entry_related_product }}" id="input-related-product" class="form-control" />
+                  <div id="product-related" class="well well-sm" style="height: 150px; overflow: auto;"> {% for product_related in product_relateds %}
+                    <div id="product-related{{ product_related.product_id }}"><i class="fa fa-minus-circle"></i> 
+                      {% if product_related.route and product_related.route > 0 %}
+                      <i class="fa fa-long-arrow-right"></i> 
+                      {% elseif product_related.route and product_related.route < 0 %}
+                      <i class="fa fa-long-arrow-left"></i> 
+                      {% else %}
+                      <i class="fa fa-exchange"></i> 
+                      {% endif %}
+                      {{ product_related.name }}
+                      <input type="hidden" name="product_related[{{ product_related.product_id }}][product_id]" value="{{ product_related.product_id }}" />
+                      <input type="hidden" name="product_related[{{ product_related.product_id }}][route]" value="{{ product_related.route }}" />
+                    </div>
+                    {% endfor %}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-related-information"><span data-toggle="tooltip" title="{{ help_related }}">{{ entry_related_information }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="related_information" value="" placeholder="{{ entry_related_information }}" id="input-related-information" class="form-control" />
+                  <div id="information-related" class="well well-sm" style="height: 150px; overflow: auto;"> {% for information_related in information_relateds %}
+                    <div id="information-related{{ information_related.information_id }}"><i class="fa fa-minus-circle"></i> 
+                      {% if information_related.route and information_related.route > 0 %}
+                      <i class="fa fa-long-arrow-right"></i> 
+                      {% elseif information_related.route and information_related.route < 0 %}
+                      <i class="fa fa-long-arrow-left"></i> 
+                      {% else %}
+                      <i class="fa fa-exchange"></i> 
+                      {% endif %}
+                      {{ information_related.title }}
+                      <input type="hidden" name="information_related[{{ information_related.information_id }}][information_id]" value="{{ information_related.information_id }}" />
+                      <input type="hidden" name="information_related[{{ information_related.information_id }}][route]" value="{{ information_related.route }}" />
+                    </div>
+                    {% endfor %}</div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-attribute">
+              <div class="table-responsive">
+                <table id="attribute" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ entry_attribute }}</td>
+                      <td class="text-left">{{ entry_text }}</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% set attribute_row = 0 %}
+                    {% for information_attribute in information_attributes %}
+                    <tr id="attribute-row{{ attribute_row }}">
+                      <td class="text-left" style="width: 40%;"><input type="text" name="information_attribute[{{ attribute_row }}][name]" value="{{ information_attribute.name }}" placeholder="{{ entry_attribute }}" class="form-control" />
+                      <input type="hidden" name="information_attribute[{{ attribute_row }}][attribute_id]" value="{{ information_attribute.attribute_id }}" /></td>
+                      <td class="text-left">{% for language in languages %}
+                        <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                          <textarea name="information_attribute[{{ attribute_row }}][information_attribute_description][{{ language.language_id }}][text]" rows="5" placeholder="{{ entry_text }}" class="form-control">{{ information_attribute.information_attribute_description[language.language_id] ? information_attribute.information_attribute_description[language.language_id].text }}</textarea>
+                        </div>
+                        {% endfor %}</td>
+                      <td class="text-right"><button type="button" onclick="$('#attribute-row{{ attribute_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+                    </tr>
+                    {% set attribute_row = attribute_row + 1 %}
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="2"></td>
+                      <td class="text-right"><button type="button" onclick="addAttribute();" data-toggle="tooltip" title="{{ button_attribute_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-image">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ entry_image }}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-left"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                        <input type="hidden" name="image" value="{{ image }}" id="input-image" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="table-responsive">
+                <table id="images" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ entry_additional_image }}</td>
+                      <td class="text-right">{{ entry_sort_order }}</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% set image_row = 0 %}
+                    {% for information_image in information_images %}
+                    <tr id="image-row{{ image_row }}">
+                      <td class="text-left"><a href="" id="thumb-image{{ image_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ information_image.thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                        <input type="hidden" name="information_image[{{ image_row }}][image]" value="{{ information_image.image }}" id="input-image{{ image_row }}" /></td>
+                      <td class="text-right"><input type="text" name="information_image[{{ image_row }}][sort_order]" value="{{ information_image.sort_order }}" placeholder="{{ entry_sort_order }}" class="form-control" /></td>
+                      <td class="text-left"><button type="button" onclick="$('#image-row{{ image_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+                    </tr>
+                    {% set image_row = image_row + 1 %}
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="2"></td>
+                      <td class="text-left"><button type="button" onclick="addImage();" data-toggle="tooltip" title="{{ button_image_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/view/template/catalog/information_list.twig">
+      <operation error="skip">
+        <search><![CDATA[
+      <div class="pull-right"><a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        ]]></search>
+        <add position="replace"><![CDATA[
+      <div class="pull-right">
+        <button type="button" data-toggle="tooltip" title="{{ button_filter }}" onclick="$('#filter-information').toggleClass('hidden-sm hidden-xs');" class="btn btn-default hidden-md hidden-lg"><i class="fa fa-filter"></i></button>
+        <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-information').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        ]]></search>
+        <add position="replace"><![CDATA[
+        <button type="submit" form="form-information" formaction="{{ copy }}" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default"><i class="fa fa-copy"></i></button>
+        <button type="button" form="form-information" formaction="{{ delete }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-information').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+    <div class="panel panel-default">
+        ]]></search>
+        <add position="before"><![CDATA[
+    <div class="row">
+      <div id="filter-information" class="col-md-3 col-md-push-9 col-sm-12 hidden-sm hidden-xs">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="control-label" for="input-title">{{ entry_title }}</label>
+              <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_title }}" id="input-title" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-viewed">{{ entry_viewed }}</label>
+              <input type="text" name="filter_viewed" value="{{ filter_viewed }}" placeholder="{{ entry_viewed }}" id="input-viewed" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-status">{{ entry_status }}</label>
+              <select name="filter_status" id="input-status" class="form-control">
+                <option value=""></option>
+                  {% if filter_status == '1' %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                  {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                  {% endif %}
+                  {% if filter_status == '0' %}
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                  {% else %}
+                <option value="0">{{ text_disabled }}</option>
+                  {% endif %}
+              </select>
+            </div>
+            <div class="form-group text-right">
+              <button type="button" id="button-filter" class="btn btn-default"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9 col-md-pull-3 col-sm-12">
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+{{ footer }} 
+        ]]></search>
+        <add position="before"><![CDATA[
+  </div>
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = '';
+
+	var filter_name = $('input[name=\'filter_name\']').val();
+
+	if (filter_name) {
+		url += '&filter_name=' + encodeURIComponent(filter_name);
+	}
+
+	var filter_viewed = $('input[name=\'filter_viewed\']').val();
+
+	if (filter_viewed) {
+		url += '&filter_viewed=' + encodeURIComponent(filter_viewed);
+	}
+
+	var filter_status = $('select[name=\'filter_status\']').val();
+
+	if (filter_status !== '') {
+		url += '&filter_status=' + encodeURIComponent(filter_status);
+	}
+
+	location = 'index.php?route=catalog/information&user_token={{ user_token }}' + url;
+});
+//--></script> 
+  <script type="text/javascript"><!--
+// IE and Edge fix!
+$('button[form=\'form-information\']').on('click', function(e) {
+	$('#form-information').attr('action', $(this).attr('formaction'));
+});
+  
+$('input[name=\'filter_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['title'],
+						value: item['information_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_name\']').val(item['label']);
+	}
+});
+//--></script></div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+        ]]></search>
+        <add position="after"><![CDATA[
+                  <td class="text-center">{{ column_image }}</td>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td class="text-left">{{ information.title }}</td>
+        ]]></search>
+        <add position="before"><![CDATA[
+                    <td class="text-center">{% if information.image %} <img src="{{ information.image }}" alt="{{ information.title }}" class="img-thumbnail" /> {% else %} <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span> {% endif %}</td>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td class="text-right">{% if sort == 'i.sort_order' %}
+        ]]></search>
+        <add position="before"><![CDATA[
+                  <td class="text-right">{% if sort == 'i.viewed' %}
+                    <a href="{{ sort_viewed }}" class="{{ order|lower }}">{{ column_viewed }}</a>
+                    {% else %}
+                    <a href="{{ sort_viewed }}">{{ column_viewed }}</a>
+                    {% endif %}</td>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td class="text-right">{{ column_action }}</td>
+        ]]></search>
+        <add position="before"><![CDATA[
+                  <td class="text-left">{% if sort == 'i.status' %}
+                    <a href="{{ sort_status }}" class="{{ order|lower }}">{{ column_status }}</a>
+                    {% else %}
+                    <a href="{{ sort_status }}">{{ column_status }}</a>
+                    {% endif %}</td>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                  <td class="text-right">{{ information.sort_order }}</td>
+        ]]></search>
+        <add position="replace"><![CDATA[
+                  <td class="text-right">{{ information.viewed }}</td>
+                  <td class="text-right">{{ information.sort_order }}</td>
+                  <td class="text-left">{{ information.status }}</td>
+        ]]></add>
+      </operation>
+  </file>
+  
+  <!-- Product -->
+  <file path="admin/controller/catalog/product.php">
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->request->post['points'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		// Information Related
+		if (isset($this->request->post['information_related'])) {
+			$informations = $this->request->post['information_related'];
+		} elseif (isset($this->request->get['product_id'])) {
+			$informations = $this->model_catalog_product->getInformationRelated($this->request->get['product_id']);
+		} else {
+			$informations = array();
+		}
+
+		$data['information_relateds'] = array();
+
+        $this->load->model('catalog/information');
+
+		foreach ($informations as $information_related) {
+			$related_info = $this->model_catalog_information->getInformation($information_related['information_id']);
+
+			if ($related_info) {
+				$data['information_relateds'][] = array(
+					'information_id' => $related_info['information_id'],
+					'title'          => $related_info['title'],
+                    'route'          => $information_related['route']
+				);
+			}
+		}
+
+		if (isset($this->request->post['main_category'])) {
+			$data['main_category'] = $this->request->post['main_category'];
+		} elseif (isset($this->request->get['product_id']) && $categories) {
+			$data['main_category'] = $this->model_catalog_product->getMainCategory($this->request->get['product_id']);
+		} else {
+			$data['main_category'] = '';
+		}
+
+		if (isset($this->request->get['product_id'])) {
+			$data['product_id'] = $this->request->get['product_id'];
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		foreach ($products as $product_id) {
+        ]]></search>
+        <add position="replace"><![CDATA[
+		foreach ($products as $product) {
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$related_info = $this->model_catalog_product->getProduct($product_id);
+        ]]></search>
+        <add position="replace"><![CDATA[
+			$related_info = $this->model_catalog_product->getProduct($product['product_id']);
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+					'product_id' => $related_info['product_id'],
+        ]]></search>
+        <add position="after"><![CDATA[
+                    'route'      => $product['route'],
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				$option_data = array();
+        ]]></search>
+        <add position="before"><![CDATA[
+				if (isset($this->request->get['product_id']) && $this->request->get['product_id'] == $result['product_id']) {
+					continue;
+				}
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/en-gb/catalog/product.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']              = 'Header';
+$_['entry_short_description']   = 'Short Description';
+$_['entry_related_information'] = 'Related Articles';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']               = 'HTML Tag H1';
+$_['help_main_category']        = 'Main Category';
+$_['help_main_category_add']    = 'Add Main Category';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/ru-ru/catalog/product.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']              = 'Заголовок';
+$_['entry_short_description']   = 'Краткое описание';
+$_['entry_related_information'] = 'Рекомендуемые статьи';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']               = 'HTML-тег H1';
+$_['help_main_category']        = 'Главная категория';
+$_['help_main_category_add']    = 'Добавить главную категорию';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/model/catalog/product.php">
+      <operation error="skip">
+        <search><![CDATA[description = '" . $this->db->escape($value['description']) . "']]></search>
+        <add position="replace"><![CDATA[header = '" . $this->db->escape($value['header']) . "', short_description = '" . $this->db->escape($value['short_description']) . "', description = '" . $this->db->escape($value['description']) . "']]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				'description'      => $result['description'],
+        ]]></search>
+        <add position="before"><![CDATA[
+				'header'            => $result['header'],
+				'short_description' => $result['short_description'],
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	public function getProductRelated($product_id) {
+        ]]></search>
+        <add position="before"><![CDATA[
+	public function getMainCategory($product_id) {
+		$query = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "' AND main_category = '1'");
+
+		if ($query->row) {
+			return $query->row['category_id'];
+		} else {
+			return '';
+		}
+	}
+
+	public function getInformationRelated($product_id) {
+		$information_related_data = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_product_related WHERE product_id = '" . (int)$product_id . "'");
+
+		foreach ($query->rows as $result) {
+			$information_related_data[] = array(
+				'information_id' => $result['information_id'],
+				'route'          => $result['route']
+            );
+		}
+
+		return $information_related_data;
+	}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$product_id . "', category_id = '" . (int)$category_id . "'");
+        ]]></search>
+        <add position="replace"><![CDATA[
+				if (!empty($data['main_category']) && $data['main_category'] == (int)$category_id) {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$product_id . "', category_id = '" . (int)$category_id . "', main_category = '1'");
+				} else {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$product_id . "', category_id = '" . (int)$category_id . "'");
+				}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$product_related_data[] = $result['related_id'];
+        ]]></search>
+        <add position="replace"><![CDATA[
+			$product_related_data[] = array(
+				'product_id' => $result['related_id'],
+				'route'      => $result['route']
+            );
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			foreach ($data['product_related'] as $related_id) {
+        ]]></search>
+        <add position="replace"><![CDATA[
+			foreach ($data['product_related'] as $product_related) {
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				$this->db->query("DELETE FROM " . DB_PREFIX . "product_related WHERE product_id = '" . (int)$product_id . "' AND related_id = '" . (int)$related_id . "'");
+        ]]></search>
+        <add position="replace"><![CDATA[
+				$this->db->query("DELETE FROM " . DB_PREFIX . "product_related WHERE product_id = '" . (int)$product_id . "' AND related_id = '" . (int)$product_related['product_id'] . "'");
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_id . "', related_id = '" . (int)$related_id . "'");
+        ]]></search>
+        <add position="replace"><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_id . "', related_id = '" . (int)$product_related['product_id'] . "', route = '" . (int)$product_related['route'] . "'");
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				$this->db->query("DELETE FROM " . DB_PREFIX . "product_related WHERE product_id = '" . (int)$related_id . "' AND related_id = '" . (int)$product_id . "'");
+        ]]></search>
+        <add position="replace"><![CDATA[
+				$this->db->query("DELETE FROM " . DB_PREFIX . "product_related WHERE product_id = '" . (int)$product_related['product_id'] . "' AND related_id = '" . (int)$product_id . "'");
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$related_id . "', related_id = '" . (int)$product_id . "'");
+        ]]></search>
+        <add position="replace"><![CDATA[
+                switch ($product_related['route']) {
+                    case '1':
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_related['product_id'] . "', related_id = '" . (int)$product_id . "', route = '-1'");
+                        break;
+                    case '-1':
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_related['product_id'] . "', related_id = '" . (int)$product_id . "', route = '1'");
+                        break;
+                    default:
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_related['product_id'] . "', related_id = '" . (int)$product_id . "'");
+                }
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="0"><![CDATA[
+		if (isset($data['product_reward'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($data['information_related'])) {
+			$this->db->query("DELETE FROM " . DB_PREFIX . "information_product_related WHERE product_id = '" . (int)$product_id . "'");
+
+			foreach ($data['information_related'] as $information_related) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_product_related SET product_id = '" . (int)$product_id . "', information_id = '" . (int)$information_related['information_id'] . "', route = '" . (int)$information_related['route'] . "'");
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="1"><![CDATA[
+		if (isset($data['product_reward'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_product_related WHERE product_id = '" . (int)$product_id . "'");
+
+		if (isset($data['information_related'])) {
+			foreach ($data['information_related'] as $information_related) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_product_related SET product_id = '" . (int)$product_id . "', information_id = '" . (int)$information_related['information_id'] . "', route = '" . (int)$information_related['route'] . "'");
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$data['product_related'] = $this->getProductRelated($product_id);
+        ]]></search>
+        <add position="after"><![CDATA[
+			$data['information_related'] = $this->getInformationRelated($product_id);
+			$data['main_category'] = $this->getMainCategory($product_id);
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_related WHERE related_id = '" . (int)$product_id . "'");
+        ]]></search>
+        <add position="after"><![CDATA[
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_product_related WHERE product_id = '" . (int)$product_id . "'");
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/view/template/catalog/product_form.twig">
+      <operation error="skip">
+        <search index="0"><![CDATA[
+                  <div class="form-group">
+        ]]></search>
+        <add position="before"><![CDATA[
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-header{{ language.language_id }}"><span data-toggle="tooltip" title="{{ help_header }}">{{ entry_header }}</span></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="product_description[{{ language.language_id }}][header]" value="{{ product_description[language.language_id] ? product_description[language.language_id].header }}" placeholder="{{ entry_header }}" id="input-header{{ language.language_id }}" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-short-description{{ language.language_id }}">{{ entry_short_description }}<br /><button type="button" class="btn btn-primary btn-xs summernote" data-toggle="button" aria-pressed="false" autocomplete="off" data-language="{{ language.language_id }}">Summernote</button></label>
+                    <div class="col-sm-10">
+                      <textarea name="product_description[{{ language.language_id }}][short_description]" placeholder="{{ entry_short_description }}" id="input-short-description{{ language.language_id }}" class="form-control">{{ product_description[language.language_id] ? product_description[language.language_id].short_description }}</textarea>
+                     </div>
+                  </div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                    <div id="product-category{{ product_category.category_id }}"><i class="fa fa-minus-circle"></i> {{ product_category.name }}
+        ]]></search>
+        <add position="replace"><![CDATA[
+                    {% if main_category and main_category == product_category.category_id %}
+                    <div id="product-category{{ product_category.category_id }}" class="text-success"><i class="fa fa-minus-circle"></i> <i class="fa fa-dot-circle-o" data-toggle="tooltip" title="{{ help_main_category }}"></i> {{ product_category.name }}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                      <input type="hidden" name="product_category[]" value="{{ product_category.category_id }}" />
+        ]]></search>
+        <add position="after"><![CDATA[
+                      <input type="hidden" name="main_category" value="{{ product_category.category_id }}" />
+                    </div>
+                    {% else %}
+                    <div id="product-category{{ product_category.category_id }}"><i class="fa fa-minus-circle"></i> <i class="fa fa-circle-o" data-toggle="tooltip" title="{{ help_main_category_add }}"></i> {{ product_category.name }}
+                      <input type="hidden" name="product_category[]" value="{{ product_category.category_id }}" />
+                    </div>
+                    {% endif %}
+                    <div class="hidden">
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+        ]]></search>
+        <add position="replace"><![CDATA[
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&information=0&filter_name=' +  encodeURIComponent(request),
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$('#product-category').append('<div id="product-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_category[]" value="' + item['value'] + '" /></div>');
+        ]]></search>
+        <add position="replace"><![CDATA[
+        $('#product-category').append('<div id="product-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> <i class="fa fa-circle-o" data-toggle="tooltip" title="{{ help_main_category_add }}"></i> ' + item['label'] + '<input type="hidden" name="product_category[]" value="' + item['value'] + '" /></div>');
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Filter
+        ]]></search>
+        <add position="before"><![CDATA[
+$('#product-category').delegate('.fa-circle-o', 'click', function() {
+	$('#product-category div').children('.fa-dot-circle-o').toggleClass('fa-circle-o fa-dot-circle-o');
+    $('#product-category div').removeClass('text-success');
+    $(this).toggleClass('fa-circle-o fa-dot-circle-o');
+    $(this).parent().addClass('text-success');
+    $('input[name=\'main_category\']').remove();
+    $(this).parent().append('<input type="hidden" name="main_category" value="' + $(this).parent().find('input[name=\'product_category[]\']').val() + '" />');
+	$('#product-category div').children('.fa-circle-o').attr({'title':'{{ help_main_category_add }}', 'data-original-title':'{{ help_main_category_add }}'});
+    $(this).attr({'title':'{{ help_main_category }}', 'data-original-title':'{{ help_main_category }}'});
+});
+$('#product-category').delegate('.fa-dot-circle-o', 'click', function() {
+    $(this).toggleClass('fa-circle-o fa-dot-circle-o');
+    $('input[name=\'main_category\']').remove();
+    $(this).parent().removeClass('text-success');
+    $(this).attr({'title':'{{ help_main_category_add }}', 'data-original-title':'{{ help_main_category_add }}'});
+});
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                    <div id="product-related{{ product_related.product_id }}"><i class="fa fa-minus-circle"></i> {{ product_related.name }}
+        ]]></search>
+        <add position="replace"><![CDATA[
+                    <div id="product-related{{ product_related.product_id }}"><i class="fa fa-minus-circle"></i> 
+                      {% if product_related.route and product_related.route > 0 %}
+                      <i class="fa fa-long-arrow-right"></i> 
+                      {% elseif product_related.route and product_related.route < 0 %}
+                      <i class="fa fa-long-arrow-left"></i> 
+                      {% else %}
+                      <i class="fa fa-exchange"></i> 
+                      {% endif %}
+                      {{ product_related.name }}
+                      <input type="hidden" name="product_related[{{ product_related.product_id }}][product_id]" value="{{ product_related.product_id }}" />
+                      <input type="hidden" name="product_related[{{ product_related.product_id }}][route]" value="{{ product_related.route }}" />
+                    </div>
+                    {% endfor %}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-related-information"><span data-toggle="tooltip" title="{{ help_related }}">{{ entry_related_information }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="related_information" value="" placeholder="{{ entry_related_information }}" id="input-related-information" class="form-control" />
+                  <div id="information-related" class="well well-sm" style="height: 150px; overflow: auto;"> {% for information_related in information_relateds %}
+                    <div id="information-related{{ information_related.information_id }}"><i class="fa fa-minus-circle"></i> 
+                      {% if information_related.route and information_related.route > 0 %}
+                      <i class="fa fa-long-arrow-right"></i> 
+                      {% elseif information_related.route and information_related.route < 0 %}
+                      <i class="fa fa-long-arrow-left"></i> 
+                      {% else %}
+                      <i class="fa fa-exchange"></i> 
+                      {% endif %}
+                      {{ information_related.title }}
+                      <input type="hidden" name="information_related[{{ information_related.information_id }}][information_id]" value="{{ information_related.information_id }}" />
+                      <input type="hidden" name="information_related[{{ information_related.information_id }}][route]" value="{{ information_related.route }}" />
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		  <input type="hidden" name="product_related[]" value="{{ product_related.product_id }}" />
+        ]]></search>
+        <add position="replace"><![CDATA[]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+        ]]></search>
+        <add position="replace"><![CDATA[
+			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}{% if product_id %}&product_id={{ product_id }}{% endif %}&filter_name=' +  encodeURIComponent(request),
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_related[]" value="' + item['value'] + '" /></div>');
+        ]]></search>
+        <add position="replace"><![CDATA[
+		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> <i class="fa fa-exchange"></i> ' + item['label'] + '<input type="hidden" name="product_related[' + item['value'] + '][product_id]" value="' + item['value'] + '" /><input type="hidden" name="product_related[' + item['value'] + '][route]" value="0" /></div>');
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+$('#product-related').delegate('.fa-minus-circle', 'click', function() {
+        ]]></search>
+        <add position="before"><![CDATA[
+$('#product-related').delegate('.fa-exchange', 'click', function() {
+    $(this).toggleClass('fa-exchange fa-long-arrow-right');
+	$(this).parent().find('input[name$=\'[route]\']').val('1');
+});
+$('#product-related').delegate('.fa-long-arrow-right', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-right fa-long-arrow-left');
+	$(this).parent().find('input[name$=\'[route]\']').val('-1');
+});
+$('#product-related').delegate('.fa-long-arrow-left', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-left fa-exchange');
+	$(this).parent().find('input[name$=\'[route]\']').val('0');
+});
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+$('#product-related').delegate('.fa-minus-circle', 'click', function() {
+        ]]></search>
+        <add position="after"><![CDATA[
+	$(this).parent().remove();
+});
+
+// Related Information
+$('input[name=\'related_information\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['title'],
+						value: item['information_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'related_information\']').val('');
+
+		$('#information-related' + item['value']).remove();
+
+		$('#information-related').append('<div id="information-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> <i class="fa fa-exchange"></i> ' + item['label'] + '<input type="hidden" name="information_related[' + item['value'] + '][information_id]" value="' + item['value'] + '" /><input type="hidden" name="information_related[' + item['value'] + '][route]" value="0" /></div>');
+	}
+});
+
+$('#information-related').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+
+$('#information-related').delegate('.fa-exchange', 'click', function() {
+    $(this).toggleClass('fa-exchange fa-long-arrow-right');
+	$(this).parent().find('input[name$=\'[route]\']').val('1');
+});
+$('#information-related').delegate('.fa-long-arrow-right', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-right fa-long-arrow-left');
+	$(this).parent().find('input[name$=\'[route]\']').val('-1');
+});
+$('#information-related').delegate('.fa-long-arrow-left', 'click', function() {
+    $(this).toggleClass('fa-long-arrow-left fa-exchange');
+	$(this).parent().find('input[name$=\'[route]\']').val('0');
+});
+
+$('#information-related').delegate('.fa-minus-circle', 'click', function() {
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+{{ footer }} 
+        ]]></search>
+        <add position="before"><![CDATA[
+  <style type="text/css"><!--
+#product-category .fa-circle-o {
+    display: none;
+}
+#product-category div:hover .fa-circle-o {
+    display: inline;
+}
+--></style>
+  <script type="text/javascript"><!--
+$('.summernote').on('click', function () {
+	if ($(this).hasClass('active')) {
+		$('#input-short-description' + $(this).data('language')).summernote('destroy');
+	} else {
+		$('#input-short-description' + $(this).data('language')).summernote({
+			focus: true,
+			lang: '{{ summernote }}'
+		});
+	}
+})
+
+$(document).ready(function() {
+	$('[name*=\'[short_description]\']').each(function() {
+		if ($(this).val()) {
+            $(this).parent().prev().children('.summernote').trigger('click');
+		}
+	});
+});
+//--></script>
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- User -->
+  <file path="admin/model/user/user.php">
+      <operation error="skip">
+        <search><![CDATA[
+	public function getTotalUsers() {
+        ]]></search>
+        <add position="before"><![CDATA[
+	public function getUsersByGroup($user_group_id) {
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "user` WHERE user_group_id = '" . (int)$user_group_id . "' ORDER BY username");
+
+		return $query->rows;
+	}
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Review -->
+  <file path="admin/controller/catalog/review.php">
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->request->post['rating'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($this->request->post['reply'])) {
+			$data['reply'] = $this->request->post['reply'];
+		} elseif (!empty($review_info)) {
+			$data['reply'] = $review_info['reply'];
+		} else {
+			$data['reply'] = '';
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$url = '';
+        ]]></search>
+        <add position="after"><![CDATA[
+		if (isset($this->request->get['information'])) {
+			$url .= '&information=' . $this->request->get['information'];
+		}
+        
+		if (isset($this->request->get['filter_information'])) {
+			$url .= '&filter_information=' . urlencode(html_entity_decode($this->request->get['filter_information'], ENT_QUOTES, 'UTF-8'));
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	protected function getList() {
+        ]]></search>
+        <add position="after"><![CDATA[
+		if (isset($this->request->get['filter_information'])) {
+			$filter_information = $this->request->get['filter_information'];
+		} else {
+			$filter_information = '';
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$filter_data = array(
+        ]]></search>
+        <add position="after"><![CDATA[
+			'information'        => isset($this->request->get['information']) ? $this->request->get['information'] : '',
+			'filter_information' => $filter_information,
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+				'name'       => $result['name'],
+        ]]></search>
+        <add position="replace"><![CDATA[
+				'name'       => isset($result['name']) ? $result['name'] : '',
+				'title'      => isset($result['title']) ? $result['title'] : '',
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$data['sort_product'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&sort=pd.name' . $url, true);
+        ]]></search>
+        <add position="before"><![CDATA[
+		$data['sort_information'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&sort=id.title' . $url, true);
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$data['filter_product'] = $filter_product;
+        ]]></search>
+        <add position="before"><![CDATA[
+		$url = '';
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['information'])) {
+			$data['information'] = true;
+			$data['type_url'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true);
+		} else {
+			$data['information'] = false;
+			$data['type_url'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&information=1' . $url, true);
+		}
+		
+		$data['filter_information'] = $filter_information;
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->error['author'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($this->error['information'])) {
+			$data['error_information'] = $this->error['information'];
+		} else {
+			$data['error_information'] = '';
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->request->post['author'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (isset($this->request->post['information_id'])) {
+			$data['information_id'] = $this->request->post['information_id'];
+		} elseif (!empty($review_info)) {
+			$data['information_id'] = $review_info['information_id'];
+		} else {
+			$data['information_id'] = '';
+		}
+
+		if (isset($this->request->post['information'])) {
+			$data['information'] = $this->request->post['information'];
+		} elseif (!empty($review_info)) {
+			$data['information'] = $review_info['information'];
+		} else {
+			$data['information'] = '';
+		}
+
+		if (isset($this->request->get['information'])) {
+			$data['information_type'] = 1;
+		} else {
+			$data['information_type'] = 0;
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		if (!$this->request->post['product_id']) {
+        ]]></search>
+        <add position="replace"><![CDATA[
+		if (isset($this->request->post['product_id']) && empty($this->request->post['product_id'])) {
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+			$this->error['product'] = $this->language->get('error_product');
+        ]]></search>
+        <add position="after"><![CDATA[
+		} elseif (isset($this->request->post['information_id']) && empty($this->request->post['information_id'])) {
+			$this->error['information'] = $this->language->get('error_information');
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/en-gb/catalog/review.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="replace"><![CDATA[
+$_['column_information']       = 'Article';
+
+// Button
+$_['button_type_review']       = 'Type categories';
+
+// Entry
+$_['entry_reply']              = 'Reply';
+$_['entry_review_information'] = 'Articles';
+$_['entry_review_product']     = 'Products';
+$_['entry_information']        = 'Article';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Error
+        ]]></search>
+        <add position="replace"><![CDATA[
+$_['help_information']         = '(Autocomplete)';
+
+// Error
+$_['error_information']        = 'Article required!';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/ru-ru/catalog/review.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="replace"><![CDATA[
+$_['column_information']       = 'Статья';
+
+// Button
+$_['button_type_review']       = 'Тип категорий';
+
+// Entry
+$_['entry_reply']              = 'Ответ';
+$_['entry_review_information'] = 'Статьи';
+$_['entry_review_product']     = 'Товары';
+$_['entry_information']        = 'Статья';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Error
+        ]]></search>
+        <add position="replace"><![CDATA[
+$_['help_information']  = '(Автозаполнение)';
+
+// Error
+$_['error_information'] = 'Требуется выбрать статью!';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/model/catalog/review.php">
+      <operation error="skip">
+        <search><![CDATA[product_id = '" . (int)$data['product_id'] . "']]></search>
+        <add position="replace"><![CDATA[product_id = '" . (isset($data['product_id']) ? (int)$data['product_id'] : '') . "', information_id = '" . (isset($data['information_id']) ? (int)$data['information_id'] : '') . "']]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[text = '" . $this->db->escape(strip_tags($data['text'])) . "']]></search>
+        <add position="replace"><![CDATA[text = '" . $this->db->escape(strip_tags($data['text'])) . "', reply = '" . $this->db->escape(strip_tags($data['reply'])) . "']]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[AS product]]></search>
+        <add position="replace"><![CDATA[AS product, (SELECT id.title FROM " . DB_PREFIX . "information_description id WHERE id.information_id = r.information_id AND id.language_id = '" . (int)$this->config->get('config_language_id') . "') AS information]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="0"><![CDATA[
+		if (!empty($data['filter_author'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (!empty($data['information'])) {
+			$sql = "SELECT r.review_id, id.title, r.author, r.rating, r.status, r.date_added FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "information_description id ON (r.information_id = id.information_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+			if (!empty($data['filter_information'])) {
+				$sql .= " AND id.title LIKE '" . $this->db->escape($data['filter_information']) . "%'";
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="1"><![CDATA[
+		if (!empty($data['filter_author'])) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if (!empty($data['information'])) {
+			$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "information_description id ON (r.information_id = id.information_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+			if (!empty($data['filter_information'])) {
+				$sql .= " AND id.title LIKE '" . $this->db->escape($data['filter_information']) . "%'";
+			}
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		$sort_data = array(
+        ]]></search>
+        <add position="after"><![CDATA[			'id.title',]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="0"><![CDATA[
+		$this->cache->delete('product');
+        ]]></search>
+        <add position="replace"><![CDATA[
+		if (isset($data['product_id'])) {
+			$this->cache->delete('product');
+		}
+
+		if (isset($data['information_id'])) {
+			$this->cache->delete('information');
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="1"><![CDATA[
+		$this->cache->delete('product');
+        ]]></search>
+        <add position="replace"><![CDATA[
+		if (isset($data['product_id'])) {
+			$this->cache->delete('product');
+		}
+
+		if (isset($data['information_id'])) {
+			$this->cache->delete('information');
+		}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="2"><![CDATA[
+		$this->cache->delete('product');
+        ]]></search>
+        <add position="replace"><![CDATA[
+		$this->cache->delete('product');
+		$this->cache->delete('information');
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/view/template/catalog/review_form.twig">
+      <operation error="skip">
+        <search><![CDATA[
+            <label class="col-sm-2 control-label" for="input-product"><span data-toggle="tooltip" title="{{ help_product }}">{{ entry_product }}</span></label>
+        ]]></search>
+        <add position="before"><![CDATA[
+            {% if information_type %}
+            <label class="col-sm-2 control-label" for="input-information"><span data-toggle="tooltip" title="{{ help_information }}">{{ entry_information }}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="information" value="{{ information }}" placeholder="{{ entry_information }}" id="input-information" class="form-control" />
+              <input type="hidden" name="information_id" value="{{ information_id }}" />
+              {% if error_information %}
+              <div class="text-danger">{{ error_information }}</div>
+              {% endif %} </div>
+            {% else %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+              <div class="text-danger">{{ error_product }}</div>
+        ]]></search>
+        <add position="after" offset="1"><![CDATA[
+            {% endif %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="3"><![CDATA[
+          <div class="form-group required">
+        ]]></search>
+        <add position="before"><![CDATA[
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-reply">{{ entry_reply }}</label>
+            <div class="col-sm-10">
+              <textarea name="reply" cols="60" rows="8" placeholder="{{ entry_reply }}" id="input-reply" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ reply }}</textarea>
+            </div>
+          </div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+$('input[name=\'product\']').autocomplete({
+        ]]></search>
+        <add position="before"><![CDATA[
+$('input[name=\'information\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['title'],
+						value: item['information_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'information\']').val(item['label']);
+		$('input[name=\'information_id\']').val(item['value']);		
+	}	
+});
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search index="0"><![CDATA[
+  <script type="text/javascript"><!--
+        ]]></search>
+        <add position="before"><![CDATA[
+  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/view/template/catalog/review_list.twig">
+      <operation error="skip">
+        <search><![CDATA[
+      <div class="pull-right">
+        ]]></search>
+        <add position="after"><![CDATA[
+        <div class="btn-group">
+          {% if information %}
+          <span class="btn btn-default" data-toggle="tooltip" title="{{ entry_review_information }}"><i class="fa fa-file-text-o fa-fw"></i></span>
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ entry_review_information }} <span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right"><li><a href="{{ type_url }}"><i class="fa fa-shopping-cart fa-fw"></i> {{ entry_review_product }}</a></li></ul>
+          {% else %}
+          <span class="btn btn-default" data-toggle="tooltip" title="{{ entry_review_product }}"><i class="fa fa-shopping-cart fa-fw"></i></span>
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ entry_review_product }} <span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right"><li><a href="{{ type_url }}"><i class="fa fa-file-text-o fa-fw"></i> {{ entry_review_information }}</a></li></ul>
+          {% endif %}
+        </div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+              <label class="control-label" for="input-product">{{ entry_product }}</label>
+        ]]></search>
+        <add position="before"><![CDATA[
+              {% if information %}
+              <label class="control-label" for="input-information">{{ entry_information }}</label>
+              <input type="text" name="filter_information" value="{{ filter_information }}" placeholder="{{ entry_information }}" id="input-product" class="form-control" />
+              {% else %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+              <input type="text" name="filter_product" value="{{ filter_product }}" placeholder="{{ entry_product }}" id="input-product" class="form-control" />
+        ]]></search>
+        <add position="after"><![CDATA[
+              {% endif %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                      <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+        ]]></search>
+        <add position="after"><![CDATA[
+                      {% if information %}
+                      <td class="text-left">{% if sort == 'id.title' %} <a href="{{ sort_information }}" class="{{ order|lower }}">{{ column_information }}</a> {% else %} <a href="{{ sort_information }}">{{ column_information }}</a> {% endif %}</td>
+                      {% else %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                      <td class="text-left">{% if sort == 'pd.name' %} <a href="{{ sort_product }}" class="{{ order|lower }}">{{ column_product }}</a> {% else %} <a href="{{ sort_product }}">{{ column_product }}</a> {% endif %}</td>
+        ]]></search>
+        <add position="after"><![CDATA[
+                      {% endif %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+                    <td class="text-left">{{ review.name }}</td>
+        ]]></search>
+        <add position="replace"><![CDATA[
+                    {% if information %}
+                    <td class="text-left">{{ review.title }}</td>
+                    {% else %}
+                    <td class="text-left">{{ review.name }}</td>
+                    {% endif %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	var filter_product = $('input[name=\'filter_product\']').val();
+        ]]></search>
+        <add position="before"><![CDATA[
+    {% if information %}
+	url += '&information=1';
+
+	var filter_information = $('input[name=\'filter_information\']').val();
+	
+	if (filter_information) {
+		url += '&filter_information=' + encodeURIComponent(filter_information);
+	}
+    {% else %}
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+	var filter_author = $('input[name=\'filter_author\']').val();
+        ]]></search>
+        <add position="before"><![CDATA[
+    {% endif %}
+        ]]></add>
+      </operation>
+  </file>
+</modification>
