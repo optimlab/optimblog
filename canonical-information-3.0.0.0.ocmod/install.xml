@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Canonical Information</name>
+  <code>canonical-information</code>
+  <version>3.0.0.0</version>
+  <author>Dmitriy Khokhlov | optimlab.com</author>
+  <link>http://optimlab.com</link>
+	
+  <file path="catalog/controller/information/information.php">
+	<operation error="skip">
+      <search><![CDATA[
+			$this->document->addLink($this->url->link('information/information', 'information_id=' . $information_id), 'canonical');
+      ]]></search>
+      <add position="replace"><![CDATA[
+			if ($category_path) {
+				$this->document->addLink($this->url->link('information/information', 'path=' . $category_path . '&information_id=' . $information_id), 'canonical');
+			} else {
+				$this->document->addLink($this->url->link('information/information', 'information_id=' . $information_id), 'canonical');
+			}
+      ]]></add>
+    </operation>
+  </file>
+</modification>

@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>  OptimBlog - category Default Theme </name>
+  <code>optimblog-category-theme-default</code>
+  <version>3.0.0.1</version>
+  <author>Dmitriy Khokhlov | optimlab.com</author>
+  <link>http://optimlab.com</link>
+  
+  <!-- Category -->
+  <file path="catalog/view/theme/default/template/product/category.twig">
+      <operation error="skip">
+        <search><![CDATA[<h2>{{ heading_title }}</h2>]]></search>
+        <add position="replace"><![CDATA[<h1>{{ heading_title }}</h1>]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+      {% if not categories and not products %}
+        ]]></search>
+        <add position="replace"><![CDATA[
+      {% if informations %}
+      {% if view_show or sort_show or limit_show %}
+      <div class="row">
+        {% if view_show %}
+        <div class="col-sm-5 hidden-xs">
+          <div class="btn-group btn-group-sm">
+            <button type="button" id="information-block-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_block }}"><i class="fa fa-align-justify"></i></button>
+            <button type="button" id="information-list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+            <button type="button" id="information-grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+          </div>
+        </div>
+        {% endif %}
+        {% if sort_show %}
+        <div class="col-sm-4 col-xs-6 {{ not limit_show or not view_show ? 'col-sm-offset-5 col-xs-offset-6' }}">
+          <div class="form-group input-group input-group-sm">
+            <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
+            <select id="input-sort" class="form-control" onchange="location = this.value;">
+              {% for sorts in sorts %}
+              {% if sorts.value == '%s-%s'|format(sort, order) %}
+              <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+              {% else %}
+              <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% endif %}
+        {% if limit_show %}
+        <div class="col-sm-3 col-xs-6 {{ not sort_show ? 'col-sm-offset-4 col-xs-offset-6' }} {{ not view_show ? 'pull-right' }}">
+          <div class="form-group input-group input-group-sm">
+            <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
+            <select id="input-limit" class="form-control" onchange="location = this.value;">
+              {% for limits in limits %}
+              {% if limits.value == limit %}
+              <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+              {% else %}
+              <option value="{{ limits.href }}">{{ limits.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="row"> {% for information in informations %}
+        <div class="information-layout {{ view }} col-xs-12">
+          <div class="thumbnail media">
+            {% if information.thumb %}
+            <div class="image pull-left"><a href="{{ information.href }}"><img src="{{ information.thumb }}" alt="{{ information.title }}" title="{{ information.title }}" class="img-responsive" /></a></div>
+            {% endif %}
+            <div class="caption media-body">
+              <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
+              {% if author or date or review %}
+              <ul class="list-inline text-muted small">
+                {% if date %}
+                <li>{{ information.date_added }}</li>
+                {% endif %}
+                {% if author %}
+                <li>{{ information.author }}</li>
+                {% endif %}
+                {% if review %}
+                <li>{{ information.reviews }}</li>
+                {% endif %}
+                {% if information.rating %}
+                <li class="rating"> {% for i in 1..5 %}
+                  {% if information.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
+                  {% endfor %} </li>
+                {% endif %}
+              </ul>
+              {% endif %}
+              <p>{{ information.description }}</p>
+              <a href="{{ information.href }}" type="button" class="btn btn-primary" title="{{ text_read }}">{{ text_read }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %} </div>
+      <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+      </div>
+      {% endif %}
+      
+      {% if not categories and not products and not informations and not category_information %}
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Information -->
+  <file path="catalog/view/theme/default/template/information/information.twig">
+      <operation error="skip">
+        <search><![CDATA[
+      <h1>{{ heading_title }}</h1>
+        ]]></search>
+        <add position="after"><![CDATA[
+      {% if review_status %}
+      <ul class="list-inline text-muted">
+        {% if author_information_status or date_information_status or review_information_status or manufacturer_information_status %}
+        {% if date_information_status %}
+        <li>{{ date_added }}</li>
+        {% endif %}
+        {% if author_information_status %}
+        <li>{{ author }}</li>
+        {% endif %}
+        {% if review_information_status %}
+        <li><a href="" onclick="$('html, body').animate({ scrollTop: $('#review').offset().top }, 'slow'); return false;">{{ reviews }}</a></li>
+        {% endif %}
+        {% endif %}
+        {% if manufacturer and manufacturer_information_status %}
+        <li>{{ text_manufacturer }} <a href="{{ manufacturers }}">{{ manufacturer }}</a></li>
+        {% endif %}
+        <li class="rating">{% for i in 1..5 %}
+          {% if rating < i %}<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>{% else %}<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>{% endif %}
+          {% endfor %}</li>
+      </ul>
+      {% endif %}
+      {% if thumb or images %}
+      <ul class="thumbnails">
+        {% if thumb %}
+        <li><a class="thumbnail" href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
+        {% endif %}
+        {% if images %}
+        {% for image in images %}
+        <li class="image-additional"><a class="thumbnail" href="{{ image.popup }}" title="{{ heading_title }}"> <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
+        {% endfor %}
+        {% endif %}
+      </ul>
+      {% endif %}
+      <div id="description">{{ description }}</div>
+      {% if attribute_groups %}
+      <div id="specification">
+        <h3>{{ text_attribute }}</h3>
+        <table class="table table-bordered">
+          {% for attribute_group in attribute_groups %}
+          <thead>
+            <tr>
+              <td colspan="2"><strong>{{ attribute_group.name }}</strong></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for attribute in attribute_group.attribute %}
+            <tr>
+              <td>{{ attribute.name }}</td>
+              <td>{{ attribute.text }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+      {% if review_status %}
+      <form class="form-horizontal" id="form-review">
+        <h3>{{ text_review }}</h3>
+        <div id="review"></div>
+        <h4>{{ text_write }}</h4>
+        {% if review_guest %}
+        <div class="form-group required">
+          <div class="col-sm-12">
+            <label class="control-label" for="input-name">{{ entry_name }}</label>
+            <input type="text" name="name" value="{{ customer_name }}" id="input-name" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group required">
+          <div class="col-sm-12">
+            <label class="control-label" for="input-review">{{ entry_review }}</label>
+            <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
+            <div class="help-block">{{ text_note }}</div>
+          </div>
+        </div>
+        <div class="form-group required">
+          <div class="col-sm-12">
+            <label class="control-label">{{ entry_rating }}</label>
+            &nbsp;&nbsp;&nbsp; {{ entry_bad }}&nbsp;
+            <input type="radio" name="rating" value="1" />
+            &nbsp;
+            <input type="radio" name="rating" value="2" />
+            &nbsp;
+            <input type="radio" name="rating" value="3" />
+            &nbsp;
+            <input type="radio" name="rating" value="4" />
+            &nbsp;
+            <input type="radio" name="rating" value="5" />
+            &nbsp;{{ entry_good }}</div>
+        </div>
+        {{ captcha }}
+        <div class="buttons clearfix">
+          <div class="pull-right">
+            <button type="button" id="button-review" data-loading-text="{{ text_loading }}" class="btn btn-primary">{{ button_continue }}</button>
+          </div>
+        </div>
+        {% else %}
+        {{ text_login }}
+        {% endif %}
+      </form>
+      {% endif %}
+      {% if tags %}
+      <p>{{ text_tags }}
+      {% for i in 0..tags|length %}
+      {% if i < (tags|length - 1) %} <a href="{{ tags[i].href }}">{{ tags[i].tag }}</a>,
+      {% else %} <a href="{{ tags[i].href }}">{{ tags[i].tag }}</a> {% endif %}
+      {% endfor %} </p>
+      {% endif %}
+      <hr>
+      <!-- AddThis Button BEGIN -->
+      <div class="addthis_toolbox addthis_default_style" data-url="{{ share }}"><a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-515eeaf54693130e"></script> 
+      <!-- AddThis Button END -->
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+      {{ description }}{{ content_bottom }}</div>
+        ]]></search>
+        <add position="replace"><![CDATA[
+      {% if informations %}
+      <h3>{{ text_related }}</h3>
+      <div class="row"> {% set i = 0 %}
+        {% for information in informations %}
+        {% if column_left and column_right %}
+        {% set class = 'col-xs-8 col-sm-6' %}
+        {% elseif column_left or column_right %}
+        {% set class = 'col-xs-6 col-md-4' %}
+        {% else %}
+        {% set class = 'col-xs-6 col-sm-3' %}
+        {% endif %}
+        <div class="{{ class }}">
+          <div class="thumbnail">
+            <div class="image"><a href="{{ information.href }}"><img src="{{ information.thumb }}" alt="{{ information.name }}" title="{{ information.name }}" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
+              {% if author_related or date_related or review_related %}
+              <ul class="list-inline text-muted small">
+                {% if date_related %}
+                <li>{{ information.date_added }}</li>
+                {% endif %}
+                {% if author_related %}
+                <li>{{ information.author }}</li>
+                {% endif %}
+                {% if review_related %}
+                <li>{{ information.reviews }}</li>
+                {% endif %}
+                {% if information.rating %}
+                <li class="rating"> {% for j in 1..5 %}
+                  {% if information.rating < j %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span> {% endif %}
+                  {% endfor %}</li>
+                {% endif %}
+              </ul>
+              {% endif %}
+              <p>{{ information.description }}</p>
+              <a href="{{ information.href }}" class="btn btn-primary btn-xs" role="button">{{ text_read }}</a>
+            </div>
+          </div>
+        </div>
+        {% if column_left and column_right and (i + 1) % 2 == 0 %}
+        <div class="clearfix visible-md visible-sm"></div>
+        {% elseif column_left or column_right and (i + 1) % 3 == 0 %}
+        <div class="clearfix visible-md"></div>
+        {% elseif (i + 1) % 4 == 0 %}
+        <div class="clearfix visible-md"></div>
+        {% endif %}
+        {% set i = i + 1 %}
+        {% endfor %} </div>
+        {% endif %}
+      {% if products %}
+      <h3>{{ text_related_product }}</h3>
+      <div class="row"> {% set i = 0 %}
+        {% for product in products %}
+        {% if column_left and column_right %}
+        {% set class = 'col-xs-8 col-sm-6' %}
+        {% elseif column_left or column_right %}
+        {% set class = 'col-xs-6 col-md-4' %}
+        {% else %}
+        {% set class = 'col-xs-6 col-sm-3' %}
+        {% endif %}
+        <div class="{{ class }}">
+          <div class="product-thumb transition">
+            <div class="image"><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+              <p>{{ product.description }}</p>
+              {% if product.rating %}
+              <div class="rating"> {% for j in 1..5 %}
+                {% if product.rating < j %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span> {% endif %}
+                {% endfor %} </div>
+              {% endif %}
+              {% if product.price %}
+              <p class="price"> {% if not product.special %}
+                {{ product.price }}
+                {% else %} <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span> {% endif %}
+                {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %} </p>
+              {% endif %} </div>
+            <div class="button-group">
+              <button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span> <i class="fa fa-shopping-cart"></i></button>
+              <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+              <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+            </div>
+          </div>
+        </div>
+        {% if column_left and column_right and (i + 1) % 2 == 0 %}
+        <div class="clearfix visible-md visible-sm"></div>
+        {% elseif column_left or column_right and (i + 1) % 3 == 0 %}
+        <div class="clearfix visible-md"></div>
+        {% elseif (i + 1) % 4 == 0 %}
+        <div class="clearfix visible-md"></div>
+        {% endif %}
+        {% set i = i + 1 %}
+        {% endfor %} </div>
+        {% endif %}
+      {{ content_bottom }}</div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+{{ footer }}
+        ]]></search>
+        <add position="before"><![CDATA[
+<script type="text/javascript"><!--
+$('#review').delegate('.pagination a', 'click', function(e) {
+    e.preventDefault();
+
+    $('#review').fadeOut('slow');
+
+    $('#review').load(this.href);
+
+    $('#review').fadeIn('slow');
+});
+
+$('#review').load('index.php?route=information/information/review&information_id={{ information_id }}');
+
+$('#button-review').on('click', function() {
+	$.ajax({
+		url: 'index.php?route=information/information/write&information_id={{ information_id }}',
+		type: 'post',
+		dataType: 'json',
+		data: $("#form-review").serialize(),
+		beforeSend: function() {
+			$('#button-review').button('loading');
+		},
+		complete: function() {
+			$('#button-review').button('reset');
+		},
+		success: function(json) {
+			$('.alert-dismissible').remove();
+
+			if (json['error']) {
+				$('#review').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+			}
+
+			if (json['success']) {
+				$('#review').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+
+				$('input[name=\'name\']').val('');
+				$('textarea[name=\'text\']').val('');
+				$('input[name=\'rating\']:checked').prop('checked', false);
+			}
+		}
+	});
+});
+
+$(document).ready(function() {
+	$('.thumbnails').magnificPopup({
+		type:'image',
+		delegate: 'a',
+		gallery: {
+			enabled: true
+		}
+	});
+});
+//--></script> 
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Product -->
+  <file path="catalog/view/theme/default/template/product/product.twig">
+      <operation error="skip">
+        <search><![CDATA[
+        {% if tags %}
+        ]]></search>
+        <add position="before"><![CDATA[
+      {% if informations %}
+      <h3>{{ text_related_information }}</h3>
+      <div class="row"> {% set i = 0 %}
+        {% for information in informations %}
+        {% if column_left and column_right %}
+        {% set class = 'col-xs-8 col-sm-6' %}
+        {% elseif column_left or column_right %}
+        {% set class = 'col-xs-6 col-md-4' %}
+        {% else %}
+        {% set class = 'col-xs-6 col-sm-3' %}
+        {% endif %}
+        <div class="{{ class }}">
+          <div class="thumbnail">
+            <div class="image"><a href="{{ information.href }}"><img src="{{ information.thumb }}" alt="{{ information.name }}" title="{{ information.name }}" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
+              {% if author_related or date_related or review_related %}
+              <ul class="list-inline text-muted small">
+                {% if date_related %}
+                <li>{{ information.date_added }}</li>
+                {% endif %}
+                {% if author_related %}
+                <li>{{ information.author }}</li>
+                {% endif %}
+                {% if review_related %}
+                <li>{{ information.reviews }}</li>
+                {% endif %}
+                {% if information.rating %}
+                <li class="rating"> {% for j in 1..5 %}
+                  {% if information.rating < j %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span> {% endif %}
+                  {% endfor %}</li>
+                {% endif %}
+              </ul>
+              {% endif %}
+              <p>{{ information.description }}</p>
+              <a href="{{ information.href }}" class="btn btn-primary btn-xs" role="button">{{ text_read }}</a>
+            </div>
+          </div>
+        </div>
+        {% if column_left and column_right and (i + 1) % 2 == 0 %}
+        <div class="clearfix visible-md visible-sm"></div>
+        {% elseif column_left or column_right and (i + 1) % 3 == 0 %}
+        <div class="clearfix visible-md"></div>
+        {% elseif (i + 1) % 4 == 0 %}
+        <div class="clearfix visible-md"></div>
+        {% endif %}
+        {% set i = i + 1 %}
+        {% endfor %} </div>
+        {% endif %}
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Review -->
+  <file path="catalog/view/theme/default/template/product/review.twig">
+      <operation error="skip">
+        <search><![CDATA[{% endfor %}</td>]]></search>
+        <add position="replace"><![CDATA[{% endfor %}
+      {% if review.reply %}
+      <div class="well well-sm">{{ review.reply }}</div>
+      {% endif %}
+    </td>]]></add>
+      </operation>
+  </file>
+
+  <!-- Information Sitemap -->
+  <file path="catalog/view/theme/default/template/information/sitemap.twig">
+      <operation error="skip">
+        <search index="6"><![CDATA[
+          </ul>
+        ]]></search>
+        <add position="before"><![CDATA[
+            {% for category_1 in information_categories %}
+            <li><a href="{{ category_1.href }}">{{ category_1.name }}</a>
+              {% if category_1.children %}
+              <ul>
+                {% for category_2 in category_1.children %}
+                <li><a href="{{ category_2.href }}">{{ category_2.name }}</a>
+                  {% if category_2.children %}
+                  <ul>
+                    {% for category_3 in category_2.children %}
+                    <li><a href="{{ category_3.href }}">{{ category_3.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </li>
+            {% endfor %}
+        ]]></add>
+      </operation>
+  </file>
+</modification>

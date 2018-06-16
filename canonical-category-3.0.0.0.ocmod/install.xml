@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Canonical Category</name>
+  <code>canonical-category</code>
+  <version>3.0.0.0</version>
+  <author>Dmitriy Khokhlov | optimlab.com</author>
+  <link>http://optimlab.com</link>
+	
+  <file path="catalog/controller/product/category.php">
+	<operation error="skip">
+      <search><![CDATA[
+            $parts = explode('_', (string)$category_path);
+      ]]></search>
+      <add position="before"><![CDATA[
+            $this->request->get['path'] = $category_path;
+      ]]></add>
+    </operation>
+	<operation error="skip">
+      <search><![CDATA[
+			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id']), 'canonical');
+      ]]></search>
+      <add position="replace"><![CDATA[
+			    $this->document->addLink($this->url->link('product/category', 'path=' . $this->request->get['path']), 'canonical');
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+				$this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. $page), 'canonical');
+      ]]></search>
+      <add position="replace"><![CDATA[
+				$this->document->addLink($this->url->link('product/category', 'path=' . $this->request->get['path'] . '&page='. $page), 'canonical');
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . (($page - 2) ? '&page='. ($page - 1) : '')), 'prev');
+      ]]></search>
+      <add position="replace"><![CDATA[
+			    $this->document->addLink($this->url->link('product/category', 'path=' . $this->request->get['path'] . (($page - 2) ? '&page='. ($page - 1) : '')), 'prev');
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. ($page + 1)), 'next');
+      ]]></search>
+      <add position="replace"><![CDATA[
+			    $this->document->addLink($this->url->link('product/category', 'path=' . $this->request->get['path'] . '&page='. ($page + 1)), 'next');
+      ]]></add>
+    </operation>
+  </file>
+</modification>
