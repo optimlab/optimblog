@@ -63,8 +63,9 @@ There is no modification for commodity modules.
 
 ## Information:
 ### Demo:
-http://demo.optimcart.com
-http://demo.optimcart.com/admin
+**Frontend:** http://demo.optimcart.com
+
+**Adminstration:** http://demo.optimcart.com/admin
 
 
 ## License
