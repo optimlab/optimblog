@@ -169,7 +169,7 @@
 $_['column_information']     = 'Type';
 
 // Button
-$_['button_type_category']   = 'Type category';
+$_['button_type_category']   = 'Type Category';
         ]]></add>
       </operation>
       <operation error="skip">
@@ -179,7 +179,7 @@ $_['button_type_category']   = 'Type category';
         <add position="after"><![CDATA[
 $_['entry_header']            = 'Header';
 $_['entry_short_description'] = 'Short Description';
-$_['entry_information']       = 'Category of articles';
+$_['entry_information']       = 'Category of Articles';
 $_['entry_type']              = 'All';
 $_['entry_type_product']      = 'Products';
 $_['entry_type_information']  = 'Articles';
@@ -191,7 +191,7 @@ $_['entry_type_information']  = 'Articles';
         ]]></search>
         <add position="after"><![CDATA[
 $_['help_header']            = 'HTML Tag H1';
-$_['help_information']       = 'Category type: Products or Articles. (Default - Products)';
+$_['help_information']       = 'Category Type: Products or Articles. (Default - Products)';
         ]]></add>
       </operation>
   </file>
@@ -1028,7 +1028,7 @@ $_['column_status']             = 'Status';
         ]]></search>
         <add position="after"><![CDATA[
 $_['entry_header']              = 'Header';
-$_['entry_short_description']   = 'Short description';
+$_['entry_short_description']   = 'Short Description';
 $_['entry_tag']                 = 'Article Tags';
 $_['entry_manufacturer']        = 'Manufacturer';
 $_['entry_date_available']      = 'Date Available';
@@ -3018,7 +3018,7 @@ $(document).ready(function() {
 $_['column_information']       = 'Article';
 
 // Button
-$_['button_type_review']       = 'Type categories';
+$_['button_type_review']       = 'Type Categories';
 
 // Entry
 $_['entry_reply']              = 'Reply';
@@ -3063,10 +3063,10 @@ $_['entry_information']        = 'Статья';
 // Error
         ]]></search>
         <add position="replace"><![CDATA[
-$_['help_information']  = '(Автозаполнение)';
+$_['help_information']         = '(Автозаполнение)';
 
 // Error
-$_['error_information'] = 'Требуется выбрать статью!';
+$_['error_information']        = 'Требуется выбрать статью!';
         ]]></add>
       </operation>
   </file>
