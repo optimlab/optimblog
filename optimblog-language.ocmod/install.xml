@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>  OptimBlog - Language</name>
+  <code>optimblog-language</code>
+  <version>3.0.0.0</version>
+  <author>Dmitriy Khokhlov | optimlab.com</author>
+  <link>http://optimlab.com</link>
+  
+  <!-- Admin -->
+  <!-- Category -->
+  <file path="admin/language/en-gb/catalog/category.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="before"><![CDATA[
+$_['column_information']     = 'Type';
+
+// Button
+$_['button_type_category']   = 'Type Category';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']            = 'Header';
+$_['entry_short_description'] = 'Short Description';
+$_['entry_information']       = 'Category of Articles';
+$_['entry_type']              = 'All';
+$_['entry_type_product']      = 'Products';
+$_['entry_type_information']  = 'Articles';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']            = 'HTML Tag H1';
+$_['help_information']       = 'Category Type: Products or Articles. (Default - Products)';
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Information -->
+  <file path="admin/language/en-gb/catalog/information.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Column
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['column_image']              = 'Image';
+$_['column_viewed']             = 'Viewed';
+$_['column_status']             = 'Status';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']              = 'Header';
+$_['entry_short_description']   = 'Short Description';
+$_['entry_tag']                 = 'Article Tags';
+$_['entry_manufacturer']        = 'Manufacturer';
+$_['entry_date_available']      = 'Date Available';
+$_['entry_date_end']            = 'Date End';
+$_['entry_date_added']          = 'Date Added';
+$_['entry_date_modified']       = 'Date Modified';
+$_['entry_user']                = 'Author';
+$_['entry_image']               = 'Image';
+$_['entry_additional_image']    = 'Additional Images';
+$_['entry_priority']            = 'Priority';
+$_['entry_attribute']           = 'Attribute';
+$_['entry_attribute_group']     = 'Attribute Group';
+$_['entry_text']                = 'Text';
+$_['entry_required']            = 'Required';
+$_['entry_category']            = 'Categories';
+$_['entry_filter']              = 'Filters';
+$_['entry_download']            = 'Downloads';
+$_['entry_related_information'] = 'Related Articles';
+$_['entry_related_product']     = 'Related Products';
+$_['entry_viewed']              = 'Viewed';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']               = 'HTML Tag H1';
+$_['help_tag']                  = 'Comma separated';
+$_['help_manufacturer']         = '(Autocomplete)';
+$_['help_category']             = '(Autocomplete)';
+$_['help_main_category']        = 'Main Category';
+$_['help_main_category_add']    = 'Add Main Category';
+$_['help_filter']               = '(Autocomplete)';
+$_['help_download']             = '(Autocomplete)';
+$_['help_related']              = '(Autocomplete)';
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Product -->
+  <file path="admin/language/en-gb/catalog/product.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['entry_header']              = 'Header';
+$_['entry_short_description']   = 'Short Description';
+$_['entry_related_information'] = 'Related Articles';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Help
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['help_header']               = 'HTML Tag H1';
+$_['help_main_category']        = 'Main Category';
+$_['help_main_category_add']    = 'Add Main Category';
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Review -->
+  <file path="admin/language/en-gb/catalog/review.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="replace"><![CDATA[
+$_['column_information']       = 'Article';
+
+// Button
+$_['button_type_review']       = 'Type Categories';
+
+// Entry
+$_['entry_reply']              = 'Reply';
+$_['entry_review_information'] = 'Articles';
+$_['entry_review_product']     = 'Products';
+$_['entry_information']        = 'Article';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+// Error
+        ]]></search>
+        <add position="replace"><![CDATA[
+$_['help_information']         = '(Autocomplete)';
+
+// Error
+$_['error_information']        = 'Article required!';
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Catalog -->
+  <!-- Category -->
+  <file path="catalog/language/en-gb/product/category.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Text
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['text_read']         = 'Read..';
+$_['text_date_asc']     = 'Date (Old)';
+$_['text_date_desc']    = 'Date (Last)';
+$_['text_review']       = '<i class="fa fa-comment-o" aria-hidden="true"></i> Reviews (%s)';
+$_['text_author']       = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
+$_['text_date_added']   = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+$_['text_limit']
+        ]]></search>
+        <add position="after"><![CDATA[
+// Buttons
+$_['button_block']      = 'Block';
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Information -->
+  <file path="catalog/language/en-gb/information/information.php">
+      <operation error="skip">
+        <search><![CDATA[
+$_['text_error']
+        ]]></search>
+        <add position="before"><![CDATA[
+$_['text_search']             = 'Search';
+$_['text_brand']              = 'Brand';
+$_['text_manufacturer']       = 'Manufacturer:';
+$_['text_attribute']          = 'Attribute';
+$_['text_author']             = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
+$_['text_date_added']         = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
+$_['text_reviews']            = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s reviews';
+$_['text_review']             = 'Reviews (%s)';
+$_['text_reviews']            = '%s reviews';
+$_['text_write']              = 'Write a review';
+$_['text_login']              = 'Please <a href="%s">login</a> or <a href="%s">register</a> to review';
+$_['text_no_reviews']         = 'There are no reviews for this article.';
+$_['text_note']               = '<span class="text-danger">Note:</span> HTML is not translated!';
+$_['text_success']            = 'Thank you for your review. It has been submitted to the webmaster for approval.';
+$_['text_related']            = 'Related Articles';
+$_['text_related_product']    = 'Related Products';
+$_['text_related_author']     = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
+$_['text_related_date_added'] = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
+$_['text_related_reviews']    = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s reviews';
+$_['text_read']               = 'Read..';
+$_['text_tags']               = 'Tags:';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+$_['text_error']
+        ]]></search>
+        <add position="after"><![CDATA[
+// Entry
+$_['entry_name']              = 'Your Name';
+$_['entry_review']            = 'Your Review';
+$_['entry_rating']            = 'Rating';
+$_['entry_good']              = 'Good';
+$_['entry_bad']               = 'Bad';
+
+// Error
+$_['error_name']              = 'Warning: Review Name must be between 3 and 25 characters!';
+$_['error_text']              = 'Warning: Review Text must be between 25 and 1000 characters!';
+$_['error_rating']            = 'Warning: Please select a review rating!';
+
+// Locale
+$_['date_format_information'] = 'd.m.Y';
+$_['date_format_short']       = 'd.m.Y';
+$_['date_format_long']        = 'd.m.Y H:i:s';
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Product -->
+  <file path="catalog/language/en-gb/product/product.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Entry
+        ]]></search>
+        <add position="before"><![CDATA[
+$_['text_related_information'] = 'Related Articles';
+$_['text_related_author']      = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
+$_['text_related_date_added']  = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
+$_['text_related_reviews']     = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s reviews';
+$_['text_read']                = 'Read..';
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Mail Review -->
+  <file path="catalog/language/en-gb/mail/review.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Text
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['text_information_subject'] = '%s - Review Article';
+$_['text_information']         = 'Article: %s';
+        ]]></add>
+      </operation>
+  </file>
+</modification>
