@@ -9,8 +9,8 @@
   <!-- Category -->
   <file path="catalog/view/theme/default/template/product/category.twig">
       <operation error="skip">
-        <search><![CDATA[<h2>{{ heading_title }}</h2>]]></search>
-        <add position="replace"><![CDATA[<h1>{{ heading_title }}</h1>]]></add>
+        <search><![CDATA[h2]]></search>
+        <add position="replace"><![CDATA[h1]]></add>
       </operation>
       <operation error="skip">
         <search><![CDATA[
@@ -109,9 +109,7 @@
   <!-- Information -->
   <file path="catalog/view/theme/default/template/information/information.twig">
       <operation error="skip">
-        <search><![CDATA[
-      <h1>{{ heading_title }}</h1>
-        ]]></search>
+        <search><![CDATA[{{ heading_title }}]]></search>
         <add position="after"><![CDATA[
       {% if review_status %}
       <ul class="list-inline text-muted">

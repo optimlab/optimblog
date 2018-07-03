@@ -701,7 +701,7 @@ $_['button_block']      = 'На всю ширину';
 
 			$data['review_status'] = $this->config->get('information_review_status');
 
-			if (in_array($information_id, $this->config->get('information_without_review'))) {
+			if ($data['review_status'] && !empty($this->config->get('information_without_review')) && in_array($information_id, $this->config->get('information_without_review'))) {
 				$data['review_status'] = false;
 			}
 
