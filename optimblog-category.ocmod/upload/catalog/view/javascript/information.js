@@ -2,8 +2,7 @@
  * @author Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright 2018
  * @name optimblog
- * @version 3.0.0.0
- * @filesource https://github.com/optimlab/optimblog
+ * @version 3.0.0.1
  * @link optimlab.com
  */
 $(document).ready(function() {
