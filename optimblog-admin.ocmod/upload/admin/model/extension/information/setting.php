@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.1
+ * @version    3.0.0.2
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -25,96 +25,96 @@ class ModelExtensionInformationSetting extends Model {
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "category' AND COLUMN_NAME = 'information'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category` ADD `information` tinyint(1) NOT NULL AFTER `date_modified`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category` ADD `information` tinyint(1) NOT NULL AFTER `date_modified`");
 		}
 
 		// Category Header
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "category_description' AND COLUMN_NAME = 'meta_h1'");
 
 		if ($query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` CHANGE `meta_h1` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` CHANGE `meta_h1` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "category_description' AND COLUMN_NAME = 'meta_header'");
 
 		if ($query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` CHANGE `meta_header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` CHANGE `meta_header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "category_description' AND COLUMN_NAME = 'header'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `name`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `name`");
 		}
 
 		// Category Short Description
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "category_description' AND COLUMN_NAME = 'short_description'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
 		}
 
 		// Information Image
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'image'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `image` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL AFTER `information_id`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `image` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL AFTER `information_id`");
 		}
 
 		// Information Manufacturer
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'manufacturer_id'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `manufacturer_id` int(11) NOT NULL AFTER `image`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `manufacturer_id` int(11) NOT NULL AFTER `image`");
 		}
 
 		// Information Top Menu
 //		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'top'");
         
 //		if (!$query->num_rows) {
-//			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `top` tinyint(1) NOT NULL DEFAULT '0' AFTER `manufacturer_id`;");
+//			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `top` tinyint(1) NOT NULL DEFAULT '0' AFTER `manufacturer_id`");
 //		}
 
 		// Information Sort Order Type
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'sort_order' AND COLUMN_TYPE = 'int(11)'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` CHANGE `sort_order` `sort_order` INT(11) NOT NULL DEFAULT '0';");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` CHANGE `sort_order` `sort_order` INT(11) NOT NULL DEFAULT '0'");
 		}
 
 		// Information Viewed
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'viewed'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `viewed` int(5) NOT NULL DEFAULT '0' AFTER `status`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `viewed` int(5) NOT NULL DEFAULT '0' AFTER `status`");
 		}
 
 		// Information Date Available
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'date_available'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_available` datetime NOT NULL DEFAULT '2018-01-01 00:00:00' AFTER `viewed`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_available` datetime NOT NULL DEFAULT '2018-01-01 00:00:00' AFTER `viewed`");
 		}
 
 		// Information Date End
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'date_end'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_end` datetime NOT NULL DEFAULT '2100-01-01 00:00:00' AFTER `date_available`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_end` datetime NOT NULL DEFAULT '2100-01-01 00:00:00' AFTER `date_available`");
 		}
 
 		// Information Date Added
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'date_added'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_added` datetime NOT NULL AFTER `date_end`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_added` datetime NOT NULL AFTER `date_end`");
 		}
         
 		// Information Date Modified
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information' AND COLUMN_NAME = 'date_modified'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_modified` datetime NOT NULL AFTER `date_added`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information` ADD `date_modified` datetime NOT NULL AFTER `date_added`");
 		}
 
 		// Information UPDATE Date Added and Date Modified
@@ -136,40 +136,40 @@ class ModelExtensionInformationSetting extends Model {
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'meta_h1'");
 
 		if ($query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `meta_h1` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `meta_h1` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'meta_header'");
 
 		if ($query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `meta_header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `meta_header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'header'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `title`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `title`");
 		}
 
         // Information Short Description
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'short_description'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
 		}
 
         // Information Description Type
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'description' AND COLUMN_TYPE = 'text'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
         // Information Tag
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'tag'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `tag` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `description`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `tag` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `description`");
 		}
 
         // Information Filter
@@ -270,9 +270,9 @@ class ModelExtensionInformationSetting extends Model {
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "review' AND COLUMN_NAME = 'information_id'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD `information_id` int(11) NOT NULL AFTER `product_id`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD `information_id` int(11) NOT NULL AFTER `product_id`");
 
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD KEY `information_id` (`information_id`);");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD KEY `information_id` (`information_id`)");
 		}
 
         // Information Search
@@ -286,47 +286,54 @@ class ModelExtensionInformationSetting extends Model {
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_description' AND COLUMN_NAME = 'meta_h1'");
 
 		if ($query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` CHANGE `meta_h1` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` CHANGE `meta_h1` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_description' AND COLUMN_NAME = 'meta_header'");
 
 		if ($query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` CHANGE `meta_header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` CHANGE `meta_header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_description' AND COLUMN_NAME = 'header'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `name`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `name`");
 		}
 
         // Product Short Description
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_description' AND COLUMN_NAME = 'short_description'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
 		}
 
         // Product Main Category
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_to_category' AND COLUMN_NAME = 'main_category'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_to_category` ADD `main_category` tinyint(1) NOT NULL DEFAULT '0';");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_to_category` ADD `main_category` tinyint(1) NOT NULL DEFAULT '0'");
 		}
 
         // Product Related
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_related' AND COLUMN_NAME = 'route'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_related` ADD `route` tinyint(1) NOT NULL DEFAULT '0';");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_related` ADD `route` tinyint(1) NOT NULL DEFAULT '0'");
 		}
 
         // Review
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "review' AND COLUMN_NAME = 'reply'");
 
 		if (!$query->num_rows) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD `reply` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `text`;");
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD `reply` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `text`");
+		}
+
+		// Customer Search
+		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "customer_search' AND COLUMN_NAME = 'informations'");
+
+		if (!$query->num_rows) {
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer_search` ADD `informations` INT(11) NOT NULL AFTER `products`");
 		}
 	}
 }

@@ -1,10 +1,10 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.1
+ * @version    3.0.0.2
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
- * @license	   https://opensource.org/licenses/GPL-3.0
+ * @license    https://opensource.org/licenses/GPL-3.0
  * @link       http://optimlab.com
  */
 class ControllerInformationSearch extends Controller {
@@ -407,6 +407,7 @@ class ControllerInformationSearch extends Controller {
 					'category_id'   => $category_id,
 					'sub_category'  => $sub_category,
 					'description'   => $description,
+					'products'      => 0,
 					'informations'  => $information_total,
 					'customer_id'   => $customer_id,
 					'ip'            => $ip

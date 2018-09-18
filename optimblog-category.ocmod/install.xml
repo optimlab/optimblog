@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - category</name>
   <code>optimblog-category</code>
-  <version>3.0.0.1</version>
+  <version>3.0.0.2</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -1833,6 +1833,22 @@ $_['text_information']         = 'Статья: %s';
 				continue;
 			}
         ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+					'products'      => $product_total,
+        ]]></search>
+        <add position="after"><![CDATA[
+					'informations'  => 0,
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Account Search -->
+  <file path="catalog/model/account/search.php">
+  	  <operation error="skip">
+        <search><![CDATA[`products` = '" . (int)$data['products'] . "',]]></search>
+        <add position="replace"><![CDATA[`products` = '" . (int)$data['products'] . "', `informations` = '" . (int)$data['informations'] . "',]]></add>
       </operation>
   </file>
 

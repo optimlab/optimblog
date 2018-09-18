@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - admin</name>
   <code>optimblog-admin</code>
-  <version>3.0.0.1</version>
+  <version>3.0.0.2</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -3331,6 +3331,70 @@ $('input[name=\'information\']').autocomplete({
         <add position="before"><![CDATA[
     {% endif %}
         ]]></add>
+      </operation>
+  </file>
+
+  <!-- Report -->
+  <file path="admin/controller/extension/report/customer_search.php">
+      <operation error="skip">
+        <search><![CDATA[
+				'products'    => $result['products'],
+        ]]></search>
+        <add position="after"><![CDATA[
+				'informations' => $result['informations'],
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/en-gb/extension/report/customer_search.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Column
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['column_informations'] = 'Found Articles';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/language/ru-ru/extension/report/customer_search.php">
+      <operation error="skip">
+        <search><![CDATA[
+// Column
+        ]]></search>
+        <add position="after"><![CDATA[
+$_['column_informations'] = 'Найдено Статей';
+        ]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/model/extension/report/customer.php">
+      <operation error="skip">
+        <search><![CDATA[cs.products,]]></search>
+        <add position="replace"><![CDATA[cs.products, cs.informations,]]></add>
+      </operation>
+  </file>
+
+  <file path="admin/view/template/extension/report/customer_search_info.twig">
+      <operation error="skip">
+        <search><![CDATA[
+                <td class="text-left">{{ column_products }}</td>
+        ]]></search>
+        <add position="after"><![CDATA[
+                <td class="text-left">{{ column_informations }}</td>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+              <td class="text-left">{{ search.products }}</td>
+        ]]></search>
+        <add position="after"><![CDATA[
+              <td class="text-left">{{ search.informations }}</td>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[colspan="6"]]></search>
+        <add position="replace"><![CDATA[colspan="7"]]></add>
       </operation>
   </file>
 </modification>
