@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.2
+ * @version    3.0.0.3
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -15,6 +15,7 @@ $_['text_extension']                             = 'Расширения';
 $_['text_success']                               = 'Настройки OptimBlog успешно изменены!';
 $_['text_edit']                                  = 'Редактирование OptimBlog';
 $_['text_general']                               = 'Основное';
+$_['text_exclusion']                             = 'Исключение';
 $_['text_information']                           = 'Статьи';
 $_['text_view']                                  = 'Вид отображения';
 $_['text_sort']                                  = 'Сортировка';
@@ -30,6 +31,7 @@ $_['text_rating_desc']                           = 'Рейтинг (начина
 
 // Entry
 $_['entry_status']                               = 'Статус';
+$_['entry_information']                          = 'Статьи';
 $_['entry_information_limit']                    = 'Лимит статей (Витрина)';
 $_['entry_information_description_length']       = 'Количество символов (Витрина)';
 $_['entry_information_count']                    = 'Количество статей в категории';
@@ -58,7 +60,6 @@ $_['entry_width']                                = 'Ширина';
 $_['entry_height']                               = 'Высота';
 $_['entry_review']                               = 'Разрешить отзывы';
 $_['entry_review_guest']                         = 'Гостевой отзыв';
-$_['entry_review_information']                   = 'Статьи без отзывов';
 $_['entry_captcha']                              = 'Защита от роботов';
 
 // Tab
@@ -71,7 +72,7 @@ $_['help_information_limit']                     = 'Определяет, ско
 $_['help_information_description_length']        = 'Количество символов в кратком описании статьи в категории.';
 $_['help_review']                                = 'Включить/Отключить отзывы.';
 $_['help_review_guest']                          = 'Разрешить гостям оставлять отзывы.';
-$_['help_review_information']                    = '(Автозаполнение)';
+$_['help_exclusion_information']                 = '(Автозаполнение)';
 $_['help_information_count']                     = 'Показывает количество статей в подкатегориях в пользовательской части в верхнем меню. Осторожно!!! Данная настройка увеличивает нагрузку на сервер при большом количестве подкатегорий!';
 $_['help_captcha']                               = 'Включение защиты от роботов.';
 

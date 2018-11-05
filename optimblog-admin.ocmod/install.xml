@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - admin</name>
   <code>optimblog-admin</code>
-  <version>3.0.0.2</version>
+  <version>3.0.0.3</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -62,7 +62,7 @@
 		} elseif (!empty($category_info)) {
 			$data['information'] = $category_info['information'];
 		} else {
-			$data['information'] = isset($this->request->get['information']) ? $this->request->get['information'] : '';
+			$data['information'] = isset($this->request->get['filter_information']) ? $this->request->get['filter_information'] : '';
 		}
         ]]></add>
       </operation>
@@ -71,7 +71,7 @@
 				'filter_name' => $this->request->get['filter_name'],
         ]]></search>
         <add position="after"><![CDATA[
-				'information' => isset($this->request->get['information']) ? $this->request->get['information'] : 0,
+				'filter_information' => isset($this->request->get['filter_information']) ? $this->request->get['filter_information'] : 0,
         ]]></add>
       </operation>
       <operation error="skip">
@@ -79,8 +79,8 @@
 			$url = '';
         ]]></search>
         <add position="after"><![CDATA[
-		if (isset($this->request->get['information'])) {
-			$url .= '&information=' . $this->request->get['information'];
+		if (isset($this->request->get['filter_information'])) {
+			$url .= '&filter_information=' . $this->request->get['filter_information'];
 		}
         ]]></add>
       </operation>
@@ -106,8 +106,8 @@
 		}
 
 		$data['type_all'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . $url, true);
-		$data['type_product'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&information=0' . $url, true);
-		$data['type_information'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&information=1' . $url, true);
+		$data['type_product'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&filter_information=0' . $url, true);
+		$data['type_information'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&filter_information=1' . $url, true);
         ]]></add>
       </operation>
       <operation error="skip">
@@ -115,11 +115,7 @@
 		$category_total = $this->model_catalog_category->getTotalCategories();
         ]]></search>
         <add position="replace"><![CDATA[
-		if (isset($this->request->get['information'])) {
-			$category_total = $this->model_catalog_category->getTotalCategoriesByInformation($this->request->get['information']);
-		} else {
-			$category_total = $this->model_catalog_category->getTotalCategories();
-		}
+		$category_total = $this->model_catalog_category->getTotalCategories($filter_data);
         ]]></add>
       </operation>
       <operation error="skip">
@@ -127,10 +123,10 @@
 	protected function getList() {
         ]]></search>
         <add position="after"><![CDATA[
-		if (isset($this->request->get['information'])) {
-			$information = $this->request->get['information'];
+		if (isset($this->request->get['filter_information'])) {
+			$filter_information = $this->request->get['filter_information'];
 		} else {
-			$information = null;
+			$filter_information = '';
 		}
         ]]></add>
       </operation>
@@ -139,7 +135,7 @@
 			'order' => $order,
         ]]></search>
         <add position="after"><![CDATA[
-			'information' => $information,
+			'filter_information' => $filter_information,
         ]]></add>
       </operation>
       <operation error="skip">
@@ -155,7 +151,7 @@
 		$data['order'] = $order;
         ]]></search>
         <add position="after"><![CDATA[
-		$data['information'] = $information;
+		$data['filter_information'] = $filter_information;
         ]]></add>
       </operation>
   </file>
@@ -163,10 +159,20 @@
   <file path="admin/language/en-gb/catalog/category.php">
       <operation error="skip">
         <search><![CDATA[
+// Text
+        ]]></search>
+        <add  position="after"><![CDATA[
+$_['text_type_all']          = 'All';
+$_['text_type_product']      = 'Products';
+$_['text_type_information']  = 'Articles';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
 // Entry
         ]]></search>
         <add position="before"><![CDATA[
-$_['column_information']     = 'Type';
+$_['column_type']            = 'Type';
 
 // Button
 $_['button_type_category']   = 'Type Category';
@@ -180,9 +186,7 @@ $_['button_type_category']   = 'Type Category';
 $_['entry_header']            = 'Header';
 $_['entry_short_description'] = 'Short Description';
 $_['entry_information']       = 'Category of Articles';
-$_['entry_type']              = 'All';
-$_['entry_type_product']      = 'Products';
-$_['entry_type_information']  = 'Articles';
+$_['entry_type']              = 'Type';
         ]]></add>
       </operation>
       <operation error="skip">
@@ -199,10 +203,20 @@ $_['help_information']       = 'Category Type: Products or Articles. (Default - 
   <file path="admin/language/ru-ru/catalog/category.php">
       <operation error="skip">
         <search><![CDATA[
+// Text
+        ]]></search>
+        <add  position="after"><![CDATA[
+$_['text_type_all']          = 'Все';
+$_['text_type_product']      = 'Товары';
+$_['text_type_information']  = 'Статьи';
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
 // Entry
         ]]></search>
         <add position="before"><![CDATA[
-$_['column_information']     = 'Тип';
+$_['column_type']            = 'Тип';
 
 // Button
 $_['button_type_category']   = 'Тип категорий';
@@ -216,9 +230,7 @@ $_['button_type_category']   = 'Тип категорий';
 $_['entry_header']            = 'Заголовок';
 $_['entry_short_description'] = 'Краткое описание';
 $_['entry_information']       = 'Категория статей';
-$_['entry_type']              = 'Все';
-$_['entry_type_product']      = 'Товары';
-$_['entry_type_information']  = 'Статьи';
+$_['entry_type']              = 'Тип';
         ]]></add>
       </operation>
       <operation error="skip">
@@ -305,8 +317,8 @@ $_['help_information']       = 'Тип категории: Товары или �
 		$sql .= " GROUP BY cp.category_id";
         ]]></search>
         <add position="before"><![CDATA[
-		if (isset($data['information'])) {
-			$sql .= " AND c1.information = '" . (int)$data['information'] . "' AND c2.information = '" . (int)$data['information'] . "'";
+		if (isset($data['filter_information']) && $data['filter_information'] !== '') {
+			$sql .= " AND c1.information = '" . (int)$data['filter_information'] . "' AND c2.information = '" . (int)$data['filter_information'] . "'";
 		}
         ]]></add>
       </operation>
@@ -319,15 +331,23 @@ $_['help_information']       = 'Тип категории: Товары или �
         ]]></add>
       </operation>
       <operation error="skip">
+        <search><![CDATA[getTotalCategories()]]></search>
+        <add position="replace"><![CDATA[getTotalCategories($data = array())]]></add>
+      </operation>
+      <operation error="skip">
         <search><![CDATA[
-	public function getTotalCategoriesByLayoutId($layout_id) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category");
         ]]></search>
-        <add position="before"><![CDATA[
-	public function getTotalCategoriesByInformation($information) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category WHERE information = '" . (int)$information . "'");
+        <add position="replace"><![CDATA[
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category";
 
-		return $query->row['total'];
-	}
+		$sql .= " WHERE category_id != ''";
+
+		if (isset($data['filter_information']) && $data['filter_information'] !== '') {
+			$sql .= " AND information = '" . (int)$data['filter_information'] . "'";
+		}
+
+		$query = $this->db->query($sql);
         ]]></add>
       </operation>
   </file>
@@ -448,7 +468,7 @@ function addImage() {
 			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
         ]]></search>
         <add position="replace"><![CDATA[
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}{% if information %}&information=1{% endif %}&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}{% if information %}&filter_information=1{% endif %}&filter_name=' +  encodeURIComponent(request),
         ]]></add>
       </operation>
       <operation error="skip">
@@ -477,7 +497,8 @@ $(document).ready(function() {
 });
 //--></script>
         ]]></add>
-      </operation>  </file>
+      </operation>
+  </file>
 
   <file path="admin/view/template/catalog/category_list.twig">
       <operation error="skip">
@@ -487,20 +508,20 @@ $(document).ready(function() {
         <add position="replace"><![CDATA[
       <div class="pull-right">
         <div class="btn-group">
-          {% if information is not null %}
-          <span class="btn btn-default" data-toggle="tooltip" title="{{ information ? entry_type_information : entry_type_product }}">
-          {{ information ? '<i class="fa fa-file-text-o fa-fw"></i>' : '<i class="fa fa-shopping-cart fa-fw"></i>' }} 
+          {% if filter_information is not null %}
+          <span class="btn btn-default" data-toggle="tooltip" title="{{ filter_information ? text_type_information : text_type_product }}">
+          {{ filter_information ? '<i class="fa fa-file-text-o fa-fw"></i>' : '<i class="fa fa-shopping-cart fa-fw"></i>' }} 
           {% else %}
-          <span class="btn btn-default" data-toggle="tooltip" title="{{ entry_type }}">
+          <span class="btn btn-default" data-toggle="tooltip" title="{{ text_type_all }}">
             <i class="fa fa-list fa-fw"></i>
           {% endif %}
           </span>
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ button_type_category }} <span class="caret"></span></button>
           <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="{{ type_all }}"><i class="fa fa-list fa-fw"></i> {{ entry_type }}</a></li>
+            <li><a href="{{ type_all }}"><i class="fa fa-list fa-fw"></i> {{ text_type_all }}</a></li>
             <li class="divider"></li>
-            <li><a href="{{ type_product }}"><i class="fa fa-shopping-cart fa-fw"></i> {{ entry_type_product }}</a></li>
-            <li><a href="{{ type_information }}"><i class="fa fa-file-text-o fa-fw"></i> {{ entry_type_information }}</a></li>
+            <li><a href="{{ type_product }}"><i class="fa fa-shopping-cart fa-fw"></i> {{ text_type_product }}</a></li>
+            <li><a href="{{ type_information }}"><i class="fa fa-file-text-o fa-fw"></i> {{ text_type_information }}</a></li>
           </ul>
         </div>
         <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
@@ -521,9 +542,9 @@ $(document).ready(function() {
         ]]></search>
         <add position="before"><![CDATA[
                   <td class="text-right">{% if sort == 'information' %}
-                    <a href="{{ sort_information }}" class="{{ order|lower }}">{{ column_information }}</a>
+                    <a href="{{ sort_information }}" class="{{ order|lower }}">{{ column_type }}</a>
                     {% else %}
-                    <a href="{{ sort_information }}">{{ column_information }}</a>
+                    <a href="{{ sort_information }}">{{ column_type }}</a>
                     {% endif %}</td>
         ]]></add>
       </operation>
@@ -532,7 +553,7 @@ $(document).ready(function() {
                   <td class="text-right">{{ category.sort_order }}</td>
         ]]></search>
         <add position="before"><![CDATA[
-                  <td class="text-right">{{ category.information ? entry_type_information : entry_type_product }}</td>
+                  <td class="text-right">{{ category.information ? text_type_information : text_type_product }}</td>
         ]]></add>
       </operation>
   </file>
@@ -562,6 +583,14 @@ $(document).ready(function() {
 			$data['date_end'] = $information_info['date_end'];
 		} else {
 			$data['date_end'] = '2100-01-01 00:00:00';
+		}
+
+		if (isset($this->request->post['date_added'])) {
+			$data['date_added'] = $this->request->post['date_added'];
+		} elseif (!empty($information_info)) {
+			$data['date_added'] = $information_info['date_added'];
+		} else {
+			$data['date_added'] = date('Y-m-d H:i:s');
 		}
         ]]></add>
       </operation>
@@ -1157,7 +1186,7 @@ $_['help_related']              = '(Автозаполнение)';
       </operation>
       <operation error="skip">
         <search index="1"><![CDATA[status = '" . (int)$data['status'] . "']]></search>
-        <add position="replace"><![CDATA[manufacturer_id = '" . (int)$data['manufacturer_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', date_end = '" . $this->db->escape($data['date_end']) . "', date_modified = NOW(), status = '" . (int)$data['status'] . "']]></add>
+        <add position="replace"><![CDATA[manufacturer_id = '" . (int)$data['manufacturer_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', date_end = '" . $this->db->escape($data['date_end']) . "', date_added = '" . $this->db->escape($data['date_added']) . "',  date_modified = NOW(), status = '" . (int)$data['status'] . "']]></add>
       </operation>
       <operation error="skip">
         <search><![CDATA[
@@ -1594,6 +1623,16 @@ $_['help_related']              = '(Автозаполнение)';
         ]]></search>
         <add position="after"><![CDATA[
               <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-date-added">{{ entry_date_added }}</label>
+                <div class="col-sm-3">
+                  <div class="input-group datetime">
+                    <input type="text" name="date_added" value="{{ date_added }}" placeholder="{{ entry_date_added }}" data-date-format="YYYY-MM-DD HH:mm:ss" id="input-date-added" class="form-control" />
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                    </span></div>
+                </div>
+              </div>
+              <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-date-available">{{ entry_date_available }}</label>
                 <div class="col-sm-3">
                   <div class="input-group datetime">
@@ -1670,7 +1709,7 @@ $('input[name=\'manufacturer\']').autocomplete({
 $('input[name=\'category\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&information=1&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=1&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',
 			success: function(json) {
 				response($.map(json, function(item) {
@@ -2210,7 +2249,7 @@ $('#button-filter').on('click', function() {
 
 	var filter_status = $('select[name=\'filter_status\']').val();
 
-	if (filter_status !== '') {
+	if (filter_status != '') {
 		url += '&filter_status=' + encodeURIComponent(filter_status);
 	}
 

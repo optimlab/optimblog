@@ -179,15 +179,18 @@
                     </select>
                   </div>
                 </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_exclusion }}</legend>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-review-information"><span data-toggle="tooltip" title="{{ help_review_information }}">{{ entry_review_information }}</span></label>
+                  <label class="col-sm-2 control-label" for="input-exclusion-information"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_information }}</span></label>
                   <div class="col-sm-10">
-                    <input type="text" name="information_review_information" value="" placeholder="{{ entry_review_information }}" id="input-review-information" class="form-control" />
-                    <div id="information-without-review" class="well well-sm" style="height: 150px; overflow: auto;">
-                    {% for information_without_review in information_without_reviews %}
-                      <div id="information-without-review{{ information_without_review.information_id }}"><i class="fa fa-minus-circle"></i> 
-                        {{ information_without_review.title }}
-                        <input type="hidden" name="information_without_review[]" value="{{ information_without_review.information_id }}" />
+                    <input type="text" name="exclusion_informations" value="" placeholder="{{ entry_information }}" id="input-exclusion-information" class="form-control" />
+                    <div id="exclusion-information" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for information_exclusion in exclusion_informations %}
+                      <div id="exclusion-information{{ information_exclusion.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ information_exclusion.title }}
+                        <input type="hidden" name="information_exclusion[]" value="{{ information_exclusion.information_id }}" />
                       </div>
                     {% endfor %}
                     </div>
@@ -527,7 +530,7 @@
     </div>
   </div>
   <script type="text/javascript"><!--
-$('input[name=\'information_review_information\']').autocomplete({
+$('input[name=\'exclusion_informations\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
 			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
@@ -543,15 +546,15 @@ $('input[name=\'information_review_information\']').autocomplete({
 		});
 	},
 	'select': function(item) {
-		$('input[name=\'information_review_information\']').val('');
+		$('input[name=\'exclusion_informations\']').val('');
 
-		$('#information-without-review' + item['value']).remove();
+		$('#exclusion-information' + item['value']).remove();
 
-		$('#information-without-review').append('<div id="information-without-review' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="information_without_review[]" value="' + item['value'] + '" /></div>');
+		$('#exclusion-information').append('<div id="exclusion-information' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="information_exclusion[]" value="' + item['value'] + '" /></div>');
 	}
 });
 
-$('#information-without-review').delegate('.fa-minus-circle', 'click', function() {
+$('#exclusion-information').delegate('.fa-minus-circle', 'click', function() {
 	$(this).parent().remove();
 });
 

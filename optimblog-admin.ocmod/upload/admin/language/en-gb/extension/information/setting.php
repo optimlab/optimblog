@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.2
+ * @version    3.0.0.3
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -15,6 +15,7 @@ $_['text_extension']                             = 'Extensions';
 $_['text_success']                               = 'Success: You have modified the OptimBlog!';
 $_['text_edit']                                  = 'Edit OptimBlog';
 $_['text_general']                               = 'General';
+$_['text_exclusion']                             = 'Exclusion';
 $_['text_information']                           = 'Information';
 $_['text_view']                                  = 'View';
 $_['text_sort']                                  = 'Sort';
@@ -30,6 +31,7 @@ $_['text_rating_desc']                           = 'Rating (Highest)';
 
 // Entry
 $_['entry_status']                               = 'Status';
+$_['entry_information']                          = 'Articles';
 $_['entry_information_limit']                    = 'Default Items Per Page';
 $_['entry_information_description_length']       = 'List Description Limit';
 $_['entry_information_count']                    = 'Category Article Count';
@@ -58,7 +60,6 @@ $_['entry_width']                                = 'Width';
 $_['entry_height']                               = 'Height';
 $_['entry_review']                               = 'Allow Reviews';
 $_['entry_review_guest']                         = 'Allow Guest Reviews';
-$_['entry_review_information']                   = 'Articles Without Reviews';
 $_['entry_captcha']                              = 'Captcha';
 
 // Tab
@@ -71,7 +72,7 @@ $_['help_information_limit']                     = 'Determines how many articles
 $_['help_information_description_length']        = 'The number of characters in the short description of the article in the category.';
 $_['help_review']                                = 'Enable/Disable new review entry and display of existing reviews.';
 $_['help_review_guest']                          = 'Allow guests to post reviews.';
-$_['help_review_information']                    = '(Autocomplete)';
+$_['help_exclusion_information']                 = '(Autocomplete)';
 $_['help_information_count']                     = 'Show the number of articles inside the subcategories in the storefront header category menu. Be warned, this will cause an extreme performance hit for stores with a lot of subcategories!';
 $_['help_captcha']                               = 'Captcha to use for reviews.';
 

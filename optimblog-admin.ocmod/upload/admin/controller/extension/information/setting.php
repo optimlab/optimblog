@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.2
+ * @version    3.0.0.3
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -286,24 +286,26 @@ class ControllerExtensionInformationSetting extends Controller {
 			}
 		}
         
-		// Informations Without Reviews
-		if (isset($this->request->post['information_without_review'])) {
-			$informations = $this->request->post['information_without_review'];
+		// Exclusion Informations
+		if (isset($this->request->post['information_exclusion'])) {
+			$exclusion_informations = $this->request->post['information_exclusion'];
 		} elseif (isset($setting_info['information_without_review'])) {
-			$informations = $setting_info['information_without_review'];
+			$exclusion_informations = $setting_info['information_without_review'];
+		} elseif (isset($setting_info['information_exclusion'])) {
+			$exclusion_informations = $setting_info['information_exclusion'];
 		} else {
-			$informations = array();
+			$exclusion_informations = array();
 		}
 
-		$data['information_without_reviews'] = array();
+		$data['exclusion_informations'] = array();
 
         $this->load->model('catalog/information');
 
-		foreach ($informations as $information_id) {
+		foreach ($exclusion_informations as $information_id) {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
 
 			if ($information_info) {
-				$data['information_without_reviews'][] = array(
+				$data['exclusion_informations'][] = array(
 					'information_id' => $information_info['information_id'],
 					'title'          => $information_info['title']
 				);
