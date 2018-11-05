@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - admin</name>
   <code>optimblog-admin</code>
-  <version>3.0.0.3</version>
+  <version>3.0.0.4</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -71,7 +71,7 @@
 				'filter_name' => $this->request->get['filter_name'],
         ]]></search>
         <add position="after"><![CDATA[
-				'filter_information' => isset($this->request->get['filter_information']) ? $this->request->get['filter_information'] : 0,
+				'filter_information' => isset($this->request->get['filter_information']) ? $this->request->get['filter_information'] : '',
         ]]></add>
       </operation>
       <operation error="skip">
@@ -154,7 +154,26 @@
 		$data['filter_information'] = $filter_information;
         ]]></add>
       </operation>
-  </file>
+      <operation error="skip">
+        <search><![CDATA[
+		if (isset($this->request->get['category_id']) && $this->request->post['parent_id']) {
+        ]]></search>
+        <add position="before"><![CDATA[
+		if ($this->request->post['parent_id']) {
+			$results = $this->model_catalog_category->getCategoryPath($this->request->post['parent_id']);
+			
+			foreach ($results as $result) {
+				$path_info = $this->model_catalog_category->getCategory($result['path_id']);
+
+				if (($path_info['information'] && !isset($this->request->post['information'])) || (!$path_info['information'] && isset($this->request->post['information']))) {
+					$this->error['parent'] = $this->language->get('error_parent');
+					
+					break;
+				}
+			}
+		}
+        ]]></add>
+      </operation>  </file>
 
   <file path="admin/language/en-gb/catalog/category.php">
       <operation error="skip">
@@ -442,6 +461,14 @@ $_['help_information']       = 'Тип категории: Товары или �
         ]]></add>
       </operation>
       <operation error="skip">
+        <search><![CDATA[
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+        ]]></search>
+        <add position="replace"><![CDATA[
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}{% if information != '' %}&filter_information={{ information }}{% endif %}&filter_name=' +  encodeURIComponent(request),
+        ]]></add>
+      </operation>
+      <operation error="skip">
         <search index="2"><![CDATA[
   <script type="text/javascript"><!--
         ]]></search>
@@ -461,14 +488,6 @@ function addImage() {
 	image_row++;
 }
 //--></script> 
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
-        ]]></search>
-        <add position="replace"><![CDATA[
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}{% if information %}&filter_information=1{% endif %}&filter_name=' +  encodeURIComponent(request),
         ]]></add>
       </operation>
       <operation error="skip">

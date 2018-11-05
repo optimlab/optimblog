@@ -2,7 +2,7 @@
 <modification>
   <name> OptimBlog - admin : Filter Categories, Products and Informations</name>
   <code>optimblog-admin.filter-categories-products-informations</code>
-  <version>3.0.0.3</version>
+  <version>3.0.0.4</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -156,8 +156,10 @@ $_['entry_status']           = 'Status';
 		$sql .= " GROUP BY cp.category_id";
       ]]></search>
       <add position="before"><![CDATA[
-		if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+		if (!empty($data['filter_category_id'])) {
 			$sql .= " AND cp.category_id IN (SELECT `category_id` FROM `" . DB_PREFIX . "category_path` WHERE `path_id` = '" . (int)$data['filter_category_id'] . "')";
+		} elseif (isset($data['filter_category_id']) && $data['filter_category_id'] == '0') {
+			$sql .= " AND c1.parent_id = '" . (int)$data['filter_category_id'] . "'";
 		}
 
 		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
@@ -170,8 +172,10 @@ $_['entry_status']           = 'Status';
 		$sql .= " WHERE category_id != ''";
       ]]></search>
       <add position="after"><![CDATA[
-		if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
-			$sql .= " AND category_id IN (SELECT `category_id` FROM `" . DB_PREFIX . "category_path` WHERE `path_id` = '" . (int)$data['filter_category_id'] . "')";
+		if (!empty($data['filter_category_id'])) {
+			$sql .= " AND category_id IN (SELECT category_id FROM " . DB_PREFIX . "category_path WHERE path_id = '" . (int)$data['filter_category_id'] . "')";
+		} elseif (isset($data['filter_category_id']) && $data['filter_category_id'] == '0') {
+			$sql .= " AND parent_id = '" . (int)$data['filter_category_id'] . "'";
 		}
 
 		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
