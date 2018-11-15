@@ -2,7 +2,7 @@
 <modification>
   <name> OptimBlog - admin : Filter Categories, Products and Informations</name>
   <code>optimblog-admin.filter-categories-products-informations</code>
-  <version>3.0.0.4</version>
+  <version>3.0.0.5</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -580,10 +580,16 @@ $_['entry_category_filter']  = 'Category';
 		if (isset($data['filter_category_id']) && $data['filter_category_id'] === '0') {
 			$sql = "SELECT p.*, pd.*, m.name AS manufacturer, IF(p.product_id IS NULL, '', '') AS category FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.product_id NOT IN (SELECT p2c.product_id FROM " . DB_PREFIX . "product_to_category p2c)";
 		} else {
-			$sql = "SELECT p.*, pd.*, p2c.main_category, m.name AS manufacturer, IF(p2c.main_category = '1', (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id) WHERE cp.category_id = p2c.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id), '') AS category FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "category_description cd ON (p2c.category_id = cd.category_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND (cd.language_id = '" . (int)$this->config->get('config_language_id') . "' OR cd.language_id IS NULL) AND (p2c.main_category = (SELECT MAX(main_category) FROM " . DB_PREFIX . "product_to_category p2c2 WHERE p2c2.product_id = p.product_id) OR p2c.main_category IS NULL)";
+			$sql = "SELECT p.*, pd.*, p2c1.main_category, m.name AS manufacturer, IF(p2c1.main_category = '1', (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id) WHERE cp.category_id = p2c1.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id), '') AS category FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c1 ON (p.product_id = p2c1.product_id) LEFT JOIN " . DB_PREFIX . "category_description cd ON (p2c1.category_id = cd.category_id)";
 
 			if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
-				$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+				$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_category p2c2 ON (p.product_id = p2c2.product_id) ";
+			}
+
+			$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND (cd.language_id = '" . (int)$this->config->get('config_language_id') . "' OR cd.language_id IS NULL) AND (p2c1.main_category = (SELECT MAX(p2c2.main_category) FROM " . DB_PREFIX . "product_to_category p2c2 WHERE p2c2.product_id = p.product_id) OR p2c1.main_category IS NULL)";
+
+			if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+				$sql .= " AND p2c2.category_id = '" . (int)$data['filter_category_id'] . "'";
 			}
 		}
 
@@ -991,10 +997,16 @@ $_['entry_category_filter']  = 'Category';
 			if (isset($data['filter_category_id']) && $data['filter_category_id'] === '0') {
 				$sql = "SELECT i.*, id.*, m.name AS manufacturer, IF(i.information_id IS NULL, '', '') AS category FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (i.manufacturer_id = m.manufacturer_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND i.information_id NOT IN (SELECT i2c.information_id FROM " . DB_PREFIX . "information_to_category i2c)";
 			} else {
-				$sql = "SELECT i.*, id.*, i2c.main_category, m.name AS manufacturer, IF(i2c.main_category = '1', (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id) WHERE cp.category_id = i2c.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id), '') AS category FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (i.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "information_to_category i2c ON (i.information_id = i2c.information_id) LEFT JOIN " . DB_PREFIX . "category_description cd ON (i2c.category_id = cd.category_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND (cd.language_id = '" . (int)$this->config->get('config_language_id') . "' OR cd.language_id IS NULL) AND (i2c.main_category = (SELECT MAX(main_category) FROM " . DB_PREFIX . "information_to_category i2c2 WHERE i2c2.information_id = i.information_id) OR i2c.main_category IS NULL)";
+				$sql = "SELECT i.*, id.*, i2c1.main_category, m.name AS manufacturer, IF(i2c1.main_category = '1', (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id) WHERE cp.category_id = i2c1.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id), '') AS category FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (i.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "information_to_category i2c1 ON (i.information_id = i2c1.information_id) LEFT JOIN " . DB_PREFIX . "category_description cd ON (i2c1.category_id = cd.category_id)";
 
 				if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
-					$sql .= " AND i2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+					$sql .= " LEFT JOIN " . DB_PREFIX . "information_to_category i2c2 ON (i.information_id = i2c2.information_id) ";
+				}
+
+				$sql .= " WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND (cd.language_id = '" . (int)$this->config->get('config_language_id') . "' OR cd.language_id IS NULL) AND (i2c1.main_category = (SELECT MAX(i2c2.main_category) FROM " . DB_PREFIX . "information_to_category i2c2 WHERE i2c2.information_id = i.information_id) OR i2c1.main_category IS NULL)";
+
+				if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+					$sql .= " AND i2c2.category_id = '" . (int)$data['filter_category_id'] . "'";
 				}
 			}
 
