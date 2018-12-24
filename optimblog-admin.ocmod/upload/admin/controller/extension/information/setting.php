@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.3
+ * @version    3.0.0.5
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -287,6 +287,8 @@ class ControllerExtensionInformationSetting extends Controller {
 		}
         
 		// Exclusion Informations
+        $this->load->model('catalog/information');
+
 		if (isset($this->request->post['information_exclusion'])) {
 			$exclusion_informations = $this->request->post['information_exclusion'];
 		} elseif (isset($setting_info['information_without_review'])) {
@@ -299,8 +301,6 @@ class ControllerExtensionInformationSetting extends Controller {
 
 		$data['exclusion_informations'] = array();
 
-        $this->load->model('catalog/information');
-
 		foreach ($exclusion_informations as $information_id) {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
 
@@ -308,6 +308,177 @@ class ControllerExtensionInformationSetting extends Controller {
 				$data['exclusion_informations'][] = array(
 					'information_id' => $information_info['information_id'],
 					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_exclusion_information_author'])) {
+			$exclusion_informations_author = $this->request->post['information_exclusion_information_author'];
+		} elseif (isset($setting_info['information_exclusion_information_author'])) {
+			$exclusion_informations_author = $setting_info['information_exclusion_information_author'];
+		} else {
+			$exclusion_informations_author = array();
+		}
+
+		$data['exclusion_informations_author'] = array();
+
+		foreach ($exclusion_informations_author as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['exclusion_informations_author'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_exclusion_information_author'])) {
+			$exclusion_informations_author = $this->request->post['information_exclusion_information_author'];
+		} elseif (isset($setting_info['information_exclusion_information_author'])) {
+			$exclusion_informations_author = $setting_info['information_exclusion_information_author'];
+		} else {
+			$exclusion_informations_author = array();
+		}
+
+		$data['exclusion_informations_author'] = array();
+
+		foreach ($exclusion_informations_author as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['exclusion_informations_author'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_exclusion_information_date'])) {
+			$exclusion_informations_date = $this->request->post['information_exclusion_information_date'];
+		} elseif (isset($setting_info['information_exclusion_information_date'])) {
+			$exclusion_informations_date = $setting_info['information_exclusion_information_date'];
+		} else {
+			$exclusion_informations_date = array();
+		}
+
+		$data['exclusion_informations_date'] = array();
+
+		foreach ($exclusion_informations_date as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['exclusion_informations_date'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_exclusion_information_review'])) {
+			$exclusion_informations_review = $this->request->post['information_exclusion_information_review'];
+		} elseif (isset($setting_info['information_exclusion_information_review'])) {
+			$exclusion_informations_review = $setting_info['information_exclusion_information_review'];
+		} else {
+			$exclusion_informations_review = array();
+		}
+
+		$data['exclusion_informations_review'] = array();
+
+		foreach ($exclusion_informations_review as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['exclusion_informations_review'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_exclusion_information_manufacturer'])) {
+			$exclusion_informations_manufacturer = $this->request->post['information_exclusion_information_manufacturer'];
+		} elseif (isset($setting_info['information_exclusion_information_manufacturer'])) {
+			$exclusion_informations_manufacturer = $setting_info['information_exclusion_information_manufacturer'];
+		} else {
+			$exclusion_informations_manufacturer = array();
+		}
+
+		$data['exclusion_informations_manufacturer'] = array();
+
+		foreach ($exclusion_informations_manufacturer as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['exclusion_informations_manufacturer'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		// Exclusion Category
+        $this->load->model('catalog/category');
+
+		if (isset($this->request->post['information_exclusion_category_author'])) {
+			$exclusion_categories_author = $this->request->post['information_exclusion_category_author'];
+		} elseif (isset($setting_info['information_exclusion_category_author'])) {
+			$exclusion_categories_author = $setting_info['information_exclusion_category_author'];
+		} else {
+			$exclusion_categories_author = array();
+		}
+
+		$data['exclusion_categories_author'] = array();
+
+		foreach ($exclusion_categories_author as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['exclusion_categories_author'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_exclusion_category_date'])) {
+			$exclusion_categories_date = $this->request->post['information_exclusion_category_date'];
+		} elseif (isset($setting_info['information_exclusion_category_date'])) {
+			$exclusion_categories_date = $setting_info['information_exclusion_category_date'];
+		} else {
+			$exclusion_categories_date = array();
+		}
+
+		$data['exclusion_categories_date'] = array();
+
+		foreach ($exclusion_categories_date as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['exclusion_categories_date'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_exclusion_category_review'])) {
+			$exclusion_categories_review = $this->request->post['information_exclusion_category_review'];
+		} elseif (isset($setting_info['information_exclusion_category_review'])) {
+			$exclusion_categories_review = $setting_info['information_exclusion_category_review'];
+		} else {
+			$exclusion_categories_review = array();
+		}
+
+		$data['exclusion_categories_review'] = array();
+
+		foreach ($exclusion_categories_review as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['exclusion_categories_review'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
 				);
 			}
 		}

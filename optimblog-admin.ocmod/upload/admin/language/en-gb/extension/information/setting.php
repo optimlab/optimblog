@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.3
+ * @version    3.0.0.5
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -61,9 +61,19 @@ $_['entry_height']                               = 'Height';
 $_['entry_review']                               = 'Allow Reviews';
 $_['entry_review_guest']                         = 'Allow Guest Reviews';
 $_['entry_captcha']                              = 'Captcha';
+$_['entry_exclusion_information']                = 'Articles';
+$_['entry_exclusion_information_author']         = 'Show Author';
+$_['entry_exclusion_information_date']           = 'Show Date';
+$_['entry_exclusion_information_review']         = 'Show Reviews';
+$_['entry_exclusion_information_manufacturer']   = 'Show Manufacturer';
+$_['entry_category']                             = 'Categories';
+$_['entry_exclusion_category_author']            = 'Show Author';
+$_['entry_exclusion_category_date']              = 'Show Date';
+$_['entry_exclusion_category_review']            = 'Show Reviews';
 
 // Tab
 $_['tab_category']                               = 'Category';
+$_['tab_exclusion']                              = 'Exclusion';
 
 // Help
 $_['help_category_view']                         = 'Defines the layout of articles by displaying it on the category page.';
@@ -73,6 +83,7 @@ $_['help_information_description_length']        = 'The number of characters in 
 $_['help_review']                                = 'Enable/Disable new review entry and display of existing reviews.';
 $_['help_review_guest']                          = 'Allow guests to post reviews.';
 $_['help_exclusion_information']                 = '(Autocomplete)';
+$_['help_exclusion_category']                    = '(Autocomplete)';
 $_['help_information_count']                     = 'Show the number of articles inside the subcategories in the storefront header category menu. Be warned, this will cause an extreme performance hit for stores with a lot of subcategories!';
 $_['help_captcha']                               = 'Captcha to use for reviews.';
 

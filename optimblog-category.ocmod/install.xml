@@ -280,13 +280,34 @@
 				$data['order'] = $order;
 				$data['limit'] = $limit;
 
-                $data['sort_show'] = $this->config->get('information_category_sort_show');
-                $data['limit_show'] = $this->config->get('information_category_limit_show');
-                $data['view_show'] = $this->config->get('information_category_view_show');
-                $data['view'] = $this->config->get('information_category_view');
-                $data['author'] = $this->config->get('information_category_author');
-                $data['date'] = $this->config->get('information_category_date');
-                $data['review'] = $this->config->get('information_category_review');
+				$data['sort_show'] = $this->config->get('information_category_sort_show');
+				$data['limit_show'] = $this->config->get('information_category_limit_show');
+				$data['view_show'] = $this->config->get('information_category_view_show');
+				$data['view'] = $this->config->get('information_category_view');
+
+				if ($this->config->get('information_category_author') && !empty($this->config->get('information_exclusion_category_author')) && in_array($category_id, $this->config->get('information_exclusion_category_author'))) {
+					$data['show_author'] = false;
+				} elseif (!$this->config->get('information_category_author') && !empty($this->config->get('information_exclusion_category_author')) && in_array($category_id, $this->config->get('information_exclusion_category_author'))){
+					$data['show_author'] = true;
+				} else {
+					$data['show_author'] = $this->config->get('information_category_author');
+				}
+
+				if ($this->config->get('information_category_date') && !empty($this->config->get('information_exclusion_category_date')) && in_array($category_id, $this->config->get('information_exclusion_category_date'))) {
+					$data['show_date'] = false;
+				} elseif (!$this->config->get('information_category_date') && !empty($this->config->get('information_exclusion_category_date')) && in_array($category_id, $this->config->get('information_exclusion_category_date'))){
+					$data['show_date'] = true;
+				} else {
+					$data['show_date'] = $this->config->get('information_category_date');
+				}
+
+				if ($this->config->get('information_category_review') && !empty($this->config->get('information_exclusion_category_review')) && in_array($category_id, $this->config->get('information_exclusion_category_review'))) {
+					$data['show_review'] = false;
+				} elseif (!$this->config->get('information_category_review') && !empty($this->config->get('information_exclusion_category_review')) && in_array($category_id, $this->config->get('information_exclusion_category_review'))){
+					$data['show_review'] = true;
+				} else {
+					$data['show_review'] = $this->config->get('information_category_review');
+				}
             }
         ]]></add>
       </operation>
@@ -701,10 +722,6 @@ $_['button_block']      = 'На всю ширину';
 
 			$data['review_status'] = $this->config->get('information_review_status');
 
-			if ($data['review_status'] && !empty($this->config->get('information_exclusion')) && in_array($information_id, $this->config->get('information_exclusion'))) {
-				$data['review_status'] = false;
-			}
-
 			if ($this->config->get('information_review_guest') || $this->customer->isLogged()) {
 				$data['review_guest'] = true;
 			} else {
@@ -826,13 +843,47 @@ $_['button_block']      = 'На всю ширину';
 
 			$this->model_catalog_information->updateViewed($information_id);
 
-			$data['author_information_status'] = $this->config->get('information_information_author');
-			$data['date_information_status'] = $this->config->get('information_information_date');
-			$data['review_information_status'] = $this->config->get('information_information_review');
-			$data['manufacturer_information_status'] = $this->config->get('information_information_manufacturer');
-			$data['author_related'] = $this->config->get('information_category_author');
-			$data['date_related'] = $this->config->get('information_category_date');
-			$data['review_related'] = $this->config->get('information_category_review');
+			if (!empty($this->config->get('information_exclusion')) && in_array($information_id, $this->config->get('information_exclusion'))) {
+				$data['information_exclusion'] = true;
+			} else {
+				$data['information_exclusion'] = false;
+			}
+
+			if ($this->config->get('information_information_author') && !empty($this->config->get('information_exclusion_information_author')) && in_array($information_id, $this->config->get('information_exclusion_information_author'))) {
+				$data['show_author'] = false;
+			} elseif (!$this->config->get('information_information_author') && !empty($this->config->get('information_exclusion_information_author')) && in_array($information_id, $this->config->get('information_exclusion_information_author'))){
+				$data['show_author'] = true;
+			} else {
+				$data['show_author'] = $this->config->get('information_information_author');
+			}
+
+			if ($this->config->get('information_information_date') && !empty($this->config->get('information_exclusion_information_date')) && in_array($information_id, $this->config->get('information_exclusion_information_date'))) {
+				$data['show_date'] = false;
+			} elseif (!$this->config->get('information_information_date') && !empty($this->config->get('information_exclusion_information_date')) && in_array($information_id, $this->config->get('information_exclusion_information_date'))){
+				$data['show_date'] = true;
+			} else {
+				$data['show_date'] = $this->config->get('information_information_date');
+			}
+
+			if ($this->config->get('information_information_review') && !empty($this->config->get('information_exclusion_information_review')) && in_array($information_id, $this->config->get('information_exclusion_information_review'))) {
+				$data['show_review'] = false;
+			} elseif (!$this->config->get('information_information_review') && !empty($this->config->get('information_exclusion_information_review')) && in_array($information_id, $this->config->get('information_exclusion_information_review'))){
+				$data['show_review'] = true;
+			} else {
+				$data['show_review'] = $this->config->get('information_information_review');
+			}
+
+			if ($this->config->get('information_information_manufacturer') && !empty($this->config->get('information_exclusion_information_manufacturer')) && in_array($information_id, $this->config->get('information_exclusion_information_manufacturer'))) {
+				$data['show_manufacturer'] = false;
+			} elseif (!$this->config->get('information_information_manufacturer') && !empty($this->config->get('information_exclusion_information_manufacturer')) && in_array($information_id, $this->config->get('information_exclusion_information_manufacturer'))){
+				$data['show_manufacturer'] = true;
+			} else {
+				$data['show_manufacturer'] = $this->config->get('information_information_manufacturer');
+			}
+
+			$data['show_related_author'] = $this->config->get('information_category_author');
+			$data['show_related_date'] = $this->config->get('information_category_date');
+			$data['show_related_review'] = $this->config->get('information_category_review');
         ]]></add>
       </operation>
       <operation error="skip">

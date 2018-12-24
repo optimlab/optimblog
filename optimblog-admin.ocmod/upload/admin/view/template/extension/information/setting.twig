@@ -28,6 +28,7 @@
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
             <li><a href="#tab-category" data-toggle="tab">{{ tab_category }}</a></li>
+            <li><a href="#tab-exclusion" data-toggle="tab">{{ tab_exclusion }}</a></li>
             <li><a href="#tab-image" data-toggle="tab">{{ tab_image }}</a></li>
           </ul>
           <div class="tab-content">
@@ -177,23 +178,6 @@
                       {% endif %}
                       {% endfor %}
                     </select>
-                  </div>
-                </div>
-              </fieldset>
-              <fieldset>
-                <legend>{{ text_exclusion }}</legend>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-exclusion-information"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_information }}</span></label>
-                  <div class="col-sm-10">
-                    <input type="text" name="exclusion_informations" value="" placeholder="{{ entry_information }}" id="input-exclusion-information" class="form-control" />
-                    <div id="exclusion-information" class="well well-sm" style="height: 150px; overflow: auto;">
-                    {% for information_exclusion in exclusion_informations %}
-                      <div id="exclusion-information{{ information_exclusion.information_id }}"><i class="fa fa-minus-circle"></i> 
-                        {{ information_exclusion.title }}
-                        <input type="hidden" name="information_exclusion[]" value="{{ information_exclusion.information_id }}" />
-                      </div>
-                    {% endfor %}
-                    </div>
                   </div>
                 </div>
               </fieldset>
@@ -392,6 +376,129 @@
                 </div>
               </fieldset>
             </div>
+            <div class="tab-pane" id="tab-exclusion">
+              <fieldset>
+                <legend>{{ text_exclusion }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations" value="" placeholder="{{ entry_information }}" id="input-exclusion-information" class="form-control" />
+                    <div id="information-exclusion" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information in exclusion_informations %}
+                      <div id="information-exclusion{{ exclusion_information.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information.title }}
+                        <input type="hidden" name="information_exclusion[]" value="{{ exclusion_information.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_information }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-author"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_author }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_author" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-author" class="form-control" />
+                    <div id="information-exclusion-information-author" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_author in exclusion_informations_author %}
+                      <div id="information-exclusion-information-author{{ exclusion_information_author.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_author.title }}
+                        <input type="hidden" name="information_exclusion_information_author[]" value="{{ exclusion_information_author.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-date"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_date }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_date" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-date" class="form-control" />
+                    <div id="information-exclusion-information-date" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_date in exclusion_informations_date %}
+                      <div id="information-exclusion-information-date{{ exclusion_information_date.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_date.title }}
+                        <input type="hidden" name="information_exclusion_information_date[]" value="{{ exclusion_information_date.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-review"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_review }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_review" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-review" class="form-control" />
+                    <div id="information-exclusion-information-review" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_review in exclusion_informations_review %}
+                      <div id="information-exclusion-information-review{{ exclusion_information_review.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_review.title }}
+                        <input type="hidden" name="information_exclusion_information_review[]" value="{{ exclusion_information_review.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-manufacturer"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_manufacturer }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_manufacturer" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-manufacturer" class="form-control" />
+                    <div id="information-exclusion-information-manufacturer" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_manufacturer in exclusion_informations_manufacturer %}
+                      <div id="information-exclusion-information-manufacturer{{ exclusion_information_manufacturer.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_manufacturer.title }}
+                        <input type="hidden" name="information_exclusion_information_manufacturer[]" value="{{ exclusion_information_manufacturer.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_category }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-author"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_author }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_categories_author" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-author" class="form-control" />
+                    <div id="information-exclusion-category-author" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_category_author in exclusion_categories_author %}
+                      <div id="information-exclusion-category-author{{ exclusion_category_author.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_category_author.name }}
+                        <input type="hidden" name="information_exclusion_category_author[]" value="{{ exclusion_category_author.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-date"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_date }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_categories_date" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-date" class="form-control" />
+                    <div id="information-exclusion-category-date" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_category_date in exclusion_categories_date %}
+                      <div id="information-exclusion-category-date{{ exclusion_category_date.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_category_date.name }}
+                        <input type="hidden" name="information_exclusion_category_date[]" value="{{ exclusion_category_date.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-review"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_review }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_categories_review" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-review" class="form-control" />
+                    <div id="information-exclusion-category-review" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_category_review in exclusion_categories_review %}
+                      <div id="information-exclusion-category-review{{ exclusion_category_review.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_category_review.name }}
+                        <input type="hidden" name="information_exclusion_category_review[]" value="{{ exclusion_category_review.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
             <div class="tab-pane" id="tab-image">
               <fieldset>
                 <div class="form-group required">
@@ -530,7 +637,8 @@
     </div>
   </div>
   <script type="text/javascript"><!--
-$('input[name=\'exclusion_informations\']').autocomplete({
+// Information
+$('input[name^=\'exclusion_informations\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
 			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
@@ -546,18 +654,42 @@ $('input[name=\'exclusion_informations\']').autocomplete({
 		});
 	},
 	'select': function(item) {
-		$('input[name=\'exclusion_informations\']').val('');
+		$(this).val('');
 
-		$('#exclusion-information' + item['value']).remove();
+		$('#' + $(this).next().next().attr('id') + item['value']).remove();
 
-		$('#exclusion-information').append('<div id="exclusion-information' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="information_exclusion[]" value="' + item['value'] + '" /></div>');
+		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
 	}
 });
 
-$('#exclusion-information').delegate('.fa-minus-circle', 'click', function() {
-	$(this).parent().remove();
+// Category
+$('input[name^=\'exclusion_categories\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=1&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$(this).val('');
+
+		$('#' + $(this).next().next().attr('id') + item['value']).remove();
+
+		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
+	}
 });
 
+$('.well').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
 //--></script> 
 </div>
 {{ footer }}

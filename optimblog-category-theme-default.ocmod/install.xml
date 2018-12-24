@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - category Default Theme </name>
   <code>optimblog-category-theme-default</code>
-  <version>3.0.0.3</version>
+  <version>3.0.0.5</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -71,15 +71,15 @@
             {% endif %}
             <div class="caption media-body">
               <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
-              {% if author or date or review %}
+              {% if show_author or show_date or show_review %}
               <ul class="list-inline text-muted small">
-                {% if date %}
+                {% if show_date %}
                 <li>{{ information.date_added }}</li>
                 {% endif %}
-                {% if author %}
+                {% if show_author %}
                 <li>{{ information.author }}</li>
                 {% endif %}
-                {% if review %}
+                {% if show_review %}
                 <li>{{ information.reviews }}</li>
                 {% endif %}
                 {% if information.rating %}
@@ -111,25 +111,23 @@
       <operation error="skip">
         <search><![CDATA[{{ heading_title }}]]></search>
         <add position="after"><![CDATA[
-      {% if review_status %}
+      {% if not information_exclusion %}
       <ul class="list-inline text-muted">
-        {% if author_information_status or date_information_status or review_information_status or manufacturer_information_status %}
-        {% if date_information_status %}
+        {% if show_date %}
         <li>{{ date_added }}</li>
         {% endif %}
-        {% if author_information_status %}
+        {% if show_author %}
         <li>{{ author }}</li>
         {% endif %}
-        {% if review_information_status %}
-        <li><a href="" onclick="$('html, body').animate({ scrollTop: $('#review').offset().top }, 'slow'); return false;">{{ reviews }}</a></li>
-        {% endif %}
-        {% endif %}
-        {% if manufacturer and manufacturer_information_status %}
+        {% if manufacturer and show_manufacturer %}
         <li>{{ text_manufacturer }} <a href="{{ manufacturers }}">{{ manufacturer }}</a></li>
         {% endif %}
+        {% if show_review %}
+        <li><a href="" onclick="$('html, body').animate({ scrollTop: $('#review').offset().top }, 'slow'); return false;">{{ reviews }}</a></li>
         <li class="rating">{% for i in 1..5 %}
           {% if rating < i %}<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>{% else %}<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>{% endif %}
           {% endfor %}</li>
+        {% endif %}
       </ul>
       {% endif %}
       {% if thumb or images %}
@@ -167,10 +165,12 @@
         </table>
       </div>
       {% endif %}
-      {% if review_status %}
+      {% if show_review and not information_exclusion %}
+      <h3>{{ text_review }}</h3>
+      <div id="review"></div>
+      {% endif %}
+      {% if review_status and not information_exclusion %}
       <form class="form-horizontal" id="form-review">
-        <h3>{{ text_review }}</h3>
-        <div id="review"></div>
         <h4>{{ text_write }}</h4>
         {% if review_guest %}
         <div class="form-group required">
