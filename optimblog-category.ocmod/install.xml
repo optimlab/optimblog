@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - category</name>
   <code>optimblog-category</code>
-  <version>3.0.0.3</version>
+  <version>3.0.0.5</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -701,7 +701,7 @@ $_['button_block']      = 'На всю ширину';
 
 			$data['review_status'] = $this->config->get('information_review_status');
 
-			if ($data['review_status'] && !empty($this->config->get('information_without_review')) && in_array($information_id, $this->config->get('information_without_review'))) {
+			if ($data['review_status'] && !empty($this->config->get('information_exclusion')) && in_array($information_id, $this->config->get('information_exclusion'))) {
 				$data['review_status'] = false;
 			}
 
@@ -1862,6 +1862,18 @@ $_['text_information']         = 'Статья: %s';
 			if ($category['information']) {
 				continue;
 			}
+        ]]></add>
+      </operation>
+  </file>
+
+  <!-- Seo Url -->
+  <file path="catalog/controller/startup/seo_url.php">
+      <operation error="skip">
+        <search><![CDATA[
+				} elseif (isset($this->request->get['path'])) {
+        ]]></search>
+        <add position="replace"><![CDATA[
+				} elseif (isset($this->request->get['path']) && !isset($this->request->get['information_id'])) {
         ]]></add>
       </operation>
   </file>
