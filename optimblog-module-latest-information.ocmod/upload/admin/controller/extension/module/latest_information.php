@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.2
+ * @version    3.0.0.5
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -158,6 +158,30 @@ class ControllerExtensionModuleLatestInformation extends Controller {
 			$data['height'] = $module_info['height'];
 		} else {
 			$data['height'] = 200;
+		}
+
+		if (isset($this->request->post['author'])) {
+			$data['author'] = $this->request->post['author'];
+		} elseif (!empty($module_info)) {
+			$data['author'] = $module_info['author'];
+		} else {
+			$data['author'] = '';
+		}
+
+		if (isset($this->request->post['date'])) {
+			$data['date'] = $this->request->post['date'];
+		} elseif (!empty($module_info)) {
+			$data['date'] = $module_info['date'];
+		} else {
+			$data['date'] = '';
+		}
+
+		if (isset($this->request->post['review'])) {
+			$data['review'] = $this->request->post['review'];
+		} elseif (!empty($module_info)) {
+			$data['review'] = $module_info['review'];
+		} else {
+			$data['review'] = '';
 		}
 
 		if (isset($this->request->post['status'])) {

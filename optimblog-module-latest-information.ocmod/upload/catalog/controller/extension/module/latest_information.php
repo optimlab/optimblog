@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.2
+ * @version    3.0.0.5
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -59,9 +59,9 @@ class ControllerExtensionModuleLatestInformation extends Controller {
 				$data['heading_title'] = html_entity_decode($setting['title'][$this->config->get('config_language_id')]);
 			}
 
-			$data['author'] = $this->config->get('information_category_author');
-			$data['date'] = $this->config->get('information_category_date');
-			$data['review'] = $this->config->get('information_category_review');
+			$data['author'] = $setting['author'];
+			$data['date'] = $setting['date'];
+			$data['review'] = $setting['review'];
 
 			return $this->load->view('extension/module/latest_information', $data);
 		}

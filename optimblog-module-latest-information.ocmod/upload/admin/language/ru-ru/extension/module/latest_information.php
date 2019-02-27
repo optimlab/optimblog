@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.2
+ * @version    3.0.0.5
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -22,6 +22,9 @@ $_['entry_category']   = 'Категория';
 $_['entry_limit']      = 'Лимит';
 $_['entry_width']      = 'Ширина';
 $_['entry_height']     = 'Высота';
+$_['entry_author']     = 'Автор';
+$_['entry_date']       = 'Дата';
+$_['entry_review']     = 'Отзыв';
 $_['entry_status']     = 'Статус';
 
 // Help
