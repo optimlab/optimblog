@@ -5,7 +5,7 @@
   <version>3.0.0.5</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
-  
+
   <!-- Category -->
   <file path="catalog/view/theme/*/template/product/category.twig">
       <operation error="skip">
@@ -74,13 +74,13 @@
               {% if show_author or show_date or show_review %}
               <ul class="list-inline text-muted small">
                 {% if show_date %}
-                <li>{{ information.date_added }}</li>
+                <li><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ information.date_added }}</li>
                 {% endif %}
                 {% if show_author %}
-                <li>{{ information.author }}</li>
+                <li><i class="fa fa-user-o" aria-hidden="true"></i> {{ information.author }}</li>
                 {% endif %}
                 {% if show_review %}
-                <li>{{ information.reviews }}</li>
+                <li><i class="fa fa-comment-o" aria-hidden="true"></i> {{ information.reviews }}</li>
                 {% endif %}
                 {% if information.rating %}
                 <li class="rating"> {% for i in 1..5 %}
@@ -114,16 +114,16 @@
       {% if not information_exclusion %}
       <ul class="list-inline text-muted">
         {% if show_date %}
-        <li>{{ date_added }}</li>
+        <li><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ date_added }}</li>
         {% endif %}
         {% if show_author %}
-        <li>{{ author }}</li>
+        <li><i class="fa fa-user-o" aria-hidden="true"></i> {{ author }}</li>
         {% endif %}
         {% if manufacturer and show_manufacturer %}
         <li>{{ text_manufacturer }} <a href="{{ manufacturers }}">{{ manufacturer }}</a></li>
         {% endif %}
         {% if show_review %}
-        <li><a href="" onclick="$('html, body').animate({ scrollTop: $('#review').offset().top }, 'slow'); return false;">{{ reviews }}</a></li>
+        <li><a href="" onclick="$('html, body').animate({ scrollTop: $('#review').offset().top }, 'slow'); return false;"><i class="fa fa-comment-o" aria-hidden="true"></i> {{ reviews }}</a></li>
         <li class="rating">{% for i in 1..5 %}
           {% if rating < i %}<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>{% else %}<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>{% endif %}
           {% endfor %}</li>
@@ -250,13 +250,13 @@
               {% if author_related or date_related or review_related %}
               <ul class="list-inline text-muted small">
                 {% if date_related %}
-                <li>{{ information.date_added }}</li>
+                <li><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ information.date_added }}</li>
                 {% endif %}
                 {% if author_related %}
-                <li>{{ information.author }}</li>
+                <li><i class="fa fa-user-o" aria-hidden="true"></i> {{ information.author }}</li>
                 {% endif %}
                 {% if review_related %}
-                <li>{{ information.reviews }}</li>
+                <li><i class="fa fa-comment-o" aria-hidden="true"></i> {{ information.reviews }}</li>
                 {% endif %}
                 {% if information.rating %}
                 <li class="rating"> {% for j in 1..5 %}
@@ -416,13 +416,13 @@ $(document).ready(function() {
               {% if author_related or date_related or review_related %}
               <ul class="list-inline text-muted small">
                 {% if date_related %}
-                <li>{{ information.date_added }}</li>
+                <li><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ information.date_added }}</li>
                 {% endif %}
                 {% if author_related %}
-                <li>{{ information.author }}</li>
+                <li><i class="fa fa-user-o" aria-hidden="true"></i> {{ information.author }}</li>
                 {% endif %}
                 {% if review_related %}
-                <li>{{ information.reviews }}</li>
+                <li><i class="fa fa-comment-o" aria-hidden="true"></i> {{ information.reviews }}</li>
                 {% endif %}
                 {% if information.rating %}
                 <li class="rating"> {% for j in 1..5 %}

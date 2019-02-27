@@ -141,8 +141,8 @@
 						'title'          => $result['title'],
 						'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_description_length')) . '..',
 						'user_id'        => $result['user_id'],
-						'author'         => sprintf($this->language->get('text_author'), $result['author']),
-						'date_added'     => sprintf($this->language->get('text_date_added'), date($this->language->get('date_format_short'), strtotime($result['date_added']))),
+						'author'         => $result['author'],
+						'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 						'reviews'        => sprintf($this->language->get('text_review'), $result['reviews']),
 						'rating'         => $result['rating'],
 						'href'           => $this->url->link('information/information', 'path=' . $this->request->get['path'] . '&information_id=' . $result['information_id'] . $url)
@@ -338,9 +338,7 @@
 $_['text_read']         = 'Read..';
 $_['text_date_asc']     = 'Date (Old)';
 $_['text_date_desc']    = 'Date (Last)';
-$_['text_review']       = '<i class="fa fa-comment-o" aria-hidden="true"></i> Reviews (%s)';
-$_['text_author']       = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_date_added']   = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
+$_['text_review']       = 'Reviews (%s)';
         ]]></add>
       </operation>
       <operation error="skip">
@@ -363,10 +361,7 @@ $_['button_block']      = 'Block';
 $_['text_read']         = 'Подробнее..';
 $_['text_date_asc']     = 'Дате (начиная с давней)';
 $_['text_date_desc']    = 'Дате (начиная с последней)';
-$_['text_review']       = '<i class="fa fa-comment-o" aria-hidden="true"></i> Отзывов (%s)';
-$_['text_author']       = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_date_added']   = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
-
+$_['text_review']       = 'Отзывов (%s)';
         ]]></add>
       </operation>
       <operation error="skip">
@@ -689,8 +684,8 @@ $_['button_block']      = 'На всю ширину';
 			$data['text_review'] = sprintf($this->language->get('text_review'), $information_info['reviews']);
 
 			$data['information_id'] = $information_id;
-			$data['author'] = sprintf($this->language->get('text_author'), $information_info['author']);
-			$data['date_added'] = sprintf($this->language->get('text_date_added'), date($this->language->get('date_format_information'), strtotime($information_info['date_added'])));
+			$data['author'] = $information_info['author'];
+			$data['date_added'] = date($this->language->get('date_format_information'), strtotime($information_info['date_added']));
 			$data['manufacturer'] = $information_info['manufacturer'];
 			$data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $information_info['manufacturer_id']);
 			$data['description'] = html_entity_decode($information_info['description'], ENT_QUOTES, 'UTF-8');
@@ -771,8 +766,8 @@ $_['button_block']      = 'На всю ширину';
 					'title'          => $result['title'],
 					'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_description_length')) . '..',
 					'user_id'        => $result['user_id'],
-					'author'         => sprintf($this->language->get('text_related_author'), $result['author']),
-					'date_added'     => sprintf($this->language->get('text_related_date_added'), date($this->language->get('date_format_short'), strtotime($result['date_added']))),
+					'author'         => $result['author'],
+					'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 					'reviews'        => sprintf($this->language->get('text_related_reviews'), $result['reviews']),
 					'rating'         => $result['rating'],
 					'href'           => $this->url->link('information/information', 'information_id=' . $result['information_id'])
@@ -1044,9 +1039,6 @@ $_['text_search']             = 'Search';
 $_['text_brand']              = 'Brand';
 $_['text_manufacturer']       = 'Manufacturer:';
 $_['text_attribute']          = 'Attribute';
-$_['text_author']             = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_date_added']         = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
-$_['text_reviews']            = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s reviews';
 $_['text_review']             = 'Reviews (%s)';
 $_['text_reviews']            = '%s reviews';
 $_['text_write']              = 'Write a review';
@@ -1056,9 +1048,7 @@ $_['text_note']               = '<span class="text-danger">Note:</span> HTML is 
 $_['text_success']            = 'Thank you for your review. It has been submitted to the webmaster for approval.';
 $_['text_related']            = 'Related Articles';
 $_['text_related_product']    = 'Related Products';
-$_['text_related_author']     = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_related_date_added'] = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
-$_['text_related_reviews']    = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s reviews';
+$_['text_related_reviews']    = '%s reviews';
 $_['text_read']               = 'Read..';
 $_['text_tags']               = 'Tags:';
         ]]></add>
@@ -1098,10 +1088,8 @@ $_['text_search']             = 'Поиск';
 $_['text_brand']              = 'Производитель';
 $_['text_manufacturer']       = 'Производитель:';
 $_['text_attribute']          = 'Характеристики';
-$_['text_author']             = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_date_added']         = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
-$_['text_reviews']            = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s отзывов';
 $_['text_review']             = 'Отзывы (%s)';
+$_['text_reviews']            = '%s отзывов';
 $_['text_write']              = 'Написать отзыв';
 $_['text_login']              = 'Пожалуйста <a href="%s">авторизируйтесь</a> или <a href="%s">создайте учетную запись</a> перед тем как написать отзыв';
 $_['text_no_reviews']         = 'Нет отзывов о данной статье.';
@@ -1109,11 +1097,9 @@ $_['text_note']               = '<span style="color: #FF0000;">Примечан�
 $_['text_success']            = 'Спасибо за ваш отзыв. Он поступил администратору для проверки на спам и вскоре будет опубликован.';
 $_['text_related']            = 'Рекомендуемые статьи';
 $_['text_related_product']    = 'Рекомендуемые товары';
-$_['text_related_author']     = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_related_date_added'] = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
-$_['text_related_reviews']    = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s отзывов';
+$_['text_related_reviews']    = '%s отзывов';
 $_['text_read']               = 'Подробнее..';
-$_['text_tags']               = '<i class="fa fa-tags"></i>';
+$_['text_tags']               = 'Теги:';
         ]]></add>
       </operation>
       <operation error="skip">
@@ -1595,8 +1581,8 @@ $_['date_format_long']        = 'd.m.Y H:i:s';
 					'title'          => $result['title'],
 					'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_description_length')) . '..',
 					'user_id'        => $result['user_id'],
-					'author'         => sprintf($this->language->get('text_related_author'), $result['author']),
-					'date_added'     => sprintf($this->language->get('text_related_date_added'), date($this->language->get('date_format_short'), strtotime($result['date_added']))),
+					'author'         => $result['author'],
+					'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 					'reviews'        => sprintf($this->language->get('text_related_reviews'), $result['reviews']),
 					'rating'         => $result['rating'],
 					'href'           => $this->url->link('information/information', 'information_id=' . $result['information_id'])
@@ -1625,9 +1611,7 @@ $_['date_format_long']        = 'd.m.Y H:i:s';
         ]]></search>
         <add position="before"><![CDATA[
 $_['text_related_information'] = 'Related Articles';
-$_['text_related_author']      = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_related_date_added']  = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
-$_['text_related_reviews']     = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s reviews';
+$_['text_related_reviews']     = '%s reviews';
 $_['text_read']                = 'Read..';
         ]]></add>
       </operation>
@@ -1640,9 +1624,7 @@ $_['text_read']                = 'Read..';
         ]]></search>
         <add position="before"><![CDATA[
 $_['text_related_information'] = 'Рекомендуемые статьи';
-$_['text_related_author']      = '<i class="fa fa-user-o" aria-hidden="true"></i> %s';
-$_['text_related_date_added']  = '<i class="fa fa-calendar-o" aria-hidden="true"></i> %s';
-$_['text_related_reviews']     = '<i class="fa fa-comment-o" aria-hidden="true"></i> %s отзывов';
+$_['text_related_reviews']     = '%s отзывов';
 $_['text_read']                = 'Подробнее..';
         ]]></add>
       </operation>
