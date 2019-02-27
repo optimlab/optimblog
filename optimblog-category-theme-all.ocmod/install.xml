@@ -247,15 +247,15 @@
             <div class="image"><a href="{{ information.href }}"><img src="{{ information.thumb }}" alt="{{ information.name }}" title="{{ information.name }}" class="img-responsive" /></a></div>
             <div class="caption">
               <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
-              {% if author_related or date_related or review_related %}
+              {% if show_related_author or show_related_date or show_related_review %}
               <ul class="list-inline text-muted small">
-                {% if date_related %}
+                {% if show_related_date %}
                 <li><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ information.date_added }}</li>
                 {% endif %}
-                {% if author_related %}
+                {% if show_related_author %}
                 <li><i class="fa fa-user-o" aria-hidden="true"></i> {{ information.author }}</li>
                 {% endif %}
-                {% if review_related %}
+                {% if show_related_review %}
                 <li><i class="fa fa-comment-o" aria-hidden="true"></i> {{ information.reviews }}</li>
                 {% endif %}
                 {% if information.rating %}
@@ -413,15 +413,15 @@ $(document).ready(function() {
             <div class="image"><a href="{{ information.href }}"><img src="{{ information.thumb }}" alt="{{ information.name }}" title="{{ information.name }}" class="img-responsive" /></a></div>
             <div class="caption">
               <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
-              {% if author_related or date_related or review_related %}
+              {% if show_related_author or show_related_date or show_related_review %}
               <ul class="list-inline text-muted small">
-                {% if date_related %}
+                {% if show_related_date %}
                 <li><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ information.date_added }}</li>
                 {% endif %}
-                {% if author_related %}
+                {% if show_related_author %}
                 <li><i class="fa fa-user-o" aria-hidden="true"></i> {{ information.author }}</li>
                 {% endif %}
-                {% if review_related %}
+                {% if show_related_review %}
                 <li><i class="fa fa-comment-o" aria-hidden="true"></i> {{ information.reviews }}</li>
                 {% endif %}
                 {% if information.rating %}

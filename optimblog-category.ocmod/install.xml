@@ -1589,9 +1589,9 @@ $_['date_format_long']        = 'd.m.Y H:i:s';
 				);
 			}
 
-			$data['author_related'] = $this->config->get('information_category_author');
-			$data['date_related'] = $this->config->get('information_category_date');
-			$data['review_related'] = $this->config->get('information_category_review');
+			$data['show_related_author'] = $this->config->get('information_category_author');
+			$data['show_related_date'] = $this->config->get('information_category_date');
+			$data['show_related_review'] = $this->config->get('information_category_review');
         ]]></add>
       </operation>
       <operation error="skip">
