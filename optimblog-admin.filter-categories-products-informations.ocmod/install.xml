@@ -2,7 +2,7 @@
 <modification>
   <name> OptimBlog - admin : Filter Categories, Products and Informations</name>
   <code>optimblog-admin.filter-categories-products-informations</code>
-  <version>3.0.0.5</version>
+  <version>3.0.0.6</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -759,7 +759,7 @@ $('input[name=\'filter_manufacturer\']').keyup(function() {
 $('input[name=\'filter_category\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=0&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',			
 			success: function(json) {
 				json.unshift({
