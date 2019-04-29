@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.5
+ * @version    3.0.0.7
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -52,6 +52,18 @@ class ModelExtensionInformationSetting extends Model {
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
+		}
+
+		// Category Description Upgrade
+		$field_query = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "category_description`");
+
+		foreach ($field_query->rows as $field) {
+			if ($field['Field'] == 'header' && $field_name != 'name') {
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` CHANGE `header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `name`");
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` CHANGE `short_description` `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
+			}
+
+			$field_name = $field['Field'];
 		}
 
 		// Information Image
@@ -151,28 +163,41 @@ class ModelExtensionInformationSetting extends Model {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `title`");
 		}
 
-        // Information Short Description
+		// Information Short Description
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'short_description'");
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
 		}
 
-        // Information Description Type
+		// Information Description Type
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'description' AND COLUMN_TYPE = 'text'");
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 
-        // Information Tag
+		// Information Tag
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "information_description' AND COLUMN_NAME = 'tag'");
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `tag` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `description`");
 		}
 
-        // Information Filter
+		// Information Description Upgrade
+		$field_query = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "information_description`");
+
+		foreach ($field_query->rows as $field) {
+			if ($field['Field'] == 'header' && $field_name != 'title') {
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `title`");
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `short_description` `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
+                $this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` CHANGE `tag` `tag` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `description`");
+			}
+
+			$field_name = $field['Field'];
+		}
+
+		// Information Filter
         $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_filter` (
 				`information_id` int(11) NOT NULL,
@@ -181,31 +206,31 @@ class ModelExtensionInformationSetting extends Model {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 		");
 
-        // Information Images
-        $this->db->query("
+		// Information Images
+		$this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_image` (
 				`information_image_id` int(11) NOT NULL AUTO_INCREMENT,
-                `information_id` int(11) NOT NULL,
-                `image` varchar(255) DEFAULT NULL,
-                `sort_order` int(3) NOT NULL DEFAULT '0',
+				`information_id` int(11) NOT NULL,
+				`image` varchar(255) DEFAULT NULL,
+				`sort_order` int(3) NOT NULL DEFAULT '0',
 				PRIMARY KEY (`information_image_id`),
-                KEY `information_id` (`information_id`)
+				KEY `information_id` (`information_id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 		");
 
-        // Information File
-        $this->db->query("
-			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_file` (
-				`information_file_id` int(11) NOT NULL AUTO_INCREMENT,
-                `information_id` int(11) NOT NULL,
-                `file` varchar(255) DEFAULT NULL,
-                `sort_order` int(3) NOT NULL DEFAULT '0',
-				PRIMARY KEY (`information_file_id`),
-                KEY `information_id` (`information_id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-		");
+		// Information File
+//		$this->db->query("
+//			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_file` (
+//				`information_file_id` int(11) NOT NULL AUTO_INCREMENT,
+//                `information_id` int(11) NOT NULL,
+//                `file` varchar(255) DEFAULT NULL,
+//                `sort_order` int(3) NOT NULL DEFAULT '0',
+//				PRIMARY KEY (`information_file_id`),
+//                KEY `information_id` (`information_id`)
+//			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+//		");
 
-        // Information Related
+		// Information Related
         $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_related` (
 				`information_id` int(11) NOT NULL,
@@ -215,8 +240,8 @@ class ModelExtensionInformationSetting extends Model {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 		");
 
-        // Information Product Related
-        $this->db->query("
+		// Information Product Related
+		$this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_product_related` (
 				`information_id` int(11) NOT NULL,
                 `product_id` int(11) NOT NULL,
@@ -225,8 +250,8 @@ class ModelExtensionInformationSetting extends Model {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 		");
 
-        // Information To Category
-        $this->db->query("
+		// Information To Category
+		$this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_to_category` (
 				`information_id` int(11) NOT NULL,
                 `category_id` int(11) NOT NULL,
@@ -308,6 +333,18 @@ class ModelExtensionInformationSetting extends Model {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` ADD `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
 		}
 
+		// Product Description Upgrade
+		$field_query = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "product_description`");
+
+		foreach ($field_query->rows as $field) {
+			if ($field['Field'] == 'header' && $field_name != 'name') {
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` CHANGE `header` `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `name`");
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` CHANGE `short_description` `short_description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `header`");
+			}
+
+			$field_name = $field['Field'];
+		}
+
         // Product Main Category
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_to_category' AND COLUMN_NAME = 'main_category'");
 
@@ -322,11 +359,37 @@ class ModelExtensionInformationSetting extends Model {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_related` ADD `route` tinyint(1) NOT NULL DEFAULT '0'");
 		}
 
-        // Review
+        // Review Reply
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "review' AND COLUMN_NAME = 'reply'");
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD `reply` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `text`");
+		}
+
+		// Review Upgrade
+		$field_query = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "review`");
+
+		foreach ($field_query->rows as $field) {
+			if ($field['Field'] == 'information_id' && $field_name != 'product_id') {
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` CHANGE `information_id` `information_id` int(11) NOT NULL AFTER `product_id`");
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` CHANGE `reply` `reply` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `text`");
+			}
+
+			$field_name = $field['Field'];
+		}
+        
+		$key_information_id = false;
+
+		$query = $this->db->query("SHOW INDEXES FROM `" . DB_PREFIX . "review`");
+        
+		foreach ($query->rows as $result) {
+			if ($result['Key_name'] == 'information_id' && $result['Column_name'] == 'information_id') {
+				$key_information_id = true;
+			}
+		}
+
+		if (!$key_information_id) {
+			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD KEY `information_id` (`information_id`)");
 		}
 
 		// Customer Search
@@ -334,6 +397,17 @@ class ModelExtensionInformationSetting extends Model {
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer_search` ADD `informations` INT(11) NOT NULL AFTER `products`");
+		}
+
+		// Customer Search Upgrade
+		$field_query = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "customer_search`");
+
+		foreach ($field_query->rows as $field) {
+			if ($field['Field'] == 'informations' && $field_name != 'products') {
+				$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer_search` CHANGE `informations` `informations` INT(11) NOT NULL AFTER `products`");
+			}
+
+			$field_name = $field['Field'];
 		}
 	}
 }

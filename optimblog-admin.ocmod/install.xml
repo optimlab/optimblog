@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - admin</name>
   <code>optimblog-admin</code>
-  <version>3.0.0.6</version>
+  <version>3.0.0.7</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -2677,7 +2677,7 @@ $_['help_main_category_add']    = 'Добавить главную катего�
       </operation>
       <operation error="skip">
         <search><![CDATA[
-                      <input type="hidden" name="product_category[]" value="{{ product_category.category_id }}" />
+                      <input type="hidden" name="product_category[]" value="{{ product_category.category_id }}"
         ]]></search>
         <add position="after"><![CDATA[
                       <input type="hidden" name="main_category" value="{{ product_category.category_id }}" />
@@ -2687,21 +2687,6 @@ $_['help_main_category_add']    = 'Добавить главную катего�
                       <input type="hidden" name="product_category[]" value="{{ product_category.category_id }}" />
                     </div>
                     {% endif %}
-                    <div class="hidden">
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-                        <input type="hidden" name="product_category[]" value="{{ product_category.category_id }}"/>
-        ]]></search>
-        <add position="after"><![CDATA[
-                        <input type="hidden" name="main_category" value="{{ product_category.category_id }}" />
-                      </div>
-                      {% else %}
-                      <div id="product-category{{ product_category.category_id }}"><i class="fa fa-minus-circle"></i> <i class="fa fa-circle-o" data-toggle="tooltip" title="{{ help_main_category_add }}"></i> {{ product_category.name }}
-                        <input type="hidden" name="product_category[]" value="{{ product_category.category_id }}" />
-                      </div>
-                      {% endif %}
                     <div class="hidden">
         ]]></add>
       </operation>
