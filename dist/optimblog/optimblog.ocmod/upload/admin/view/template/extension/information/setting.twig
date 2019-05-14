@@ -1,0 +1,695 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-theme" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-theme" class="form-horizontal">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+            <li><a href="#tab-category" data-toggle="tab">{{ tab_category }}</a></li>
+            <li><a href="#tab-exclusion" data-toggle="tab">{{ tab_exclusion }}</a></li>
+            <li><a href="#tab-image" data-toggle="tab">{{ tab_image }}</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                  <div class="col-sm-10">
+                    <select name="information_setting_status" id="input-status" class="form-control">
+                      {% if information_setting_status %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_information_information_author }}</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_information_author %}
+                      <input type="radio" name="information_information_author" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_information_author" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_information_author %}
+                      <input type="radio" name="information_information_author" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_information_author" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_information_information_date }}</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_information_date %}
+                      <input type="radio" name="information_information_date" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_information_date" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_information_date %}
+                      <input type="radio" name="information_information_date" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_information_date" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_information_information_review }}</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_information_review %}
+                      <input type="radio" name="information_information_review" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_information_review" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_information_review %}
+                      <input type="radio" name="information_information_review" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_information_review" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_information_information_manufacturer }}</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_information_manufacturer %}
+                      <input type="radio" name="information_information_manufacturer" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_information_manufacturer" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_information_manufacturer %}
+                      <input type="radio" name="information_information_manufacturer" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_information_manufacturer" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_review }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_review }}">{{ entry_review }}</span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_review_status %}
+                      <input type="radio" name="information_review_status" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_review_status" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_review_status %}
+                      <input type="radio" name="information_review_status" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_review_status" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_review_guest }}">{{ entry_review_guest }}</span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_review_guest %}
+                      <input type="radio" name="information_review_guest" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_review_guest" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_review_guest %}
+                      <input type="radio" name="information_review_guest" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_review_guest" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_captcha }}">{{ entry_captcha }}</span></label>
+                  <div class="col-sm-10">
+                    <select name="information_captcha" id="input-captcha" class="form-control">
+                      <option value="">{{ text_none }}</option>
+                      {% for captcha in captchas %}
+                      {% if captcha.value == information_captcha %}
+                      <option value="{{ captcha.value }}" selected="selected">{{ captcha.text }}</option>
+                      {% else %}
+                      <option value="{{ captcha.value }}">{{ captcha.text }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-category">
+              <fieldset>
+                <legend>{{ text_information }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-information-category-show">{{ entry_information_category_show }}</label>
+                  <div class="col-sm-10">
+                    <select name="information_category_show" id="input-information-category-show" class="form-control">
+                      {% if information_category_show %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-description-limit"><span data-toggle="tooltip" title="{{ help_information_description_length }}">{{ entry_information_description_length }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="information_description_length" value="{{ information_description_length }}" placeholder="{{ entry_information_description_length }}" id="input-description-limit" class="form-control" />
+                    {% if error_information_description_length %}
+                    <div class="text-danger">{{ error_information_description_length }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_information_count }}">{{ entry_information_count }}</span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_count %}
+                      <input type="radio" name="information_count" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_count" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_count %}
+                      <input type="radio" name="information_count" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_count" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_information_category_author }}</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_category_author %}
+                      <input type="radio" name="information_category_author" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_category_author" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_category_author %}
+                      <input type="radio" name="information_category_author" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_category_author" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_information_category_date }}</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_category_date %}
+                      <input type="radio" name="information_category_date" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_category_date" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_category_date %}
+                      <input type="radio" name="information_category_date" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_category_date" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_information_category_review }}</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if information_category_review %}
+                      <input type="radio" name="information_category_review" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="information_category_review" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not information_category_review %}
+                      <input type="radio" name="information_category_review" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="information_category_review" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_view }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-information-category-view"><span data-toggle="tooltip" title="{{ help_category_view }}">{{ entry_information_category_view }}</span></label>
+                  <div class="col-sm-10">
+                    <div class="btn-group" data-toggle="buttons" id="input-information-category-view">
+                      <label class="btn btn-default {% if information_category_view == 'block' %}active{% endif %}" data-toggle="tooltip" title="{{ button_block }}">
+                        <input type="radio" name="information_category_view" value="block" autocomplete="off" {% if information_category_view == 'block' %}checked{% endif %}><i class="fa fa-align-justify"></i>
+                      </label>
+                      <label class="btn btn-default {% if information_category_view == 'list' %}active{% endif %}" data-toggle="tooltip" title="{{ button_list }}">
+                        <input type="radio" name="information_category_view" value="list" autocomplete="off"{% if information_category_view == 'list' %}checked{% endif %}><i class="fa fa-th-list"></i>
+                      </label>
+                      <label class="btn btn-default {% if information_category_view == 'grid' %}active{% endif %}" data-toggle="tooltip" title="{{ button_grid }}">
+                        <input type="radio" name="information_category_view" value="grid" autocomplete="off"{% if information_category_view == 'grid' %}checked{% endif %}><i class="fa fa-th"></i>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-information-category-view-show">{{ entry_information_category_view_show }}</label>
+                  <div class="col-sm-10">
+                    <select name="information_category_view_show" id="input-information-category-view-show" class="form-control">
+                      {% if information_category_view_show %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_sort }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-information-category-sort"><span data-toggle="tooltip" title="{{ help_category_sort }}">{{ entry_information_category_sort }}</span></label>
+                  <div class="col-sm-10">
+                    <select name="information_category_sort" id="input-information-category-sort" class="form-control">
+                      {% for sort in sorts %}
+                      {% if sort.value == information_category_sort %}
+                      <option value="{{ sort.value }}" selected="selected">{{ sort.text }}</option>
+                      {% else %}
+                      <option value="{{ sort.value }}">{{ sort.text }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-information-category-sort-show">{{ entry_information_category_sort_show }}</label>
+                  <div class="col-sm-10">
+                    <select name="information_category_sort_show" id="input-information-category-sort-show" class="form-control">
+                      {% if information_category_sort_show %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_limit }}</legend>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-catalog-limit"><span data-toggle="tooltip" title="{{ help_information_limit }}">{{ entry_information_limit }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="information_limit" value="{{ information_limit }}" placeholder="{{ entry_information_limit }}" id="input-catalog-limit" class="form-control" />
+                    {% if error_information_limit %}
+                    <div class="text-danger">{{ error_information_limit }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-information-category-limit-show">{{ entry_information_category_limit_show }}</label>
+                  <div class="col-sm-10">
+                    <select name="information_category_limit_show" id="input-information-category-limit-show" class="form-control">
+                      {% if information_category_limit_show %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-exclusion">
+              <fieldset>
+                <legend>{{ text_exclusion }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations" value="" placeholder="{{ entry_information }}" id="input-exclusion-information" class="form-control" />
+                    <div id="information-exclusion" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information in exclusion_informations %}
+                      <div id="information-exclusion{{ exclusion_information.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information.title }}
+                        <input type="hidden" name="information_exclusion[]" value="{{ exclusion_information.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_information }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-author"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_author }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_author" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-author" class="form-control" />
+                    <div id="information-exclusion-information-author" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_author in exclusion_informations_author %}
+                      <div id="information-exclusion-information-author{{ exclusion_information_author.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_author.title }}
+                        <input type="hidden" name="information_exclusion_information_author[]" value="{{ exclusion_information_author.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-date"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_date }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_date" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-date" class="form-control" />
+                    <div id="information-exclusion-information-date" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_date in exclusion_informations_date %}
+                      <div id="information-exclusion-information-date{{ exclusion_information_date.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_date.title }}
+                        <input type="hidden" name="information_exclusion_information_date[]" value="{{ exclusion_information_date.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-review"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_review }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_review" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-review" class="form-control" />
+                    <div id="information-exclusion-information-review" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_review in exclusion_informations_review %}
+                      <div id="information-exclusion-information-review{{ exclusion_information_review.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_review.title }}
+                        <input type="hidden" name="information_exclusion_information_review[]" value="{{ exclusion_information_review.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-information-manufacturer"><span data-toggle="tooltip" title="{{ help_exclusion_information }}">{{ entry_exclusion_information_manufacturer }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_informations_manufacturer" value="" placeholder="{{ entry_information }}" id="input-exclusion-information-manufacturer" class="form-control" />
+                    <div id="information-exclusion-information-manufacturer" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_information_manufacturer in exclusion_informations_manufacturer %}
+                      <div id="information-exclusion-information-manufacturer{{ exclusion_information_manufacturer.information_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_information_manufacturer.title }}
+                        <input type="hidden" name="information_exclusion_information_manufacturer[]" value="{{ exclusion_information_manufacturer.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_category }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-author"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_author }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_categories_author" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-author" class="form-control" />
+                    <div id="information-exclusion-category-author" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_category_author in exclusion_categories_author %}
+                      <div id="information-exclusion-category-author{{ exclusion_category_author.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_category_author.name }}
+                        <input type="hidden" name="information_exclusion_category_author[]" value="{{ exclusion_category_author.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-date"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_date }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_categories_date" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-date" class="form-control" />
+                    <div id="information-exclusion-category-date" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_category_date in exclusion_categories_date %}
+                      <div id="information-exclusion-category-date{{ exclusion_category_date.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_category_date.name }}
+                        <input type="hidden" name="information_exclusion_category_date[]" value="{{ exclusion_category_date.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-review"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_review }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="exclusion_categories_review" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-review" class="form-control" />
+                    <div id="information-exclusion-category-review" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for exclusion_category_review in exclusion_categories_review %}
+                      <div id="information-exclusion-category-review{{ exclusion_category_review.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ exclusion_category_review.name }}
+                        <input type="hidden" name="information_exclusion_category_review[]" value="{{ exclusion_category_review.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-image">
+              <fieldset>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-category-width">{{ entry_image_category }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_category_width" value="{{ information_image_category_width }}" placeholder="{{ entry_width }}" id="input-image-category-width" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_category_height" value="{{ information_image_category_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_category %}
+                    <div class="text-danger">{{ error_image_category }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-thumb-width">{{ entry_image_thumb }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_thumb_width" value="{{ information_image_thumb_width }}" placeholder="{{ entry_width }}" id="input-image-thumb-width" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_thumb_height" value="{{ information_image_thumb_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_thumb %}
+                    <div class="text-danger">{{ error_image_thumb }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-popup-width">{{ entry_image_popup }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_popup_width" value="{{ information_image_popup_width }}" placeholder="{{ entry_width }}" id="input-image-popup-width" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_popup_height" value="{{ information_image_popup_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_popup %}
+                    <div class="text-danger">{{ error_image_popup }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-information-width">{{ entry_image_information }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_information_width" value="{{ information_image_information_width }}" placeholder="{{ entry_width }}" id="input-image-information-width" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_information_height" value="{{ information_image_information_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_information %}
+                    <div class="text-danger">{{ error_image_information }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-additional-width">{{ entry_image_additional }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_additional_width" value="{{ information_image_additional_width }}" placeholder="{{ entry_width }}" id="input-image-additional-width" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_additional_height" value="{{ information_image_additional_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_additional %}
+                    <div class="text-danger">{{ error_image_additional }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-related">{{ entry_image_related }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_related_width" value="{{ information_image_related_width }}" placeholder="{{ entry_width }}" id="input-image-related" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_related_height" value="{{ information_image_related_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_related %}
+                    <div class="text-danger">{{ error_image_related }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-category-popup-width">{{ entry_image_category_popup }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_category_popup_width" value="{{ information_image_category_popup_width }}" placeholder="{{ entry_width }}" id="input-image-category-popup-width" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_category_popup_height" value="{{ information_image_category_popup_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_category_popup %}
+                    <div class="text-danger">{{ error_image_category_popup }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-image-category-additional-width">{{ entry_image_category_additional }}</label>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_category_additional_width" value="{{ information_image_category_additional_width }}" placeholder="{{ entry_width }}" id="input-image-category-additional-width" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="information_image_category_additional_height" value="{{ information_image_category_additional_height }}" placeholder="{{ entry_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_image_category_additional %}
+                    <div class="text-danger">{{ error_image_category_additional }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+// Information
+$('input[name^=\'exclusion_informations\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['title'],
+						value: item['information_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$(this).val('');
+
+		$('#' + $(this).next().next().attr('id') + item['value']).remove();
+
+		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+// Category
+$('input[name^=\'exclusion_categories\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=1&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$(this).val('');
+
+		$('#' + $(this).next().next().attr('id') + item['value']).remove();
+
+		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('.well').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script> 
+</div>
+{{ footer }}
