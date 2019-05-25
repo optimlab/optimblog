@@ -6,7 +6,7 @@
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
-<!-- ADMIN -->
+<!-- optimblog-admin.ocmod -->
 
   <file path="admin/controller/startup/permission.php">
       <operation error="skip">
@@ -3459,7 +3459,7 @@ $_['column_informations'] = 'Найдено Статей';
   </file>
   
 
-<!-- CATEGORY -->
+<!-- optimblog-category.ocmod -->
   
   <!-- Category -->
   <file path="catalog/controller/product/category.php">
@@ -5378,7 +5378,7 @@ $_['text_information']         = 'Статья: %s';
   </file>
 
 
-<!-- THEME DEFULT -->
+<!-- optimblog-category-theme-default.ocmod -->
 
   <!-- Category -->
   <file path="catalog/view/theme/default/template/product/category.twig">
