@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.7
+ * @version    3.0.0.8
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -409,5 +409,15 @@ class ModelExtensionInformationSetting extends Model {
 
 			$field_name = $field['Field'];
 		}
+        
+		// MyISAM Upgrade
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_image` ENGINE=MyISAM");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_attribute` ENGINE=MyISAM");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_filter` ENGINE=MyISAM");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_image` ENGINE=MyISAM");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_related` ENGINE=MyISAM");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_product_related` ENGINE=MyISAM");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_to_category` ENGINE=MyISAM");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_to_user` ENGINE=MyISAM");
 	}
 }

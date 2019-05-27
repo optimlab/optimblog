@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.7
+ * @version    3.0.0.8
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -13,7 +13,7 @@ $_['heading_title']                              = 'OptimBlog';
 // Text
 $_['text_extension']                             = 'Extensions';
 $_['text_success']                               = 'Success: You have modified the OptimBlog!';
-$_['text_edit']                                  = 'Edit OptimBlog v3.0.0.7';
+$_['text_edit']                                  = 'Edit OptimBlog v3.0.0.8';
 $_['text_general']                               = 'General';
 $_['text_exclusion']                             = 'Exclusion';
 $_['text_information']                           = 'Information';
