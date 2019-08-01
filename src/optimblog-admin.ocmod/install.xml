@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - admin</name>
   <code>optimblog-admin</code>
-  <version>3.0.0.8</version>
+  <version>3.0.0.9</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
   
@@ -16,7 +16,7 @@
         ]]></add>
       </operation>
   </file>
-  
+
   <!-- Category -->
   <file path="admin/controller/catalog/category.php">
       <operation error="skip">
@@ -415,7 +415,6 @@ $_['help_information']       = 'Тип категории: Товары или �
                     </tr>
                   </thead>
                   <tbody>
-                  
                   {% set image_row = 0 %}
                   {% for category_image in category_images %}
                   <tr id="image-row{{ image_row }}">
@@ -426,8 +425,7 @@ $_['help_information']       = 'Тип категории: Товары или �
                   </tr>
                   {% set image_row = image_row + 1 %}
                   {% endfor %}
-                    </tbody>
-                  
+                  </tbody>
                   <tfoot>
                     <tr>
                       <td colspan="2"></td>
@@ -1262,17 +1260,7 @@ $_['help_related']              = '(Автозаполнение)';
 				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_id . "' AND related_id = '" . (int)$information_related['information_id'] . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_id . "', related_id = '" . (int)$information_related['information_id'] . "', route = '" . (int)$information_related['route'] . "'");
 				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_related['information_id'] . "' AND related_id = '" . (int)$information_id . "'");
-                
-                switch ($information_related['route']) {
-                    case '1':
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '-1'");
-                        break;
-                    case '-1':
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '1'");
-                        break;
-                    default:
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "'");
-                }
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '" . (int)$information_related['route'] * -1 . "'");
 			}
 		}
 
@@ -1351,17 +1339,7 @@ $_['help_related']              = '(Автозаполнение)';
 				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_id . "' AND related_id = '" . (int)$information_related['information_id'] . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_id . "', related_id = '" . (int)$information_related['information_id'] . "', route = '" . (int)$information_related['route'] . "'");
 				$this->db->query("DELETE FROM " . DB_PREFIX . "information_related WHERE information_id = '" . (int)$information_related['information_id'] . "' AND related_id = '" . (int)$information_id . "'");
-
-                switch ($information_related['route']) {
-                    case '1':
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '-1'");
-                        break;
-                    case '-1':
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '1'");
-                        break;
-                    default:
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "'");
-                }
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information_related SET information_id = '" . (int)$information_related['information_id'] . "', related_id = '" . (int)$information_id . "', route = '" . (int)$information_related['route'] * -1 . "'");
 			}
 		}
 
@@ -2354,7 +2332,7 @@ $('input[name=\'filter_name\']').autocomplete({
         ]]></add>
       </operation>
   </file>
-  
+
   <!-- Product -->
   <file path="admin/controller/catalog/product.php">
       <operation error="skip">
@@ -2587,16 +2565,7 @@ $_['help_main_category_add']    = 'Добавить главную катего�
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$related_id . "', related_id = '" . (int)$product_id . "'");
         ]]></search>
         <add position="replace"><![CDATA[
-                switch ($product_related['route']) {
-                    case '1':
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_related['product_id'] . "', related_id = '" . (int)$product_id . "', route = '-1'");
-                        break;
-                    case '-1':
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_related['product_id'] . "', related_id = '" . (int)$product_id . "', route = '1'");
-                        break;
-                    default:
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_related['product_id'] . "', related_id = '" . (int)$product_id . "'");
-                }
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_related SET product_id = '" . (int)$product_related['product_id'] . "', related_id = '" . (int)$product_id . "', route = '" . (int)$product_related['route'] * -1 . "'");
         ]]></add>
       </operation>
       <operation error="skip">
@@ -2770,6 +2739,12 @@ $('#product-category').delegate('.fa-dot-circle-o', 'click', function() {
       <operation error="skip">
         <search><![CDATA[
 		  <input type="hidden" name="product_related[]" value="{{ product_related.product_id }}" />
+        ]]></search>
+        <add position="replace"><![CDATA[]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		  <input type="hidden" name="product_related[]" value="{{ product_related.product_id }}"/>
         ]]></search>
         <add position="replace"><![CDATA[]]></add>
       </operation>
