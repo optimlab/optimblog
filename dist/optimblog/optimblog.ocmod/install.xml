@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog</name>
   <code>optimblog</code>
-  <version>3.0.0.9</version>
+  <version>3.0.1.0_a</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -5094,7 +5094,7 @@ $_['text_read']                = 'Подробнее..';
 
 		$information_data = array();
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_product_related ipr LEFT JOIN " . DB_PREFIX . "information i ON (ipr.information_id = i.information_id) LEFT JOIN " . DB_PREFIX . "information_to_store i2s ON (i.information_id = i2s.information_id) WHERE ipr.product_id = '" . (int)$product_id . "' AND ipr.route >= '0' AND i.status = '1' AND i.date_available <= NOW() AND i.date_end >= NOW() AND i2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_product_related ipr LEFT JOIN " . DB_PREFIX . "information i ON (ipr.information_id = i.information_id) LEFT JOIN " . DB_PREFIX . "information_to_store i2s ON (i.information_id = i2s.information_id) WHERE ipr.product_id = '" . (int)$product_id . "' AND ipr.route <= '0' AND i.status = '1' AND i.date_available <= NOW() AND i.date_end >= NOW() AND i2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
 		foreach ($query->rows as $result) {
 			$information_data[$result['information_id']] = $this->model_catalog_information->getInformation($result['information_id']);
