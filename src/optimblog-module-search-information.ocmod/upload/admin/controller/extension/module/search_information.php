@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.0
+ * @version    3.0.0.5
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -11,10 +11,6 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 	private $error = array();
 
 	public function index() {
-		// Version
-		define('OptimBlogSearchInformation', '3.0.1.0');
-		$data['version'] = 'v' . OptimBlogSearchInformation;
-
 		$this->load->language('extension/module/search_information');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -67,18 +63,6 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 
 		$this->response->setOutput($this->load->view('extension/module/search_information', $data));
-	}
-
-	public function install() {
-		$this->load->model('setting/event');
-
-		$this->model_setting_event->addEvent('search_information', 'catalog/controller/information/search/before', 'extension/module/search_information/route');
-	}
-
-	public function uninstall() {
-		$this->load->model('setting/event');
-
-		$this->model_setting_event->deleteEventByCode('search_information');
 	}
 
 	protected function validate() {
