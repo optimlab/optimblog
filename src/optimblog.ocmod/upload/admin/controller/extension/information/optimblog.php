@@ -1,17 +1,17 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.9
+ * @version    3.0.1.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
  * @link       http://optimlab.com
  */
-class ControllerExtensionInformationSetting extends Controller {
+class ControllerExtensionInformationOptimBlog extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('extension/information/setting');
+		$this->load->language('extension/information/optimblog');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -111,10 +111,10 @@ class ControllerExtensionInformationSetting extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/information/setting', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true)
+			'href' => $this->url->link('extension/information/optimblog', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true)
 		);
 
-		$data['action'] = $this->url->link('extension/information/setting', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true);
+		$data['action'] = $this->url->link('extension/information/optimblog', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true);
 
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=information', true);
 
@@ -124,12 +124,12 @@ class ControllerExtensionInformationSetting extends Controller {
 			$setting_info = $this->model_setting_setting->getSetting('information', $this->request->get['store_id']);
 		}
 		
-		if (isset($this->request->post['information_setting_status'])) {
-			$data['information_setting_status'] = $this->request->post['information_setting_status'];
-		} elseif (isset($setting_info['information_setting_status'])) {
-			$data['information_setting_status'] = $setting_info['information_setting_status'];
+		if (isset($this->request->post['information_optimblog_status'])) {
+			$data['information_optimblog_status'] = $this->request->post['information_optimblog_status'];
+		} elseif (isset($setting_info['information_optimblog_status'])) {
+			$data['information_optimblog_status'] = $setting_info['information_optimblog_status'];
 		} else {
-			$data['information_setting_status'] = '';
+			$data['information_optimblog_status'] = '';
 		}
 		
 		if (isset($this->request->post['information_information_author'])) {
@@ -670,11 +670,11 @@ class ControllerExtensionInformationSetting extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/information/setting', $data));
+		$this->response->setOutput($this->load->view('extension/information/optimblog', $data));
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/information/setting')) {
+		if (!$this->user->hasPermission('modify', 'extension/information/optimblog')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -726,15 +726,15 @@ class ControllerExtensionInformationSetting extends Controller {
 	}
 
 	public function install() {
-		$this->load->model('extension/information/setting');
+		$this->load->model('extension/information/optimblog');
         
-		$this->model_extension_information_setting->createTables();
+		$this->model_extension_information_optimblog->createTables();
 	}
 /**
 	public function uninstall() {
-		$this->load->model('extension/information/setting');
+		$this->load->model('extension/information/optimblog');
         
-		$results = $this->model_extension_information_setting->getInformationLayouts();
+		$results = $this->model_extension_information_optimblog->getInformationLayouts();
         
         if ($results) {
             $this->load->model('design/layout');
