@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
-  <name> OptimBlog - admin : Filter Categories, Products and Informations</name>
-  <code>optimblog-admin.filter-categories-products-informations</code>
-  <version>3.0.0.6</version>
+  <name> OptimBlog - Admin Filter</name>
+  <code>optimblog-admin-filter</code>
+  <version>3.0.1.0</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -23,6 +23,12 @@
 			$filter_category_id = $this->request->get['filter_category_id'];
 		} else {
 			$filter_category_id = '';
+		}
+
+		if (isset($this->request->get['filter_store_id'])) {
+			$filter_store_id = $this->request->get['filter_store_id'];
+		} else {
+			$filter_store_id = '';
 		}
 
 		if (isset($this->request->get['filter_status'])) {
@@ -47,6 +53,10 @@
             $url .= '&filter_category_id=' . $this->request->get['filter_category_id'];
         }
 
+		if (isset($this->request->get['filter_store_id'])) {
+			$url .= '&filter_store_id=' . $this->request->get['filter_store_id'];
+		}
+
 		if (isset($this->request->get['filter_status'])) {
 			$url .= '&filter_status=' . $this->request->get['filter_status'];
 		}
@@ -58,6 +68,7 @@
       ]]></search>
       <add position="after"><![CDATA[
 			'filter_category_id' => $filter_category_id,
+			'filter_store_id'    => $filter_store_id,
 			'filter_status'      => $filter_status,
       ]]></add>
     </operation>
@@ -85,7 +96,12 @@
       <add position="after"><![CDATA[
 		$data['filter_name'] = $filter_name;
 		$data['filter_category_id'] = $filter_category_id;         
+		$data['filter_store_id'] = $filter_store_id;         
 		$data['filter_status'] = $filter_status;
+
+		$this->load->model('setting/store');
+
+		$data['stores'] = $this->model_setting_store->getStores();
       ]]></add>
     </operation>
   </file>
@@ -162,6 +178,10 @@ $_['entry_status']           = 'Status';
 			$sql .= " AND c1.parent_id = '" . (int)$data['filter_category_id'] . "'";
 		}
 
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND cp.category_id IN (SELECT `category_id` FROM `" . DB_PREFIX . "category_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
+      
 		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
 			$sql .= " AND c1.status = '" . (int)$data['filter_status'] . "'";
 		}
@@ -178,6 +198,10 @@ $_['entry_status']           = 'Status';
 			$sql .= " AND parent_id = '" . (int)$data['filter_category_id'] . "'";
 		}
 
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND category_id IN (SELECT `category_id` FROM `" . DB_PREFIX . "category_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
+      
 		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
 			$sql .= " AND status = '" . (int)$data['filter_status'] . "'";
 		}
@@ -238,6 +262,24 @@ $_['entry_status']           = 'Status';
               <label class="control-label" for="input-category">{{ entry_category }}</label>
               <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_category }}" id="input-category" class="form-control" />
               <input type="hidden" name="filter_category_id" value="{{ filter_category_id }}" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-store">{{ entry_store }}</label>
+              <select name="filter_store_id" id="input-store" class="form-control">
+                <option value=""></option>
+                {% if filter_store_id == '0' %}
+                <option value="0" selected="selected">{{ text_default }}</option>
+                {% else %}
+                <option value="0">{{ text_default }}</option>
+                {% endif %}                  
+                {% for store in stores %}
+                {% if store.store_id == filter_store_id %}
+                <option value="{{ store.store_id }}" selected="selected">{{ store.name }}</option>
+                {% else %}
+                <option value="{{ store.store_id }}">{{ store.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
             </div>
             <div class="form-group">
               <label class="control-label" for="input-status">{{ entry_status }}</label>
@@ -322,6 +364,12 @@ $('#button-filter').on('click', function() {
         url += '&filter_category_id=' + encodeURIComponent(filter_category_id);
     }        
       
+	var filter_store_id = $('select[name=\'filter_store_id\']').val();
+
+	if (filter_store_id) {
+		url += '&filter_store_id=' + encodeURIComponent(filter_store_id);
+	}
+	
 	var filter_status = $('select[name=\'filter_status\']').val();
 
 	if (filter_status != '') {
@@ -387,7 +435,7 @@ $('input[name=\'filter_name\']').keyup(function() {
 		} else {
 			$filter_category = '';
 		}
-     
+
 		if (isset($this->request->get['filter_category_id'])) {
 			$filter_category_id = $this->request->get['filter_category_id'];
 		} else {
@@ -405,6 +453,12 @@ $('input[name=\'filter_name\']').keyup(function() {
 		} else {
 			$filter_manufacturer_id = '';
 		}
+
+		if (isset($this->request->get['filter_store_id'])) {
+			$filter_store_id = $this->request->get['filter_store_id'];
+		} else {
+			$filter_store_id = '';
+		}
       ]]></add>
     </operation>
     <operation error="skip">
@@ -419,13 +473,17 @@ $('input[name=\'filter_name\']').keyup(function() {
         	if (isset($this->request->get['filter_category_id'])) {
             	$url .= '&filter_category_id=' . $this->request->get['filter_category_id'];
         	}
-        
+
         	if (isset($this->request->get['filter_manufacturer'])) {
             	$url .= '&filter_manufacturer=' . urlencode(html_entity_decode($this->request->get['filter_manufacturer'], ENT_QUOTES, 'UTF-8'));
         	}
-        
+
         	if (isset($this->request->get['filter_manufacturer_id'])) {
             	$url .= '&filter_manufacturer_id=' . $this->request->get['filter_manufacturer_id'];
+        	}
+
+        	if (isset($this->request->get['filter_store_id'])) {
+            	$url .= '&filter_store_id=' . $this->request->get['filter_store_id'];
         	}
       ]]></add>
     </operation>
@@ -436,6 +494,7 @@ $('input[name=\'filter_name\']').keyup(function() {
       <add position="after"><![CDATA[
 			'filter_category_id'	 => $filter_category_id,
 			'filter_manufacturer_id' => $filter_manufacturer_id,
+			'filter_store_id'        => $filter_store_id,
       ]]></add>
     </operation>
     <operation error="skip">
@@ -447,41 +506,12 @@ $('input[name=\'filter_name\']').keyup(function() {
 		$this->load->model('catalog/manufacturer');
       ]]></add>
     </operation>
-<!--
-    <operation error="skip">
-      <search><![CDATA[
-			$data['products'][] = array(
-      ]]></search>
-      <add position="before"><![CDATA[
-			$main_category = $this->model_catalog_product->getMainCategory($result['product_id']);
-
-			$product_categories = array();
-
-			$categories = $this->model_catalog_product->getProductCategories($result['product_id']);
-
-			if ($categories) {
-				foreach ($categories as $category_id) {
-					$category_info = $this->model_catalog_category->getCategory($category_id);
-
-					if ($category_info) {
-						$product_categories[] = array(
-							'category_id' => $category_info['category_id'],
-							'main'        => ($category_info['category_id'] == $main_category) ? true : '',
-							'name'        => $category_info['path'] ? $category_info['path'] . ' &gt; ' . $category_info['name'] : $category_info['name']
-						);
-					}
-				} 
-			}
-      ]]></add>
-    </operation>
--->
     <operation error="skip">
       <search index="0"><![CDATA[
 				'model'      => $result['model'],
       ]]></search>
       <add position="after"><![CDATA[
 				'category'     => isset($result['category']) ? $result['category'] : '',
-//				'categories'   => $product_categories,
 				'manufacturer' => $result['manufacturer'],
       ]]></add>
     </operation>
@@ -503,6 +533,11 @@ $('input[name=\'filter_name\']').keyup(function() {
 		$data['filter_category_id'] = $filter_category_id;         
 		$data['filter_manufacturer'] = $filter_manufacturer;
 		$data['filter_manufacturer_id'] = $filter_manufacturer_id;
+		$data['filter_store_id'] = $filter_store_id;
+
+		$this->load->model('setting/store');
+
+		$data['stores'] = $this->model_setting_store->getStores();
       ]]></add>
     </operation>
   </file>
@@ -596,6 +631,10 @@ $_['entry_category_filter']  = 'Category';
 		if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
 			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
 		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND p.product_id IN (SELECT `product_id` FROM `" . DB_PREFIX . "product_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
       ]]></add>
     </operation>
     <operation error="skip">
@@ -621,6 +660,10 @@ $_['entry_category_filter']  = 'Category';
 
 		if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
 			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND p.product_id IN (SELECT `product_id` FROM `" . DB_PREFIX . "product_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
 		}
       ]]></add>
     </operation>
@@ -654,31 +697,37 @@ $_['entry_category_filter']  = 'Category';
       ]]></add>
     </operation>
     <operation error="skip">
+      <search><![CDATA[
+              <label class="control-label" for="input-status">{{ entry_status }}</label>
+      ]]></search>
+      <add position="before"><![CDATA[
+              <label class="control-label" for="input-store">{{ entry_store }}</label>
+              <select name="filter_store_id" id="input-store" class="form-control">
+                <option value=""></option>
+                {% if filter_store_id == '0' %}
+                <option value="0" selected="selected">{{ text_default }}</option>
+                {% else %}
+                <option value="0">{{ text_default }}</option>
+                {% endif %}                  
+                {% for store in stores %}
+                {% if store.store_id == filter_store_id %}
+                <option value="{{ store.store_id }}" selected="selected">{{ store.name }}</option>
+                {% else %}
+                <option value="{{ store.store_id }}">{{ store.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+      ]]></add>
+    </operation>
+    <operation error="skip">
       <search><![CDATA['p.price']]></search>
       <add position="before"><![CDATA[
-                      <td class="text-left">{% if sort == 'category' %} <a href="{{ sort_category }}" class="{{ order|lower }}">{{ column_category }}</a> {% else %} <a href="{{ sort_category }}">{{ column_category  }}</a> {% endif %}</td>
+                      <td class="text-left">{% if sort == 'category' %} <a href="{{ sort_category }}" class="{{ order|lower }}">{{ column_category }}</a> {% else %} <a href="{{ sort_category }}">{{ column_category }}</a> {% endif %}</td>
                       <td class="text-left">{% if sort == 'manufacturer' %} <a href="{{ sort_manufacturer }}" class="{{ order|lower }}">{{ column_manufacturer }}</a> {% else %} <a href="{{ sort_manufacturer }}">{{ column_manufacturer }}</a> {% endif %}</td>
       ]]></add>
     </operation>
-<!--
-    <operation error="skip">
-      <search><![CDATA[
-                    <td class="text-left">{{ product.model }}</td>
-      ]]></search>
-      <add position="after"><![CDATA[
-                    <td class="text-left">
-                      {% for category in product.categories %}
-                      {% if category.main %}
-                      <span class="text-success">{{ category.name }}</span><br/>
-                      {% else %}
-                      {{ category.name }}<br/>
-                      {% endif %}
-                      {% endfor %}
-                    </td>
-                    <td class="text-left">{{ product.manufacturer.name }}</td>
-      ]]></add>
-    </operation>
--->
     <operation error="skip">
       <search><![CDATA[
                     <td class="text-left">{{ product.model }}</td>
@@ -716,7 +765,13 @@ $_['entry_category_filter']  = 'Category';
     if (filter_category_id) {
         url += '&filter_category_id=' + encodeURIComponent(filter_category_id);
     }        
-      ]]></add>
+
+	var filter_store_id = $('select[name=\'filter_store_id\']').val();
+
+	if (filter_store_id) {
+		url += '&filter_store_id=' + encodeURIComponent(filter_store_id);
+	}
+	      ]]></add>
     </operation>
     <operation error="skip">
       <search><![CDATA[
@@ -822,6 +877,12 @@ $('input[name=\'filter_category\']').keyup(function() {
 		} else {
 			$filter_manufacturer_id = '';
 		}
+
+		if (isset($this->request->get['filter_store_id'])) {
+			$filter_store_id = $this->request->get['filter_store_id'];
+		} else {
+			$filter_store_id = '';
+		}
       ]]></add>
     </operation>
     <operation error="skip">
@@ -836,13 +897,17 @@ $('input[name=\'filter_category\']').keyup(function() {
         	if (isset($this->request->get['filter_category_id'])) {
             	$url .= '&filter_category_id=' . $this->request->get['filter_category_id'];
         	}
-        
+
         	if (isset($this->request->get['filter_manufacturer'])) {
             	$url .= '&filter_manufacturer=' . urlencode(html_entity_decode($this->request->get['filter_manufacturer'], ENT_QUOTES, 'UTF-8'));
         	}
-        
+
         	if (isset($this->request->get['filter_manufacturer_id'])) {
             	$url .= '&filter_manufacturer_id=' . $this->request->get['filter_manufacturer_id'];
+        	}
+
+        	if (isset($this->request->get['filter_store_id'])) {
+            	$url .= '&filter_store_id=' . $this->request->get['filter_store_id'];
         	}
       ]]></add>
     </operation>
@@ -853,6 +918,7 @@ $('input[name=\'filter_category\']').keyup(function() {
       <add position="after"><![CDATA[
 			'filter_category_id'	 => $filter_category_id,
 			'filter_manufacturer_id' => $filter_manufacturer_id,
+			'filter_store_id'	     => $filter_store_id,
       ]]></add>
     </operation>
     <operation error="skip">
@@ -864,41 +930,12 @@ $('input[name=\'filter_category\']').keyup(function() {
 		$this->load->model('catalog/manufacturer');
       ]]></add>
     </operation>
-<!--
-    <operation error="skip">
-      <search><![CDATA[
-			$data['informations'][] = array(
-      ]]></search>
-      <add position="before"><![CDATA[
-			$main_category = $this->model_catalog_information->getMainCategory($result['information_id']);
-
-			$information_categories = array();
-
-			$categories = $this->model_catalog_information->getInformationCategories($result['information_id']);
-
-			if ($categories) {
-				foreach ($categories as $category_id) {
-					$category_info = $this->model_catalog_category->getCategory($category_id);
-
-					if ($category_info) {
-						$information_categories[] = array(
-							'category_id' => $category_info['category_id'],
-							'main'        => ($category_info['category_id'] == $main_category) ? true : '',
-							'name'        => $category_info['path'] ? $category_info['path'] . ' &gt; ' . $category_info['name'] : $category_info['name']
-						);
-					}
-				} 
-			}
-      ]]></add>
-    </operation>
--->
     <operation error="skip">
       <search><![CDATA[
 				'viewed'         => $result['viewed'],
       ]]></search>
       <add position="after"><![CDATA[
 				'category'     => isset($result['category']) ? $result['category'] : '',
-//				'categories'   => $information_categories,
 				'manufacturer' => $result['manufacturer'],
       ]]></add>
     </operation>
@@ -920,6 +957,11 @@ $('input[name=\'filter_category\']').keyup(function() {
 		$data['filter_category_id'] = $filter_category_id;         
 		$data['filter_manufacturer'] = $filter_manufacturer;
 		$data['filter_manufacturer_id'] = $filter_manufacturer_id;
+		$data['filter_store_id'] = $filter_store_id;
+
+		$this->load->model('setting/store');
+
+		$data['stores'] = $this->model_setting_store->getStores();
       ]]></add>
     </operation>
   </file>
@@ -1013,6 +1055,10 @@ $_['entry_category_filter']  = 'Category';
 			if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
 				$sql .= " AND i.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
 			}
+
+			if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+				$sql .= " AND i.information_id IN (SELECT `information_id` FROM `" . DB_PREFIX . "information_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+			}
       ]]></add>
     </operation>
     <operation error="skip">
@@ -1038,6 +1084,10 @@ $_['entry_category_filter']  = 'Category';
 
 		if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
 			$sql .= " AND i.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND i.information_id IN (SELECT `information_id` FROM `" . DB_PREFIX . "information_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
 		}
       ]]></add>
     </operation>
@@ -1072,10 +1122,35 @@ $_['entry_category_filter']  = 'Category';
     </operation>
     <operation error="skip">
       <search><![CDATA[
+              <label class="control-label" for="input-status">{{ entry_status }}</label>
+      ]]></search>
+      <add position="before"><![CDATA[
+              <label class="control-label" for="input-store">{{ entry_store }}</label>
+              <select name="filter_store_id" id="input-store" class="form-control">
+                <option value=""></option>
+                {% if filter_store_id == '0' %}
+                <option value="0" selected="selected">{{ text_default }}</option>
+                {% else %}
+                <option value="0">{{ text_default }}</option>
+                {% endif %}                  
+                {% for store in stores %}
+                {% if store.store_id == filter_store_id %}
+                <option value="{{ store.store_id }}" selected="selected">{{ store.name }}</option>
+                {% else %}
+                <option value="{{ store.store_id }}">{{ store.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
                   <td class="text-right">{% if sort == 'i.viewed' %}
       ]]></search>
       <add position="before"><![CDATA[
-                      <td class="text-left">{% if sort == 'category' %} <a href="{{ sort_category }}" class="{{ order|lower }}">{{ column_category }}</a> {% else %} <a href="{{ sort_category }}">{{ column_category  }}</a> {% endif %}</td>
+                      <td class="text-left">{% if sort == 'category' %} <a href="{{ sort_category }}" class="{{ order|lower }}">{{ column_category }}</a> {% else %} <a href="{{ sort_category }}">{{ column_category }}</a> {% endif %}</td>
                       <td class="text-left">{% if sort == 'manufacturer' %} <a href="{{ sort_manufacturer }}" class="{{ order|lower }}">{{ column_manufacturer }}</a> {% else %} <a href="{{ sort_manufacturer }}">{{ column_manufacturer }}</a> {% endif %}</td>
       ]]></add>
     </operation>
@@ -1116,6 +1191,12 @@ $_['entry_category_filter']  = 'Category';
     if (filter_category_id) {
         url += '&filter_category_id=' + encodeURIComponent(filter_category_id);
     }        
+
+	var filter_store_id = $('select[name=\'filter_store_id\']').val();
+
+	if (filter_store_id) {
+		url += '&filter_store_id=' + encodeURIComponent(filter_store_id);
+	}
       ]]></add>
     </operation>
     <operation error="skip">
