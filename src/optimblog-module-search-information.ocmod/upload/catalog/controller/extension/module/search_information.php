@@ -465,7 +465,5 @@ class ControllerExtensionModuleSearchInformation extends Controller {
     // catalog/controller/information/search/before
 	public function route(&$route, &$data) {
 		$route = 'extension/module/search_information/search';
-
-		return $data;
 	}
 }
