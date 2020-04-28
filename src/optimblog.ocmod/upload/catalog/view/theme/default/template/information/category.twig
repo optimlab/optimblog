@@ -1,0 +1,148 @@
+{{ header }}
+<div id="information-category" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      {% if thumb or description %}
+      <div class="row"> {% if thumb %}
+        <div class="col-sm-2"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" /></div>
+        {% endif %}
+        {% if description %}
+        <div class="col-sm-10">{{ description }}</div>
+        {% endif %}</div>
+      <hr>
+      {% endif %}
+      {% if categories %}
+      <h3>{{ text_refine }}</h3>
+      {% if categories|length <= 5 %}
+      <div class="row">
+        <div class="col-sm-3">
+          <ul>
+            {% for category in categories %}
+            <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% else %}
+      <div class="row">
+        {% for category in categories|batch((categories|length / 4)|round(1, 'ceil')) %}
+        <div class="col-sm-3">
+          <ul>
+            {% for child in category %}
+            <li><a href="{{ child.href }}">{{ child.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+      </div>
+      <br />
+      {% endif %}
+      {% endif %}
+      {% if informations %}
+      {% if view_show or sort_show or limit_show %}
+      <div class="row">
+        {% if view_show %}
+        <div class="col-sm-5 hidden-xs">
+          <div class="btn-group btn-group-sm">
+            <button type="button" id="information-block-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_block }}"><i class="fa fa-align-justify"></i></button>
+            <button type="button" id="information-list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+            <button type="button" id="information-grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+          </div>
+        </div>
+        {% endif %}
+        {% if sort_show %}
+        <div class="col-sm-4 col-xs-6 {{ not limit_show or not view_show ? 'col-sm-offset-5 col-xs-offset-6' }}">
+          <div class="form-group input-group input-group-sm">
+            <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
+            <select id="input-sort" class="form-control" onchange="location = this.value;">
+              {% for sorts in sorts %}
+              {% if sorts.value == '%s-%s'|format(sort, order) %}
+              <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+              {% else %}
+              <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% endif %}
+        {% if limit_show %}
+        <div class="col-sm-3 col-xs-6 {{ not sort_show ? 'col-sm-offset-4 col-xs-offset-6' }} {{ not view_show ? 'pull-right' }}">
+          <div class="form-group input-group input-group-sm">
+            <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
+            <select id="input-limit" class="form-control" onchange="location = this.value;">
+              {% for limits in limits %}
+              {% if limits.value == limit %}
+              <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+              {% else %}
+              <option value="{{ limits.href }}">{{ limits.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="row">
+        {% for information in informations %}
+        <div class="information-layout {{ view }} col-xs-12">
+          <div class="thumbnail media">
+            {% if information.thumb %}
+            <div class="image pull-left"><a href="{{ information.href }}"><img src="{{ information.thumb }}" alt="{{ information.title }}" title="{{ information.title }}" class="img-responsive" /></a></div>
+            {% endif %}
+            <div class="caption media-body">
+              <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
+              {% if show_author or show_date or show_review %}
+              <ul class="list-inline text-muted small">
+                {% if show_date %}
+                <li><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ information.date_added }}</li>
+                {% endif %}
+                {% if show_author %}
+                <li><i class="fa fa-user-o" aria-hidden="true"></i> {{ information.author }}</li>
+                {% endif %}
+                {% if show_review %}
+                <li><i class="fa fa-comment-o" aria-hidden="true"></i> {{ information.reviews }}</li>
+                {% endif %}
+                {% if information.rating %}
+                <li class="rating"> {% for i in 1..5 %}
+                  {% if information.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
+                  {% endfor %} </li>
+                {% endif %}
+              </ul>
+              {% endif %}
+              <p>{{ information.description }}</p>
+              <a href="{{ information.href }}" type="button" class="btn btn-primary" title="{{ text_read }}">{{ text_read }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+      </div>
+      {% endif %}
+      {% if not categories and not products and not informations and not category_information %}
+      <p>{{ text_empty }}</p>
+      <div class="buttons">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {% endif %}
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }} 
