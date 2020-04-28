@@ -45,20 +45,16 @@ There is no modification for commodity modules.
 
 
 ## The composition of the modules and modifications of the OptimCart Family
-1. **optimblog-admin.ocmod.zip** — responsible for the adminstration part.
-2. **optimblog-category.ocmod.zip** — responsible for the frontend part.
-3. **optimblog-category-theme.ocmod.zip** — responsible for the frontend of the Theme.
-4. **optimblog-seo_url.ocmod.zip** — makes the necessary changes to the catalog/controller/startup/seo_url.php.
-5. **optimblog-information-search-install.ocmod.zip** — adds permissions to the part of the code to install the module (controller) «Search for Articles» that are part of the **optimblog-category.ocmod.zip**.
-6. **breadcrumb-last.ocmod.zip** — modification eliminates the clickability of the last item of the breadcrumbs.
-7. **canonical-category.ocmod.zip** — modification that adds the parent categories to the canonical url of the subcategory.
-8. **canonical-category-no-page.ocmod.zip** — modification is similar to the previous one, only removes the canonical URL on the pagination (page=n).
-9. **canonical-information.ocmod.zip** — modification is similar to **canonical-category.ocmod.zip** that adds subcategories to the canonical URL of the article, if the Main Category is available in its settings.
-10. **optimblog-module-bestseller-information.ocmod.zip** — module «Best Information».
-11. **optimblog-module-featured-information.ocmod.zip** — module «Featured Information».
-12. **optimblog-module-latest-information.ocmod.zip** — module «Latest Information».
-13. **optimblog-module-category-information.ocmod.zip** — module «Category Information».
-14. **optimblog-module-search-information.ocmod.zip** - module «Search Information».
+1. **optimblog.ocmod.zip**.
+2. **breadcrumb-last.ocmod.zip** — modification eliminates the clickability of the last item of the breadcrumbs.
+3. **canonical-category.ocmod.zip** — modification that adds the parent categories to the canonical url of the subcategory.
+4. **canonical-category-no-page.ocmod.zip** — modification is similar to the previous one, only removes the canonical URL on the pagination (page=n).
+5. **canonical-information.ocmod.zip** — modification is similar to **canonical-category.ocmod.zip** that adds subcategories to the canonical URL of the article, if the Main Category is available in its settings.
+6. **optimblog-module-bestseller-information.ocmod.zip** — module «Best Information».
+7. **optimblog-module-featured-information.ocmod.zip** — module «Featured Information».
+8. **optimblog-module-latest-information.ocmod.zip** — module «Latest Information».
+9. **optimblog-module-category-information.ocmod.zip** — module «Category Information».
+10. **optimblog-module-search-information.ocmod.zip** - module «Search Information».
 
 
 ## Information:
