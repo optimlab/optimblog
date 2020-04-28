@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog</name>
   <code>optimblog</code>
-  <version>3.0.1.0_b</version>
+  <version>3.0.1.0</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -174,93 +174,6 @@
 				}
 			}
 		}
-        ]]></add>
-      </operation>  </file>
-
-  <file path="admin/language/en-gb/catalog/category.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Text
-        ]]></search>
-        <add  position="after"><![CDATA[
-$_['text_type_all']          = 'All';
-$_['text_type_product']      = 'Products';
-$_['text_type_information']  = 'Articles';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="before"><![CDATA[
-$_['column_type']            = 'Type';
-
-// Button
-$_['button_type_category']   = 'Type Category';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['entry_header']            = 'Header';
-$_['entry_short_description'] = 'Short Description';
-$_['entry_information']       = 'Category of Articles';
-$_['entry_type']              = 'Type';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Help
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['help_header']            = 'HTML Tag H1';
-$_['help_information']       = 'Category Type: Products or Articles. (Default - Products)';
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="admin/language/ru-ru/catalog/category.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Text
-        ]]></search>
-        <add  position="after"><![CDATA[
-$_['text_type_all']          = 'Все';
-$_['text_type_product']      = 'Товары';
-$_['text_type_information']  = 'Статьи';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="before"><![CDATA[
-$_['column_type']            = 'Тип';
-
-// Button
-$_['button_type_category']   = 'Тип категорий';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['entry_header']            = 'Заголовок';
-$_['entry_short_description'] = 'Краткое описание';
-$_['entry_information']       = 'Категория статей';
-$_['entry_type']              = 'Тип';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Help
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['help_header']            = 'HTML-тег H1';
-$_['help_information']       = 'Тип категории: Товары или Статьи. (По умолчанию - Товары)';
         ]]></add>
       </operation>
   </file>
@@ -1055,122 +968,6 @@ $(document).ready(function() {
 		$data['filter_name'] = $filter_name;
 		$data['filter_viewed'] = $filter_viewed;
 		$data['filter_status'] = $filter_status;
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="admin/language/en-gb/catalog/information.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Column
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['column_image']              = 'Image';
-$_['column_viewed']             = 'Viewed';
-$_['column_status']             = 'Status';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['entry_header']              = 'Header';
-$_['entry_short_description']   = 'Short Description';
-$_['entry_tag']                 = 'Article Tags';
-$_['entry_manufacturer']        = 'Manufacturer';
-$_['entry_date_available']      = 'Date Available';
-$_['entry_date_end']            = 'Date End';
-$_['entry_date_added']          = 'Date Added';
-$_['entry_date_modified']       = 'Date Modified';
-$_['entry_user']                = 'Author';
-$_['entry_image']               = 'Image';
-$_['entry_additional_image']    = 'Additional Images';
-$_['entry_priority']            = 'Priority';
-$_['entry_attribute']           = 'Attribute';
-$_['entry_attribute_group']     = 'Attribute Group';
-$_['entry_text']                = 'Text';
-$_['entry_required']            = 'Required';
-$_['entry_category']            = 'Categories';
-$_['entry_filter']              = 'Filters';
-$_['entry_download']            = 'Downloads';
-$_['entry_related_information'] = 'Related Articles';
-$_['entry_related_product']     = 'Related Products';
-$_['entry_viewed']              = 'Viewed';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Help
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['help_header']               = 'HTML Tag H1';
-$_['help_tag']                  = 'Comma separated';
-$_['help_manufacturer']         = '(Autocomplete)';
-$_['help_category']             = '(Autocomplete)';
-$_['help_main_category']        = 'Main Category';
-$_['help_main_category_add']    = 'Add Main Category';
-$_['help_filter']               = '(Autocomplete)';
-$_['help_download']             = '(Autocomplete)';
-$_['help_related']              = '(Autocomplete)';
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="admin/language/ru-ru/catalog/information.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Column
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['column_image']              = 'Изображения';
-$_['column_viewed']             = 'Просмотров';
-$_['column_status']             = 'Статус';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['entry_header']              = 'Заголовок';
-$_['entry_short_description']   = 'Краткое описание';
-$_['entry_tag']                 = 'Теги статьи';
-$_['entry_manufacturer']        = 'Производитель';
-$_['entry_date_available']      = 'Начало публикации';
-$_['entry_date_end']            = 'Окончание публикации';
-$_['entry_date_added']          = 'Дата добавления';
-$_['entry_date_modified']       = 'Дата изменения';
-$_['entry_user']                = 'Автор';
-$_['entry_image']               = 'Изображение статьи';
-$_['entry_additional_image']    = 'Дополнительные изображения';
-$_['entry_priority']            = 'Приоритет';
-$_['entry_attribute']           = 'Атрибут';
-$_['entry_attribute_group']     = 'Группы атрибутов';
-$_['entry_text']                = 'Текст';
-$_['entry_required']            = 'Необходимо';
-$_['entry_category']            = 'Показывать в категориях';
-$_['entry_filter']              = 'Фильтры';
-$_['entry_download']            = 'Загрузки';
-$_['entry_related_information'] = 'Рекомендуемые статьи';
-$_['entry_related_product']     = 'Рекомендуемые товары';
-$_['entry_viewed']              = 'Количество просмотров';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Help
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['help_header']               = 'HTML-тег H1';
-$_['help_tag']                  = 'Теги разделяются запятой';
-$_['help_manufacturer']         = '(Автозаполнение)';
-$_['help_category']             = '(Автозаполнение)';
-$_['help_main_category']        = 'Главная категория';
-$_['help_main_category_add']    = 'Добавить главную категорию';
-$_['help_filter']               = '(Автозаполнение)';
-$_['help_download']             = '(Автозаполнение)';
-$_['help_related']              = '(Автозаполнение)';
         ]]></add>
       </operation>
   </file>
@@ -2416,52 +2213,6 @@ $('input[name=\'filter_name\']').autocomplete({
       </operation>
   </file>
 
-  <file path="admin/language/en-gb/catalog/product.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['entry_header']              = 'Header';
-$_['entry_short_description']   = 'Short Description';
-$_['entry_related_information'] = 'Related Articles';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Help
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['help_header']               = 'HTML Tag H1';
-$_['help_main_category']        = 'Main Category';
-$_['help_main_category_add']    = 'Add Main Category';
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="admin/language/ru-ru/catalog/product.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['entry_header']              = 'Заголовок';
-$_['entry_short_description']   = 'Краткое описание';
-$_['entry_related_information'] = 'Рекомендуемые статьи';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Help
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['help_header']               = 'HTML-тег H1';
-$_['help_main_category']        = 'Главная категория';
-$_['help_main_category_add']    = 'Добавить главную категорию';
-        ]]></add>
-      </operation>
-  </file>
-
   <file path="admin/model/catalog/product.php">
       <operation error="skip">
         <search><![CDATA[description = '" . $this->db->escape($value['description']) . "']]></search>
@@ -3044,68 +2795,6 @@ $(document).ready(function() {
       </operation>
   </file>
 
-  <file path="admin/language/en-gb/catalog/review.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="replace"><![CDATA[
-$_['column_information']       = 'Article';
-
-// Button
-$_['button_type_review']       = 'Type Categories';
-
-// Entry
-$_['entry_reply']              = 'Reply';
-$_['entry_review_information'] = 'Articles';
-$_['entry_review_product']     = 'Products';
-$_['entry_information']        = 'Article';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Error
-        ]]></search>
-        <add position="replace"><![CDATA[
-$_['help_information']         = '(Autocomplete)';
-
-// Error
-$_['error_information']        = 'Article required!';
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="admin/language/ru-ru/catalog/review.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="replace"><![CDATA[
-$_['column_information']       = 'Статья';
-
-// Button
-$_['button_type_review']       = 'Тип категорий';
-
-// Entry
-$_['entry_reply']              = 'Ответ';
-$_['entry_review_information'] = 'Статьи';
-$_['entry_review_product']     = 'Товары';
-$_['entry_information']        = 'Статья';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-// Error
-        ]]></search>
-        <add position="replace"><![CDATA[
-$_['help_information']         = '(Автозаполнение)';
-
-// Error
-$_['error_information']        = 'Требуется выбрать статью!';
-        ]]></add>
-      </operation>
-  </file>
-
   <file path="admin/model/catalog/review.php">
       <operation error="skip">
         <search><![CDATA[product_id = '" . (int)$data['product_id'] . "']]></search>
@@ -3377,28 +3066,6 @@ $('input[name=\'information\']').autocomplete({
         ]]></search>
         <add position="after"><![CDATA[
 				'informations' => $result['informations'],
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="admin/language/en-gb/extension/report/customer_search.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Column
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['column_informations'] = 'Found Articles';
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="admin/language/ru-ru/extension/report/customer_search.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Column
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['column_informations'] = 'Найдено Статей';
         ]]></add>
       </operation>
   </file>
@@ -3754,52 +3421,6 @@ $_['column_informations'] = 'Найдено Статей';
         ]]></search>
         <add position="replace"><![CDATA[
 
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="catalog/language/en-gb/product/category.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Text
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['text_read']         = 'Read..';
-$_['text_date_asc']     = 'Date (Old)';
-$_['text_date_desc']    = 'Date (Last)';
-$_['text_review']       = 'Reviews (%s)';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-$_['text_limit']
-        ]]></search>
-        <add position="after"><![CDATA[
-// Buttons
-$_['button_block']      = 'Block';
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="catalog/language/ru-ru/product/category.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Text
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['text_read']         = 'Подробнее..';
-$_['text_date_asc']     = 'Дате (начиная с давней)';
-$_['text_date_desc']    = 'Дате (начиная с последней)';
-$_['text_review']       = 'Отзывов (%s)';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-$_['text_limit']
-        ]]></search>
-        <add position="after"><![CDATA[
-// Buttons
-$_['button_block']      = 'На всю ширину';
         ]]></add>
       </operation>
   </file>
@@ -4461,104 +4082,6 @@ $_['button_block']      = 'На всю ширину';
       </operation>
   </file>
 
-  <file path="catalog/language/en-gb/information/information.php">
-      <operation error="skip">
-        <search><![CDATA[
-$_['text_error']
-        ]]></search>
-        <add position="before"><![CDATA[
-$_['text_search']             = 'Search';
-$_['text_brand']              = 'Brand';
-$_['text_manufacturer']       = 'Manufacturer:';
-$_['text_attribute']          = 'Attribute';
-$_['text_review']             = 'Reviews (%s)';
-$_['text_reviews']            = '%s reviews';
-$_['text_write']              = 'Write a review';
-$_['text_login']              = 'Please <a href="%s">login</a> or <a href="%s">register</a> to review';
-$_['text_no_reviews']         = 'There are no reviews for this article.';
-$_['text_note']               = '<span class="text-danger">Note:</span> HTML is not translated!';
-$_['text_success']            = 'Thank you for your review. It has been submitted to the webmaster for approval.';
-$_['text_related']            = 'Related Articles';
-$_['text_related_product']    = 'Related Products';
-$_['text_related_reviews']    = '%s reviews';
-$_['text_read']               = 'Read..';
-$_['text_tags']               = 'Tags:';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-$_['text_error']
-        ]]></search>
-        <add position="after"><![CDATA[
-// Entry
-$_['entry_name']              = 'Your Name';
-$_['entry_review']            = 'Your Review';
-$_['entry_rating']            = 'Rating';
-$_['entry_good']              = 'Good';
-$_['entry_bad']               = 'Bad';
-
-// Error
-$_['error_name']              = 'Warning: Review Name must be between 3 and 25 characters!';
-$_['error_text']              = 'Warning: Review Text must be between 25 and 1000 characters!';
-$_['error_rating']            = 'Warning: Please select a review rating!';
-
-// Locale
-$_['date_format_information'] = 'd.m.Y';
-$_['date_format_short']       = 'd.m.Y';
-$_['date_format_long']        = 'd.m.Y H:i:s';
-        ]]></add>
-      </operation>
-  </file>
-
-  <file path="catalog/language/ru-ru/information/information.php">
-      <operation error="skip">
-        <search><![CDATA[
-$_['text_error']
-        ]]></search>
-        <add position="before"><![CDATA[
-$_['text_search']             = 'Поиск';
-$_['text_brand']              = 'Производитель';
-$_['text_manufacturer']       = 'Производитель:';
-$_['text_attribute']          = 'Характеристики';
-$_['text_review']             = 'Отзывы (%s)';
-$_['text_reviews']            = '%s отзывов';
-$_['text_write']              = 'Написать отзыв';
-$_['text_login']              = 'Пожалуйста <a href="%s">авторизируйтесь</a> или <a href="%s">создайте учетную запись</a> перед тем как написать отзыв';
-$_['text_no_reviews']         = 'Нет отзывов о данной статье.';
-$_['text_note']               = '<span style="color: #FF0000;">Примечание:</span> HTML разметка не поддерживается! Используйте обычный текст.';
-$_['text_success']            = 'Спасибо за ваш отзыв. Он поступил администратору для проверки на спам и вскоре будет опубликован.';
-$_['text_related']            = 'Рекомендуемые статьи';
-$_['text_related_product']    = 'Рекомендуемые товары';
-$_['text_related_reviews']    = '%s отзывов';
-$_['text_read']               = 'Подробнее..';
-$_['text_tags']               = 'Теги:';
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-$_['text_error']
-        ]]></search>
-        <add position="after"><![CDATA[
-// Entry
-$_['entry_name']              = 'Ваше имя:';
-$_['entry_review']            = 'Ваш отзыв:';
-$_['entry_rating']            = 'Оценка:';
-$_['entry_good']              = 'Хорошо';
-$_['entry_bad']               = 'Плохо';
-
-// Error
-$_['error_name']              = 'Имя должно быть от 3 до 25 символов!';
-$_['error_text']              = 'Текст отзыва должен быть от 25 до 1000 символов!';
-$_['error_rating']            = 'Пожалуйста, выберите оценку!';
-        
-// Locale
-$_['date_format_information'] = 'd.m.Y';
-$_['date_format_short']       = 'd.m.Y';
-$_['date_format_long']        = 'd.m.Y H:i:s';
-        ]]></add>
-      </operation>
-  </file>
-
   <file path="catalog/model/catalog/information.php">
       <operation error="skip">
         <search regex="true"><![CDATA[~(getInformation\(\$information_id\) \{).*(\})~isU]]></search>
@@ -5044,32 +4567,6 @@ $_['date_format_long']        = 'd.m.Y H:i:s';
       </operation>
   </file>
 
-  <file path="catalog/language/en-gb/product/product.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="before"><![CDATA[
-$_['text_related_information'] = 'Related Articles';
-$_['text_related_reviews']     = '%s reviews';
-$_['text_read']                = 'Read..';
-        ]]></add>
-      </operation>
-  </file>
-  
-  <file path="catalog/language/ru-ru/product/product.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Entry
-        ]]></search>
-        <add position="before"><![CDATA[
-$_['text_related_information'] = 'Рекомендуемые статьи';
-$_['text_related_reviews']     = '%s отзывов';
-$_['text_read']                = 'Подробнее..';
-        ]]></add>
-      </operation>
-  </file>
-  
   <file path="catalog/model/catalog/product.php">
       <operation error="skip">
         <search><![CDATA[
@@ -5198,31 +4695,6 @@ $_['text_read']                = 'Подробнее..';
       <operation error="skip">
         <search><![CDATA[$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "product p ON (r.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND p.date_available <= NOW() AND p.status = '1' AND r.status = '1' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");]]></search>
         <add position="replace"><![CDATA[$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "review` WHERE `product_id` = '" . (int)$product_id . "' AND `status` = '1'");]]></add>
-      </operation>
-  </file>
-
-  <!-- Mail Review -->
-  <file path="catalog/language/en-gb/mail/review.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Text
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['text_information_subject'] = '%s - Review Article';
-$_['text_information']         = 'Article: %s';
-        ]]></add>
-      </operation>
-  </file>
-  
-  <file path="catalog/language/ru-ru/mail/review.php">
-      <operation error="skip">
-        <search><![CDATA[
-// Text
-        ]]></search>
-        <add position="after"><![CDATA[
-$_['text_information_subject'] = '%s - отзыв о статье';
-$_['text_information']         = 'Статья: %s';
-        ]]></add>
       </operation>
   </file>
 

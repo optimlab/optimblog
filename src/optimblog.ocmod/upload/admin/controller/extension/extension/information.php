@@ -37,6 +37,18 @@ class ControllerExtensionExtensionInformation extends Controller {
 			$this->session->data['success'] = $this->language->get('text_success');
 		}
 
+		$this->load->model('setting/event');
+
+		$this->model_setting_event->addEvent('optimblog_admin_language_category', 'admin/language/catalog/category/after', 'extension/extension/information/languageCategory');
+		$this->model_setting_event->addEvent('optimblog_admin_language_product', 'admin/language/catalog/product/after', 'extension/extension/information/languageProduct');
+		$this->model_setting_event->addEvent('optimblog_admin_language_information', 'admin/language/catalog/information/after', 'extension/extension/information/languageInformation');
+		$this->model_setting_event->addEvent('optimblog_admin_language_review', 'admin/language/catalog/review/after', 'extension/extension/information/languageReview');
+		$this->model_setting_event->addEvent('optimblog_admin_language_customer_search', 'admin/language/extension/report/customer_search/after', 'extension/extension/information/languageCustomerSearch');
+		$this->model_setting_event->addEvent('optimblog_catalog_language_category', 'catalog/language/product/category/after', 'extension/information/optimblog/languageCategory');
+		$this->model_setting_event->addEvent('optimblog_catalog_language_product', 'catalog/language/product/product/after', 'extension/information/optimblog/languageProduct');
+		$this->model_setting_event->addEvent('optimblog_catalog_language_information', 'catalog/language/information/information/after', 'extension/information/optimblog/languageInformation');
+		$this->model_setting_event->addEvent('optimblog_catalog_language_review', 'catalog/language/mail/review/after', 'extension/information/optimblog/languageReview');
+
 		$this->getList();
 	}
 
@@ -54,7 +66,45 @@ class ControllerExtensionExtensionInformation extends Controller {
 			$this->session->data['success'] = $this->language->get('text_success');
 		}
 		
+		$this->load->model('setting/event');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_category');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_information');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_review');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_customer_search');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_category');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_information');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_review');
+
 		$this->getList();
+	}
+
+	// Event
+	// admin/language/catalog/category/after
+	public function languageCategory(&$route) {
+		$this->load->language('extension/information/optimblog_category');
+	}
+
+	// admin/language/catalog/product/after
+	public function languageProduct(&$route) {
+		$this->load->language('extension/information/optimblog_product');
+	}
+
+	// admin/language/catalog/information/after
+	public function languageInformation(&$route) {
+		$this->load->language('extension/information/optimblog_information');
+	}
+
+	// admin/language/catalog/review/after
+	public function languageReview(&$route) {
+		$this->load->language('extension/information/optimblog_review');
+	}
+
+	// admin/language/extension/report/customer_search/after
+	public function languageCustomerSearch(&$route) {
+		$this->load->language('extension/information/optimblog_customer_search');
 	}
 
 	protected function getList() {
