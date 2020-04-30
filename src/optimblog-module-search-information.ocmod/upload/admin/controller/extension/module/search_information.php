@@ -72,13 +72,13 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 	public function install() {
 		$this->load->model('setting/event');
 
-		$this->model_setting_event->addEvent('search_information', 'catalog/controller/information/search/before', 'extension/module/search_information/route');
+		$this->model_setting_event->addEvent('optimblog_search_information', 'catalog/controller/information/search/before', 'extension/module/search_information/route');
 	}
 
 	public function uninstall() {
 		$this->load->model('setting/event');
 
-		$this->model_setting_event->deleteEventByCode('search_information');
+		$this->model_setting_event->deleteEventByCode('optimblog_search_information');
 	}
 
 	protected function validate() {
