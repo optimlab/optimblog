@@ -11,6 +11,10 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 	private $error = array();
 
 	public function index() {
+		// Version
+		define('OPTIMBLOG', '3.0.1.0');
+		$data['version'] = 'v' . OPTIMBLOG;
+
 		$this->load->language('extension/information/optimblog');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -18,7 +22,49 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		$this->load->model('setting/setting');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			$this->model_setting_setting->editSetting('information', $this->request->post, $this->request->get['store_id']);
+			$this->model_setting_setting->editSetting('information_optimblog', $this->request->post, $this->request->get['store_id']);
+
+			$this->load->model('setting/event');
+
+			if (!empty($this->request->post['information_optimblog_canonical_category_product']) || !empty($this->request->post['information_optimblog_canonical_information'])) {
+				$canonical = $this->model_setting_event->getEventByCode('optimblog_canonical');
+
+				if (empty($canonical)) {
+					$this->model_setting_event->addEvent('optimblog_canonical', 'catalog/view/common/header/before', 'extension/information/optimblog/canonical');
+				}
+			} else {
+				$this->model_setting_event->deleteEventByCode('optimblog_canonical');
+			}
+
+			if (!empty($this->request->post['information_optimblog_breadcrumbs_category_product'])) {
+				$breadcrumbs_category_product = $this->model_setting_event->getEventByCode('optimblog_breadcrumbs_category_product');
+
+				if (empty($breadcrumbs_category_product)) {
+					$this->model_setting_event->addEvent('optimblog_breadcrumbs_category_product', 'catalog/view/product/category/before', 'extension/information/optimblog/breadcrumbsCategoryProduct');
+				}
+			} else {
+				$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_category_product');
+			} 
+
+			if (!empty($this->request->post['information_optimblog_breadcrumbs_product'])) {
+				$breadcrumbs_product = $this->model_setting_event->getEventByCode('optimblog_breadcrumbs_product');
+
+				if (empty($breadcrumbs_product)) {
+					$this->model_setting_event->addEvent('optimblog_breadcrumbs_product', 'catalog/view/product/product/before', 'extension/information/optimblog/breadcrumbsProduct');
+				}
+			} else {
+				$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_product');
+			} 
+
+			if (!empty($this->request->post['information_optimblog_breadcrumbs_information'])) {
+				$breadcrumbs_information = $this->model_setting_event->getEventByCode('optimblog_breadcrumbs_information');
+
+				if (empty($breadcrumbs_information)) {
+					$this->model_setting_event->addEvent('optimblog_breadcrumbs_information', 'catalog/view/information/information/before', 'extension/information/optimblog/breadcrumbsInformation');
+				}
+			} else {
+				$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_information');
+			} 
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -31,22 +77,22 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$data['error_warning'] = '';
 		}
 
-		if (isset($this->error['limit_admin'])) {
-			$data['error_limit_admin'] = $this->error['information_limit'];
+		if (isset($this->error['share_code'])) {
+			$data['error_share_code'] = $this->error['share_code'];
 		} else {
-			$data['error_limit_admin'] = '';
+			$data['error_share_code'] = '';
+		}
+
+		if (isset($this->error['description_length'])) {
+			$data['error_description_length'] = $this->error['description_length'];
+		} else {
+			$data['error_description_length'] = '';
 		}
 
 		if (isset($this->error['information_limit'])) {
 			$data['error_information_limit'] = $this->error['information_limit'];
 		} else {
 			$data['error_information_limit'] = '';
-		}
-
-		if (isset($this->error['information_description_length'])) {
-			$data['error_information_description_length'] = $this->error['information_description_length'];
-		} else {
-			$data['error_information_description_length'] = '';
 		}
 
 		if (isset($this->error['image_category'])) {
@@ -121,7 +167,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		$data['user_token'] = $this->session->data['user_token'];
 
 		if (isset($this->request->get['store_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$setting_info = $this->model_setting_setting->getSetting('information', $this->request->get['store_id']);
+			$setting_info = $this->model_setting_setting->getSetting('information_optimblog', $this->request->get['store_id']);
 		}
 		
 		if (isset($this->request->post['information_optimblog_status'])) {
@@ -132,140 +178,135 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$data['information_optimblog_status'] = '';
 		}
 		
-		if (isset($this->request->post['information_information_author'])) {
-			$data['information_information_author'] = $this->request->post['information_information_author'];
-		} elseif (isset($setting_info['information_information_author'])) {
-			$data['information_information_author'] = $setting_info['information_information_author'];
+		if (isset($this->request->post['information_optimblog_share_status'])) {
+			$data['information_optimblog_share_status'] = $this->request->post['information_optimblog_share_status'];
+		} elseif (isset($setting_info['information_optimblog_share_status'])) {
+			$data['information_optimblog_share_status'] = $setting_info['information_optimblog_share_status'];
 		} else {
-			$data['information_information_author'] = '';
-		}
-
-		if (isset($this->request->post['information_information_date'])) {
-			$data['information_information_date'] = $this->request->post['information_information_date'];
-		} elseif (isset($setting_info['information_information_date'])) {
-			$data['information_information_date'] = $setting_info['information_information_date'];
-		} else {
-			$data['information_information_date'] = '';
-		}
-
-		if (isset($this->request->post['information_information_review'])) {
-			$data['information_information_review'] = $this->request->post['information_information_review'];
-		} elseif (isset($setting_info['information_information_review'])) {
-			$data['information_information_review'] = $setting_info['information_information_review'];
-		} else {
-			$data['information_information_review'] = '';
-		}
-
-		if (isset($this->request->post['information_information_manufacturer'])) {
-			$data['information_information_manufacturer'] = $this->request->post['information_information_manufacturer'];
-		} elseif (isset($setting_info['information_information_manufacturer'])) {
-			$data['information_information_manufacturer'] = $setting_info['information_information_manufacturer'];
-		} else {
-			$data['information_information_manufacturer'] = '';
-		}
-
-		if (isset($this->request->post['information_category_show'])) {
-			$data['information_category_show'] = $this->request->post['information_category_show'];
-		} elseif (isset($setting_info['information_category_show'])) {
-			$data['information_category_show'] = $setting_info['information_category_show'];
-		} else {
-			$data['information_category_show'] = 1;
-		}		
-
-		if (isset($this->request->post['information_limit'])) {
-			$data['information_limit'] = $this->request->post['information_limit'];
-		} elseif (isset($setting_info['information_limit'])) {
-			$data['information_limit'] = $setting_info['information_limit'];
-		} else {
-			$data['information_limit'] = 15;
-		}		
-		
-		if (isset($this->request->post['information_category_limit_show'])) {
-			$data['information_category_limit_show'] = $this->request->post['information_category_limit_show'];
-		} elseif (isset($setting_info['information_category_limit_show'])) {
-			$data['information_category_limit_show'] = $setting_info['information_category_limit_show'];
-		} else {
-			$data['information_category_limit_show'] = '';
-		}		
-		
-		if (isset($this->request->post['information_category_view'])) {
-			$data['information_category_view'] = $this->request->post['information_category_view'];
-		} elseif (isset($setting_info['information_category_view'])) {
-			$data['information_category_view'] = $setting_info['information_category_view'];
-		} else {
-			$data['information_category_view'] = 'list';
-		}		
-		
-		if (isset($this->request->post['information_category_view_show'])) {
-			$data['information_category_view_show'] = $this->request->post['information_category_view_show'];
-		} elseif (isset($setting_info['information_category_view_show'])) {
-			$data['information_category_view_show'] = $setting_info['information_category_view_show'];
-		} else {
-			$data['information_category_view_show'] = '';
-		}		
-		
-		if (isset($this->request->post['information_description_length'])) {
-			$data['information_description_length'] = $this->request->post['information_description_length'];
-		} elseif (isset($setting_info['information_description_length'])) {
-			$data['information_description_length'] = $setting_info['information_description_length'];
-		} else {
-			$data['information_description_length'] = 100;
+			$data['information_optimblog_share_status'] = '';
 		}
 		
-		if (isset($this->request->post['information_count'])) {
-			$data['information_count'] = $this->request->post['information_count'];
-		} elseif (isset($setting_info['information_count'])) {
-			$data['information_count'] = $setting_info['information_count'];
+		if (isset($this->request->post['information_optimblog_share_code'])) {
+			$data['information_optimblog_share_code'] = $this->request->post['information_optimblog_share_code'];
+		} elseif (isset($setting_info['information_optimblog_share_code'])) {
+			$data['information_optimblog_share_code'] = $setting_info['information_optimblog_share_code'];
 		} else {
-			$data['information_count'] = '';
+			$data['information_optimblog_share_code']  = '<!-- AddThis Button BEGIN -->';
+			$data['information_optimblog_share_code'] .= '<div class="addthis_toolbox addthis_default_style" data-url="{{ share }}"><a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>';
+			$data['information_optimblog_share_code'] .= '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-515eeaf54693130e"></script>';
+			$data['information_optimblog_share_code'] .= '<!-- AddThis Button END -->';
+		}
+		
+		if (isset($this->request->post['information_optimblog_canonical_category_product'])) {
+			$data['information_optimblog_canonical_category_product'] = $this->request->post['information_optimblog_canonical_category_product'];
+		} elseif (isset($setting_info['information_optimblog_canonical_category_product'])) {
+			$data['information_optimblog_canonical_category_product'] = $setting_info['information_optimblog_canonical_category_product'];
+		} else {
+			$data['information_optimblog_canonical_category_product'] = '';
+		}
+		
+		if (isset($this->request->post['information_optimblog_canonical_category_information'])) {
+			$data['information_optimblog_canonical_category_information'] = $this->request->post['information_optimblog_canonical_category_information'];
+		} elseif (isset($setting_info['information_optimblog_canonical_category_information'])) {
+			$data['information_optimblog_canonical_category_information'] = $setting_info['information_optimblog_canonical_category_information'];
+		} else {
+			$data['information_optimblog_canonical_category_information'] = '';
+		}
+		
+		if (isset($this->request->post['information_optimblog_canonical_information'])) {
+			$data['information_optimblog_canonical_information'] = $this->request->post['information_optimblog_canonical_information'];
+		} elseif (isset($setting_info['information_optimblog_canonical_information'])) {
+			$data['information_optimblog_canonical_information'] = $setting_info['information_optimblog_canonical_information'];
+		} else {
+			$data['information_optimblog_canonical_information'] = '';
+		}
+		
+		if (isset($this->request->post['information_optimblog_breadcrumbs_category_product'])) {
+			$data['information_optimblog_breadcrumbs_category_product'] = $this->request->post['information_optimblog_breadcrumbs_category_product'];
+		} elseif (isset($setting_info['information_optimblog_breadcrumbs_category_product'])) {
+			$data['information_optimblog_breadcrumbs_category_product'] = $setting_info['information_optimblog_breadcrumbs_category_product'];
+		} else {
+			$data['information_optimblog_breadcrumbs_category_product'] = 1;
+		}
+		
+		if (isset($this->request->post['information_optimblog_breadcrumbs_category_information'])) {
+			$data['information_optimblog_breadcrumbs_category_information'] = $this->request->post['information_optimblog_breadcrumbs_category_information'];
+		} elseif (isset($setting_info['information_optimblog_breadcrumbs_category_information'])) {
+			$data['information_optimblog_breadcrumbs_category_information'] = $setting_info['information_optimblog_breadcrumbs_category_information'];
+		} else {
+			$data['information_optimblog_breadcrumbs_category_information'] = 1;
+		}
+		
+		if (isset($this->request->post['information_optimblog_breadcrumbs_product'])) {
+			$data['information_optimblog_breadcrumbs_product'] = $this->request->post['information_optimblog_breadcrumbs_product'];
+		} elseif (isset($setting_info['information_optimblog_breadcrumbs_product'])) {
+			$data['information_optimblog_breadcrumbs_product'] = $setting_info['information_optimblog_breadcrumbs_product'];
+		} else {
+			$data['information_optimblog_breadcrumbs_product'] = 1;
+		}
+		
+		if (isset($this->request->post['information_optimblog_breadcrumbs_information'])) {
+			$data['information_optimblog_breadcrumbs_information'] = $this->request->post['information_optimblog_breadcrumbs_information'];
+		} elseif (isset($setting_info['information_optimblog_breadcrumbs_information'])) {
+			$data['information_optimblog_breadcrumbs_information'] = $setting_info['information_optimblog_breadcrumbs_information'];
+		} else {
+			$data['information_optimblog_breadcrumbs_information'] = 1;
+		}
+		
+		if (isset($this->request->post['information_optimblog_information_author'])) {
+			$data['information_optimblog_information_author'] = $this->request->post['information_optimblog_information_author'];
+		} elseif (isset($setting_info['information_optimblog_information_author'])) {
+			$data['information_optimblog_information_author'] = $setting_info['information_optimblog_information_author'];
+		} else {
+			$data['information_optimblog_information_author'] = '';
 		}
 
-		if (isset($this->request->post['information_category_author'])) {
-			$data['information_category_author'] = $this->request->post['information_category_author'];
-		} elseif (isset($setting_info['information_category_author'])) {
-			$data['information_category_author'] = $setting_info['information_category_author'];
+		if (isset($this->request->post['information_optimblog_information_date'])) {
+			$data['information_optimblog_information_date'] = $this->request->post['information_optimblog_information_date'];
+		} elseif (isset($setting_info['information_optimblog_information_date'])) {
+			$data['information_optimblog_information_date'] = $setting_info['information_optimblog_information_date'];
 		} else {
-			$data['information_category_author'] = '';
+			$data['information_optimblog_information_date'] = '';
 		}
 
-		if (isset($this->request->post['information_category_date'])) {
-			$data['information_category_date'] = $this->request->post['information_category_date'];
-		} elseif (isset($setting_info['information_category_date'])) {
-			$data['information_category_date'] = $setting_info['information_category_date'];
+		if (isset($this->request->post['information_optimblog_information_manufacturer'])) {
+			$data['information_optimblog_information_manufacturer'] = $this->request->post['information_optimblog_information_manufacturer'];
+		} elseif (isset($setting_info['information_optimblog_information_manufacturer'])) {
+			$data['information_optimblog_information_manufacturer'] = $setting_info['information_optimblog_information_manufacturer'];
 		} else {
-			$data['information_category_date'] = '';
+			$data['information_optimblog_information_manufacturer'] = '';
 		}
 
-		if (isset($this->request->post['information_category_review'])) {
-			$data['information_category_review'] = $this->request->post['information_category_review'];
-		} elseif (isset($setting_info['information_category_review'])) {
-			$data['information_category_review'] = $setting_info['information_category_review'];
+		if (isset($this->request->post['information_optimblog_information_review'])) {
+			$data['information_optimblog_information_review'] = $this->request->post['information_optimblog_information_review'];
+		} elseif (isset($setting_info['information_optimblog_information_review'])) {
+			$data['information_optimblog_information_review'] = $setting_info['information_optimblog_information_review'];
 		} else {
-			$data['information_category_review'] = '';
+			$data['information_optimblog_information_review'] = '';
 		}
 
-		if (isset($this->request->post['information_review_status'])) {
-			$data['information_review_status'] = $this->request->post['information_review_status'];
-		} elseif (isset($setting_info['information_review_status'])) {
-			$data['information_review_status'] = $setting_info['information_review_status'];
+		if (isset($this->request->post['information_optimblog_review_status'])) {
+			$data['information_optimblog_review_status'] = $this->request->post['information_optimblog_review_status'];
+		} elseif (isset($setting_info['information_optimblog_review_status'])) {
+			$data['information_optimblog_review_status'] = $setting_info['information_optimblog_review_status'];
 		} else {
-			$data['information_review_status'] = '';
+			$data['information_optimblog_review_status'] = '';
 		}
 
-		if (isset($this->request->post['information_review_guest'])) {
-			$data['information_review_guest'] = $this->request->post['information_review_guest'];
-		} elseif (isset($setting_info['information_review_guest'])) {
-			$data['information_review_guest'] = $setting_info['information_review_guest'];
+		if (isset($this->request->post['information_optimblog_review_guest'])) {
+			$data['information_optimblog_review_guest'] = $this->request->post['information_optimblog_review_guest'];
+		} elseif (isset($setting_info['information_optimblog_review_guest'])) {
+			$data['information_optimblog_review_guest'] = $setting_info['information_optimblog_review_guest'];
 		} else {
-			$data['information_review_guest'] = '';
+			$data['information_optimblog_review_guest'] = '';
 		}
 
-		if (isset($this->request->post['information_captcha'])) {
-			$data['information_captcha'] = $this->request->post['information_captcha'];
-		} elseif (isset($setting_info['information_captcha'])) {
-			$data['information_captcha'] = $setting_info['information_captcha'];
+		if (isset($this->request->post['information_optimblog_captcha'])) {
+			$data['information_optimblog_captcha'] = $this->request->post['information_optimblog_captcha'];
+		} elseif (isset($setting_info['information_optimblog_captcha'])) {
+			$data['information_optimblog_captcha'] = $setting_info['information_optimblog_captcha'];
 		} else {
-			$data['information_captcha'] = '';
+			$data['information_optimblog_captcha'] = '';
 		}
 		
 		$this->load->model('setting/extension');
@@ -286,203 +327,86 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			}
 		}
         
-		// Exclusion Informations
-        $this->load->model('catalog/information');
-
-		if (isset($this->request->post['information_exclusion'])) {
-			$exclusion_informations = $this->request->post['information_exclusion'];
-		} elseif (isset($setting_info['information_without_review'])) {
-			$exclusion_informations = $setting_info['information_without_review'];
-		} elseif (isset($setting_info['information_exclusion'])) {
-			$exclusion_informations = $setting_info['information_exclusion'];
+		if (isset($this->request->post['information_optimblog_information_show'])) {
+			$data['information_optimblog_information_show'] = $this->request->post['information_optimblog_information_show'];
+		} elseif (isset($setting_info['information_optimblog_information_show'])) {
+			$data['information_optimblog_information_show'] = $setting_info['information_optimblog_information_show'];
 		} else {
-			$exclusion_informations = array();
-		}
+			$data['information_optimblog_information_show'] = 1;
+		}		
 
-		$data['exclusion_informations'] = array();
-
-		foreach ($exclusion_informations as $information_id) {
-			$information_info = $this->model_catalog_information->getInformation($information_id);
-
-			if ($information_info) {
-				$data['exclusion_informations'][] = array(
-					'information_id' => $information_info['information_id'],
-					'title'          => $information_info['title']
-				);
-			}
-		}
-
-		if (isset($this->request->post['information_exclusion_information_author'])) {
-			$exclusion_informations_author = $this->request->post['information_exclusion_information_author'];
-		} elseif (isset($setting_info['information_exclusion_information_author'])) {
-			$exclusion_informations_author = $setting_info['information_exclusion_information_author'];
+		if (isset($this->request->post['information_optimblog_information_description_length'])) {
+			$data['information_optimblog_information_description_length'] = $this->request->post['information_optimblog_information_description_length'];
+		} elseif (isset($setting_info['information_optimblog_information_description_length'])) {
+			$data['information_optimblog_information_description_length'] = $setting_info['information_optimblog_information_description_length'];
 		} else {
-			$exclusion_informations_author = array();
+			$data['information_optimblog_information_description_length'] = 100;
 		}
-
-		$data['exclusion_informations_author'] = array();
-
-		foreach ($exclusion_informations_author as $information_id) {
-			$information_info = $this->model_catalog_information->getInformation($information_id);
-
-			if ($information_info) {
-				$data['exclusion_informations_author'][] = array(
-					'information_id' => $information_info['information_id'],
-					'title'          => $information_info['title']
-				);
-			}
-		}
-
-		if (isset($this->request->post['information_exclusion_information_author'])) {
-			$exclusion_informations_author = $this->request->post['information_exclusion_information_author'];
-		} elseif (isset($setting_info['information_exclusion_information_author'])) {
-			$exclusion_informations_author = $setting_info['information_exclusion_information_author'];
+		
+		if (isset($this->request->post['information_optimblog_information_count'])) {
+			$data['information_optimblog_information_count'] = $this->request->post['information_optimblog_information_count'];
+		} elseif (isset($setting_info['information_optimblog_information_count'])) {
+			$data['information_optimblog_information_count'] = $setting_info['information_optimblog_information_count'];
 		} else {
-			$exclusion_informations_author = array();
+			$data['information_optimblog_information_count'] = '';
 		}
 
-		$data['exclusion_informations_author'] = array();
-
-		foreach ($exclusion_informations_author as $information_id) {
-			$information_info = $this->model_catalog_information->getInformation($information_id);
-
-			if ($information_info) {
-				$data['exclusion_informations_author'][] = array(
-					'information_id' => $information_info['information_id'],
-					'title'          => $information_info['title']
-				);
-			}
-		}
-
-		if (isset($this->request->post['information_exclusion_information_date'])) {
-			$exclusion_informations_date = $this->request->post['information_exclusion_information_date'];
-		} elseif (isset($setting_info['information_exclusion_information_date'])) {
-			$exclusion_informations_date = $setting_info['information_exclusion_information_date'];
+		if (isset($this->request->post['information_optimblog_category_author'])) {
+			$data['information_optimblog_category_author'] = $this->request->post['information_optimblog_category_author'];
+		} elseif (isset($setting_info['information_optimblog_category_author'])) {
+			$data['information_optimblog_category_author'] = $setting_info['information_optimblog_category_author'];
 		} else {
-			$exclusion_informations_date = array();
+			$data['information_optimblog_category_author'] = '';
 		}
 
-		$data['exclusion_informations_date'] = array();
-
-		foreach ($exclusion_informations_date as $information_id) {
-			$information_info = $this->model_catalog_information->getInformation($information_id);
-
-			if ($information_info) {
-				$data['exclusion_informations_date'][] = array(
-					'information_id' => $information_info['information_id'],
-					'title'          => $information_info['title']
-				);
-			}
-		}
-
-		if (isset($this->request->post['information_exclusion_information_review'])) {
-			$exclusion_informations_review = $this->request->post['information_exclusion_information_review'];
-		} elseif (isset($setting_info['information_exclusion_information_review'])) {
-			$exclusion_informations_review = $setting_info['information_exclusion_information_review'];
+		if (isset($this->request->post['information_optimblog_category_date'])) {
+			$data['information_optimblog_category_date'] = $this->request->post['information_optimblog_category_date'];
+		} elseif (isset($setting_info['information_optimblog_category_date'])) {
+			$data['information_optimblog_category_date'] = $setting_info['information_optimblog_category_date'];
 		} else {
-			$exclusion_informations_review = array();
+			$data['information_optimblog_category_date'] = '';
 		}
 
-		$data['exclusion_informations_review'] = array();
-
-		foreach ($exclusion_informations_review as $information_id) {
-			$information_info = $this->model_catalog_information->getInformation($information_id);
-
-			if ($information_info) {
-				$data['exclusion_informations_review'][] = array(
-					'information_id' => $information_info['information_id'],
-					'title'          => $information_info['title']
-				);
-			}
-		}
-
-		if (isset($this->request->post['information_exclusion_information_manufacturer'])) {
-			$exclusion_informations_manufacturer = $this->request->post['information_exclusion_information_manufacturer'];
-		} elseif (isset($setting_info['information_exclusion_information_manufacturer'])) {
-			$exclusion_informations_manufacturer = $setting_info['information_exclusion_information_manufacturer'];
+		if (isset($this->request->post['information_optimblog_category_review'])) {
+			$data['information_optimblog_category_review'] = $this->request->post['information_optimblog_category_review'];
+		} elseif (isset($setting_info['information_optimblog_category_review'])) {
+			$data['information_optimblog_category_review'] = $setting_info['information_optimblog_category_review'];
 		} else {
-			$exclusion_informations_manufacturer = array();
+			$data['information_optimblog_category_review'] = '';
 		}
 
-		$data['exclusion_informations_manufacturer'] = array();
-
-		foreach ($exclusion_informations_manufacturer as $information_id) {
-			$information_info = $this->model_catalog_information->getInformation($information_id);
-
-			if ($information_info) {
-				$data['exclusion_informations_manufacturer'][] = array(
-					'information_id' => $information_info['information_id'],
-					'title'          => $information_info['title']
-				);
-			}
-		}
-
-		// Exclusion Category
-        $this->load->model('catalog/category');
-
-		if (isset($this->request->post['information_exclusion_category_author'])) {
-			$exclusion_categories_author = $this->request->post['information_exclusion_category_author'];
-		} elseif (isset($setting_info['information_exclusion_category_author'])) {
-			$exclusion_categories_author = $setting_info['information_exclusion_category_author'];
+		if (isset($this->request->post['information_optimblog_category_view'])) {
+			$data['information_optimblog_category_view'] = $this->request->post['information_optimblog_category_view'];
+		} elseif (isset($setting_info['information_optimblog_category_view'])) {
+			$data['information_optimblog_category_view'] = $setting_info['information_optimblog_category_view'];
 		} else {
-			$exclusion_categories_author = array();
-		}
-
-		$data['exclusion_categories_author'] = array();
-
-		foreach ($exclusion_categories_author as $category_id) {
-			$category_info = $this->model_catalog_category->getCategory($category_id);
-
-			if ($category_info) {
-				$data['exclusion_categories_author'][] = array(
-					'category_id' => $category_info['category_id'],
-					'name'        => $category_info['name']
-				);
-			}
-		}
-
-		if (isset($this->request->post['information_exclusion_category_date'])) {
-			$exclusion_categories_date = $this->request->post['information_exclusion_category_date'];
-		} elseif (isset($setting_info['information_exclusion_category_date'])) {
-			$exclusion_categories_date = $setting_info['information_exclusion_category_date'];
+			$data['information_optimblog_category_view'] = 'list';
+		}		
+		
+		if (isset($this->request->post['information_optimblog_category_view_show'])) {
+			$data['information_optimblog_category_view_show'] = $this->request->post['information_optimblog_category_view_show'];
+		} elseif (isset($setting_info['information_optimblog_category_view_show'])) {
+			$data['information_optimblog_category_view_show'] = $setting_info['information_optimblog_category_view_show'];
 		} else {
-			$exclusion_categories_date = array();
-		}
-
-		$data['exclusion_categories_date'] = array();
-
-		foreach ($exclusion_categories_date as $category_id) {
-			$category_info = $this->model_catalog_category->getCategory($category_id);
-
-			if ($category_info) {
-				$data['exclusion_categories_date'][] = array(
-					'category_id' => $category_info['category_id'],
-					'name'        => $category_info['name']
-				);
-			}
-		}
-
-		if (isset($this->request->post['information_exclusion_category_review'])) {
-			$exclusion_categories_review = $this->request->post['information_exclusion_category_review'];
-		} elseif (isset($setting_info['information_exclusion_category_review'])) {
-			$exclusion_categories_review = $setting_info['information_exclusion_category_review'];
+			$data['information_optimblog_category_view_show'] = '';
+		}		
+		
+		if (isset($this->request->post['information_optimblog_information_limit'])) {
+			$data['information_optimblog_information_limit'] = $this->request->post['information_optimblog_information_limit'];
+		} elseif (isset($setting_info['information_optimblog_information_limit'])) {
+			$data['information_optimblog_information_limit'] = $setting_info['information_optimblog_information_limit'];
 		} else {
-			$exclusion_categories_review = array();
-		}
-
-		$data['exclusion_categories_review'] = array();
-
-		foreach ($exclusion_categories_review as $category_id) {
-			$category_info = $this->model_catalog_category->getCategory($category_id);
-
-			if ($category_info) {
-				$data['exclusion_categories_review'][] = array(
-					'category_id' => $category_info['category_id'],
-					'name'        => $category_info['name']
-				);
-			}
-		}
-
+			$data['information_optimblog_information_limit'] = 15;
+		}		
+		
+		if (isset($this->request->post['information_optimblog_category_limit_show'])) {
+			$data['information_optimblog_category_limit_show'] = $this->request->post['information_optimblog_category_limit_show'];
+		} elseif (isset($setting_info['information_optimblog_category_limit_show'])) {
+			$data['information_optimblog_category_limit_show'] = $setting_info['information_optimblog_category_limit_show'];
+		} else {
+			$data['information_optimblog_category_limit_show'] = '';
+		}		
+		
 		$data['sorts'] = array();
 
 		$data['sorts'][] = array(
@@ -510,7 +434,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			'value' => 'i.date_added-DESC'
 		);
 
-		if ($data['information_review_status']) {
+		if ($data['information_optimblog_review_status']) {
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_rating_desc'),
 				'value' => 'rating-DESC'
@@ -522,148 +446,322 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			);
 		}
 
-		if (isset($this->request->post['information_category_sort'])) {
-			$data['information_category_sort'] = $this->request->post['information_category_sort'];
-		} elseif (isset($setting_info['information_category_sort'])) {
-			$data['information_category_sort'] = $setting_info['information_category_sort'];
+		if (isset($this->request->post['information_optimblog_category_sort'])) {
+			$data['information_optimblog_category_sort'] = $this->request->post['information_optimblog_category_sort'];
+		} elseif (isset($setting_info['information_optimblog_category_sort'])) {
+			$data['information_optimblog_category_sort'] = $setting_info['information_optimblog_category_sort'];
 		} else {
-			$data['information_category_sort'] = 'i.sort_order-ASC';		
+			$data['information_optimblog_category_sort'] = 'i.sort_order-ASC';		
 		}
 		
-		if (isset($this->request->post['information_category_sort_show'])) {
-			$data['information_category_sort_show'] = $this->request->post['information_category_sort_show'];
-		} elseif (isset($setting_info['information_category_sort_show'])) {
-			$data['information_category_sort_show'] = $setting_info['information_category_sort_show'];
+		if (isset($this->request->post['information_optimblog_category_sort_show'])) {
+			$data['information_optimblog_category_sort_show'] = $this->request->post['information_optimblog_category_sort_show'];
+		} elseif (isset($setting_info['information_optimblog_category_sort_show'])) {
+			$data['information_optimblog_category_sort_show'] = $setting_info['information_optimblog_category_sort_show'];
 		} else {
-			$data['information_category_sort_show'] = '';		
+			$data['information_optimblog_category_sort_show'] = '';		
 		}
 		
-		if (isset($this->request->post['information_image_category_width'])) {
-			$data['information_image_category_width'] = $this->request->post['information_image_category_width'];
-		} elseif (isset($setting_info['information_image_category_width'])) {
-			$data['information_image_category_width'] = $setting_info['information_image_category_width'];
+		// Exclusion Informations
+        $this->load->model('catalog/information');
+
+		if (isset($this->request->post['information_optimblog_exclusion_information'])) {
+			$exclusion_informations = $this->request->post['information_optimblog_exclusion_information'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_information'])) {
+			$exclusion_informations = $setting_info['information_optimblog_exclusion_information'];
 		} else {
-			$data['information_image_category_width'] = 80;		
+			$exclusion_informations = array();
+		}
+
+		$data['information_optimblog_exclusion_informations'] = array();
+
+		foreach ($exclusion_informations as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['information_optimblog_exclusion_informations'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_information_author'])) {
+			$exclusion_informations_author = $this->request->post['information_optimblog_exclusion_information_author'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_information_author'])) {
+			$exclusion_informations_author = $setting_info['information_optimblog_exclusion_information_author'];
+		} else {
+			$exclusion_informations_author = array();
+		}
+
+		$data['information_optimblog_exclusion_informations_author'] = array();
+
+		foreach ($exclusion_informations_author as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['information_optimblog_exclusion_informations_author'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_information_date'])) {
+			$exclusion_informations_date = $this->request->post['information_optimblog_exclusion_information_date'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_information_date'])) {
+			$exclusion_informations_date = $setting_info['information_optimblog_exclusion_information_date'];
+		} else {
+			$exclusion_informations_date = array();
+		}
+
+		$data['information_optimblog_exclusion_informations_date'] = array();
+
+		foreach ($exclusion_informations_date as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['information_optimblog_exclusion_informations_date'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_information_manufacturer'])) {
+			$exclusion_informations_manufacturer = $this->request->post['information_optimblog_exclusion_information_manufacturer'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_information_manufacturer'])) {
+			$exclusion_informations_manufacturer = $setting_info['information_optimblog_exclusion_information_manufacturer'];
+		} else {
+			$exclusion_informations_manufacturer = array();
+		}
+
+		$data['information_optimblog_exclusion_informations_manufacturer'] = array();
+
+		foreach ($exclusion_informations_manufacturer as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['information_optimblog_exclusion_informations_manufacturer'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_information_review'])) {
+			$exclusion_informations_review = $this->request->post['information_optimblog_exclusion_information_review'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_information_review'])) {
+			$exclusion_informations_review = $setting_info['information_optimblog_exclusion_information_review'];
+		} else {
+			$exclusion_informations_review = array();
+		}
+
+		$data['information_optimblog_exclusion_informations_review'] = array();
+
+		foreach ($exclusion_informations_review as $information_id) {
+			$information_info = $this->model_catalog_information->getInformation($information_id);
+
+			if ($information_info) {
+				$data['information_optimblog_exclusion_informations_review'][] = array(
+					'information_id' => $information_info['information_id'],
+					'title'          => $information_info['title']
+				);
+			}
+		}
+
+		// Exclusion Category
+        $this->load->model('catalog/category');
+
+		if (isset($this->request->post['information_optimblog_exclusion_category_author'])) {
+			$exclusion_categories_author = $this->request->post['information_optimblog_exclusion_category_author'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_author'])) {
+			$exclusion_categories_author = $setting_info['information_optimblog_exclusion_category_author'];
+		} else {
+			$exclusion_categories_author = array();
+		}
+
+		$data['information_optimblog_exclusion_categories_author'] = array();
+
+		foreach ($exclusion_categories_author as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_optimblog_exclusion_categories_author'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_category_date'])) {
+			$exclusion_categories_date = $this->request->post['information_optimblog_exclusion_category_date'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_date'])) {
+			$exclusion_categories_date = $setting_info['information_optimblog_exclusion_category_date'];
+		} else {
+			$exclusion_categories_date = array();
+		}
+
+		$data['information_optimblog_exclusion_categories_date'] = array();
+
+		foreach ($exclusion_categories_date as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_optimblog_exclusion_categories_date'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_category_review'])) {
+			$exclusion_categories_review = $this->request->post['information_optimblog_exclusion_category_review'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_review'])) {
+			$exclusion_categories_review = $setting_info['information_optimblog_exclusion_category_review'];
+		} else {
+			$exclusion_categories_review = array();
+		}
+
+		$data['information_optimblog_exclusion_categories_review'] = array();
+
+		foreach ($exclusion_categories_review as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_optimblog_exclusion_categories_review'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_image_category_width'])) {
+			$data['information_optimblog_image_category_width'] = $this->request->post['information_optimblog_image_category_width'];
+		} elseif (isset($setting_info['information_optimblog_image_category_width'])) {
+			$data['information_optimblog_image_category_width'] = $setting_info['information_optimblog_image_category_width'];
+		} else {
+			$data['information_optimblog_image_category_width'] = 80;		
 		}
 		
-		if (isset($this->request->post['information_image_category_height'])) {
-			$data['information_image_category_height'] = $this->request->post['information_image_category_height'];
-		} elseif (isset($setting_info['information_image_category_height'])) {
-			$data['information_image_category_height'] = $setting_info['information_image_category_height'];
+		if (isset($this->request->post['information_optimblog_image_category_height'])) {
+			$data['information_optimblog_image_category_height'] = $this->request->post['information_optimblog_image_category_height'];
+		} elseif (isset($setting_info['information_optimblog_image_category_height'])) {
+			$data['information_optimblog_image_category_height'] = $setting_info['information_optimblog_image_category_height'];
 		} else {
-			$data['information_image_category_height'] = 80;
+			$data['information_optimblog_image_category_height'] = 80;
 		}
 		
-		if (isset($this->request->post['information_image_thumb_width'])) {
-			$data['information_image_thumb_width'] = $this->request->post['information_image_thumb_width'];
-		} elseif (isset($setting_info['information_image_thumb_width'])) {
-			$data['information_image_thumb_width'] = $setting_info['information_image_thumb_width'];
+		if (isset($this->request->post['information_optimblog_image_thumb_width'])) {
+			$data['information_optimblog_image_thumb_width'] = $this->request->post['information_optimblog_image_thumb_width'];
+		} elseif (isset($setting_info['information_optimblog_image_thumb_width'])) {
+			$data['information_optimblog_image_thumb_width'] = $setting_info['information_optimblog_image_thumb_width'];
 		} else {
-			$data['information_image_thumb_width'] = 228;
+			$data['information_optimblog_image_thumb_width'] = 228;
 		}
 		
-		if (isset($this->request->post['information_image_thumb_height'])) {
-			$data['information_image_thumb_height'] = $this->request->post['information_image_thumb_height'];
-		} elseif (isset($setting_info['information_image_thumb_height'])) {
-			$data['information_image_thumb_height'] = $setting_info['information_image_thumb_height'];
+		if (isset($this->request->post['information_optimblog_image_thumb_height'])) {
+			$data['information_optimblog_image_thumb_height'] = $this->request->post['information_optimblog_image_thumb_height'];
+		} elseif (isset($setting_info['information_optimblog_image_thumb_height'])) {
+			$data['information_optimblog_image_thumb_height'] = $setting_info['information_optimblog_image_thumb_height'];
 		} else {
-			$data['information_image_thumb_height'] = 228;		
+			$data['information_optimblog_image_thumb_height'] = 228;		
 		}
 		
-		if (isset($this->request->post['information_image_popup_width'])) {
-			$data['information_image_popup_width'] = $this->request->post['information_image_popup_width'];
-		} elseif (isset($setting_info['information_image_popup_width'])) {
-			$data['information_image_popup_width'] = $setting_info['information_image_popup_width'];
+		if (isset($this->request->post['information_optimblog_image_popup_width'])) {
+			$data['information_optimblog_image_popup_width'] = $this->request->post['information_optimblog_image_popup_width'];
+		} elseif (isset($setting_info['information_optimblog_image_popup_width'])) {
+			$data['information_optimblog_image_popup_width'] = $setting_info['information_optimblog_image_popup_width'];
 		} else {
-			$data['information_image_popup_width'] = 500;
+			$data['information_optimblog_image_popup_width'] = 500;
 		}
 		
-		if (isset($this->request->post['information_image_popup_height'])) {
-			$data['information_image_popup_height'] = $this->request->post['information_image_popup_height'];
-		} elseif (isset($setting_info['information_image_popup_height'])) {
-			$data['information_image_popup_height'] = $setting_info['information_image_popup_height'];
+		if (isset($this->request->post['information_optimblog_image_popup_height'])) {
+			$data['information_optimblog_image_popup_height'] = $this->request->post['information_optimblog_image_popup_height'];
+		} elseif (isset($setting_info['information_optimblog_image_popup_height'])) {
+			$data['information_optimblog_image_popup_height'] = $setting_info['information_optimblog_image_popup_height'];
 		} else {
-			$data['information_image_popup_height'] = 500;
+			$data['information_optimblog_image_popup_height'] = 500;
 		}
 		
-		if (isset($this->request->post['information_image_information_width'])) {
-			$data['information_image_information_width'] = $this->request->post['information_image_information_width'];
-		} elseif (isset($setting_info['information_image_information_width'])) {
-			$data['information_image_information_width'] = $setting_info['information_image_information_width'];
+		if (isset($this->request->post['information_optimblog_image_information_width'])) {
+			$data['information_optimblog_image_information_width'] = $this->request->post['information_optimblog_image_information_width'];
+		} elseif (isset($setting_info['information_optimblog_image_information_width'])) {
+			$data['information_optimblog_image_information_width'] = $setting_info['information_optimblog_image_information_width'];
 		} else {
-			$data['information_image_information_width'] = 228;
+			$data['information_optimblog_image_information_width'] = 228;
 		}
 		
-		if (isset($this->request->post['information_image_information_height'])) {
-			$data['information_image_information_height'] = $this->request->post['information_image_information_height'];
-		} elseif (isset($setting_info['information_image_information_height'])) {
-			$data['information_image_information_height'] = $setting_info['information_image_information_height'];
+		if (isset($this->request->post['information_optimblog_image_information_height'])) {
+			$data['information_optimblog_image_information_height'] = $this->request->post['information_optimblog_image_information_height'];
+		} elseif (isset($setting_info['information_optimblog_image_information_height'])) {
+			$data['information_optimblog_image_information_height'] = $setting_info['information_optimblog_image_information_height'];
 		} else {
-			$data['information_image_information_height'] = 228;
+			$data['information_optimblog_image_information_height'] = 228;
 		}
 		
-		if (isset($this->request->post['information_image_additional_width'])) {
-			$data['information_image_additional_width'] = $this->request->post['information_image_additional_width'];
-		} elseif (isset($setting_info['information_image_additional_width'])) {
-			$data['information_image_additional_width'] = $setting_info['information_image_additional_width'];
+		if (isset($this->request->post['information_optimblog_image_additional_width'])) {
+			$data['information_optimblog_image_additional_width'] = $this->request->post['information_optimblog_image_additional_width'];
+		} elseif (isset($setting_info['information_optimblog_image_additional_width'])) {
+			$data['information_optimblog_image_additional_width'] = $setting_info['information_optimblog_image_additional_width'];
 		} else {
-			$data['information_image_additional_width'] = 74;
+			$data['information_optimblog_image_additional_width'] = 74;
 		}
 		
-		if (isset($this->request->post['information_image_additional_height'])) {
-			$data['information_image_additional_height'] = $this->request->post['information_image_additional_height'];
-		} elseif (isset($setting_info['information_image_additional_height'])) {
-			$data['information_image_additional_height'] = $setting_info['information_image_additional_height'];
+		if (isset($this->request->post['information_optimblog_image_additional_height'])) {
+			$data['information_optimblog_image_additional_height'] = $this->request->post['information_optimblog_image_additional_height'];
+		} elseif (isset($setting_info['information_optimblog_image_additional_height'])) {
+			$data['information_optimblog_image_additional_height'] = $setting_info['information_optimblog_image_additional_height'];
 		} else {
-			$data['information_image_additional_height'] = 74;
+			$data['information_optimblog_image_additional_height'] = 74;
 		}
 		
-		if (isset($this->request->post['information_image_related_width'])) {
-			$data['information_image_related_width'] = $this->request->post['information_image_related_width'];
-		} elseif (isset($setting_info['information_image_related_width'])) {
-			$data['information_image_related_width'] = $setting_info['information_image_related_width'];
+		if (isset($this->request->post['information_optimblog_image_related_width'])) {
+			$data['information_optimblog_image_related_width'] = $this->request->post['information_optimblog_image_related_width'];
+		} elseif (isset($setting_info['information_optimblog_image_related_width'])) {
+			$data['information_optimblog_image_related_width'] = $setting_info['information_optimblog_image_related_width'];
 		} else {
-			$data['information_image_related_width'] = 80;
+			$data['information_optimblog_image_related_width'] = 80;
 		}
 		
-		if (isset($this->request->post['information_image_related_height'])) {
-			$data['information_image_related_height'] = $this->request->post['information_image_related_height'];
-		} elseif (isset($setting_info['information_image_related_height'])) {
-			$data['information_image_related_height'] = $setting_info['information_image_related_height'];
+		if (isset($this->request->post['information_optimblog_image_related_height'])) {
+			$data['information_optimblog_image_related_height'] = $this->request->post['information_optimblog_image_related_height'];
+		} elseif (isset($setting_info['information_optimblog_image_related_height'])) {
+			$data['information_optimblog_image_related_height'] = $setting_info['information_optimblog_image_related_height'];
 		} else {
-			$data['information_image_related_height'] = 80;
+			$data['information_optimblog_image_related_height'] = 80;
 		}
 		
-		if (isset($this->request->post['information_image_category_popup_width'])) {
-			$data['information_image_category_popup_width'] = $this->request->post['information_image_category_popup_width'];
-		} elseif (isset($setting_info['information_image_category_popup_width'])) {
-			$data['information_image_category_popup_width'] = $setting_info['information_image_category_popup_width'];
+		if (isset($this->request->post['information_optimblog_image_category_popup_width'])) {
+			$data['information_optimblog_image_category_popup_width'] = $this->request->post['information_optimblog_image_category_popup_width'];
+		} elseif (isset($setting_info['information_optimblog_image_category_popup_width'])) {
+			$data['information_optimblog_image_category_popup_width'] = $setting_info['information_optimblog_image_category_popup_width'];
 		} else {
-			$data['information_image_category_popup_width'] = 500;
+			$data['information_optimblog_image_category_popup_width'] = 500;
 		}
 		
-		if (isset($this->request->post['information_image_category_popup_height'])) {
-			$data['information_image_category_popup_height'] = $this->request->post['information_image_category_popup_height'];
-		} elseif (isset($setting_info['information_image_category_popup_height'])) {
-			$data['information_image_category_popup_height'] = $setting_info['information_image_category_popup_height'];
+		if (isset($this->request->post['information_optimblog_image_category_popup_height'])) {
+			$data['information_optimblog_image_category_popup_height'] = $this->request->post['information_optimblog_image_category_popup_height'];
+		} elseif (isset($setting_info['information_optimblog_image_category_popup_height'])) {
+			$data['information_optimblog_image_category_popup_height'] = $setting_info['information_optimblog_image_category_popup_height'];
 		} else {
-			$data['information_image_category_popup_height'] = 500;
+			$data['information_optimblog_image_category_popup_height'] = 500;
 		}
 		
-		if (isset($this->request->post['information_image_category_additional_width'])) {
-			$data['information_image_category_additional_width'] = $this->request->post['information_image_category_additional_width'];
-		} elseif (isset($setting_info['information_image_category_additional_width'])) {
-			$data['information_image_category_additional_width'] = $setting_info['information_image_category_additional_width'];
+		if (isset($this->request->post['information_optimblog_image_category_additional_width'])) {
+			$data['information_optimblog_image_category_additional_width'] = $this->request->post['information_optimblog_image_category_additional_width'];
+		} elseif (isset($setting_info['information_optimblog_image_category_additional_width'])) {
+			$data['information_optimblog_image_category_additional_width'] = $setting_info['information_optimblog_image_category_additional_width'];
 		} else {
-			$data['information_image_category_additional_width'] = 74;
+			$data['information_optimblog_image_category_additional_width'] = 74;
 		}
 		
-		if (isset($this->request->post['information_image_category_additional_height'])) {
-			$data['information_image_category_additional_height'] = $this->request->post['information_image_category_additional_height'];
-		} elseif (isset($setting_info['information_image_category_additional_height'])) {
-			$data['information_image_category_additional_height'] = $setting_info['information_image_category_additional_height'];
+		if (isset($this->request->post['information_optimblog_image_category_additional_height'])) {
+			$data['information_optimblog_image_category_additional_height'] = $this->request->post['information_optimblog_image_category_additional_height'];
+		} elseif (isset($setting_info['information_optimblog_image_category_additional_height'])) {
+			$data['information_optimblog_image_category_additional_height'] = $setting_info['information_optimblog_image_category_additional_height'];
 		} else {
-			$data['information_image_category_additional_height'] = 74;
+			$data['information_optimblog_image_category_additional_height'] = 74;
 		}
 		
 		$data['header'] = $this->load->controller('common/header');
@@ -678,43 +776,47 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->request->post['information_limit']) {
+		if (!$this->request->post['information_optimblog_share_code'] && !empty($this->request->post['information_optimblog_share_status'])) {
+			$this->error['share_code'] = $this->language->get('error_share_code');
+		}			
+
+		if (!$this->request->post['information_optimblog_information_description_length']) {
+			$this->error['description_length'] = $this->language->get('error_limit');
+		}
+
+		if (!$this->request->post['information_optimblog_information_limit']) {
 			$this->error['information_limit'] = $this->language->get('error_limit');
 		}
 
-		if (!$this->request->post['information_description_length']) {
-			$this->error['information_description_length'] = $this->language->get('error_limit');
-		}
-
-		if (!$this->request->post['information_image_category_width'] || !$this->request->post['information_image_category_height']) {
+		if (!$this->request->post['information_optimblog_image_category_width'] || !$this->request->post['information_optimblog_image_category_height']) {
 			$this->error['image_category'] = $this->language->get('error_image_category');
 		}
 
-		if (!$this->request->post['information_image_thumb_width'] || !$this->request->post['information_image_thumb_height']) {
+		if (!$this->request->post['information_optimblog_image_thumb_width'] || !$this->request->post['information_optimblog_image_thumb_height']) {
 			$this->error['image_thumb'] = $this->language->get('error_image_thumb');
 		}
 
-		if (!$this->request->post['information_image_popup_width'] || !$this->request->post['information_image_popup_height']) {
+		if (!$this->request->post['information_optimblog_image_popup_width'] || !$this->request->post['information_optimblog_image_popup_height']) {
 			$this->error['image_popup'] = $this->language->get('error_image_popup');
 		}
 
-		if (!$this->request->post['information_image_information_width'] || !$this->request->post['information_image_information_height']) {
+		if (!$this->request->post['information_optimblog_image_information_width'] || !$this->request->post['information_optimblog_image_information_height']) {
 			$this->error['image_information'] = $this->language->get('error_image_information');
 		}
 
-		if (!$this->request->post['information_image_additional_width'] || !$this->request->post['information_image_additional_height']) {
+		if (!$this->request->post['information_optimblog_image_additional_width'] || !$this->request->post['information_optimblog_image_additional_height']) {
 			$this->error['image_additional'] = $this->language->get('error_image_additional');
 		}
 
-		if (!$this->request->post['information_image_related_width'] || !$this->request->post['information_image_related_height']) {
+		if (!$this->request->post['information_optimblog_image_related_width'] || !$this->request->post['information_optimblog_image_related_height']) {
 			$this->error['image_related'] = $this->language->get('error_image_related');
 		}
 
-		if (!$this->request->post['information_image_category_popup_width'] || !$this->request->post['information_image_category_popup_height']) {
+		if (!$this->request->post['information_optimblog_image_category_popup_width'] || !$this->request->post['information_optimblog_image_category_popup_height']) {
 			$this->error['image_category_popup'] = $this->language->get('error_image_category_popup');
 		}
 
-		if (!$this->request->post['information_image_category_additional_width'] || !$this->request->post['information_image_category_additional_height']) {
+		if (!$this->request->post['information_optimblog_image_category_additional_width'] || !$this->request->post['information_optimblog_image_category_additional_height']) {
 			$this->error['image_category_additional'] = $this->language->get('error_image_category_additional');
 		}
 
@@ -730,19 +832,13 @@ class ControllerExtensionInformationOptimBlog extends Controller {
         
 		$this->model_extension_information_optimblog->createTables();
 	}
-/**
+
 	public function uninstall() {
-		$this->load->model('extension/information/optimblog');
-        
-		$results = $this->model_extension_information_optimblog->getInformationLayouts();
-        
-        if ($results) {
-            $this->load->model('design/layout');
-            
-            foreach ($results as $layout_id) {
-                $this->model_design_layout->deleteLayout($layout_id);
-            }
-        }
+		$this->load->model('setting/event');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_canonical');
+		$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_category_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_information');
 	}
-*/
 }

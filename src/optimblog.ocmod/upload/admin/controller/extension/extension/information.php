@@ -49,6 +49,8 @@ class ControllerExtensionExtensionInformation extends Controller {
 		$this->model_setting_event->addEvent('optimblog_catalog_language_information', 'catalog/language/information/information/after', 'extension/information/optimblog/languageInformation');
 		$this->model_setting_event->addEvent('optimblog_catalog_language_review', 'catalog/language/mail/review/after', 'extension/information/optimblog/languageReview');
 
+		$this->model_setting_event->addEvent('optimblog_catalog_controller_category_type', 'catalog/controller/product/category/before', 'extension/information/optimblog/controllerCategoryType');
+
 		$this->getList();
 	}
 
@@ -77,6 +79,8 @@ class ControllerExtensionExtensionInformation extends Controller {
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_product');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_information');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_review');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_controller_category_type');
 
 		$this->getList();
 	}
