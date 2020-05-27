@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
-  <name>  OptimBlog - category All Theme </name>
+  <name>  OptimBlog - All Theme</name>
   <code>optimblog-category-theme-all</code>
-  <version>3.0.0.5</version>
+  <version>3.0.1.0</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -13,9 +13,7 @@
         <add position="replace"><![CDATA[h1]]></add>
       </operation>
       <operation error="skip">
-        <search><![CDATA[
-      {% if not categories and not products %}
-        ]]></search>
+        <search><![CDATA[{% if not categories and not products %}]]></search>
         <add position="replace"><![CDATA[
       {% if informations %}
       {% if view_show or sort_show or limit_show %}
@@ -109,8 +107,8 @@
   <!-- Information -->
   <file path="catalog/view/theme/*/template/information/information.twig">
       <operation error="skip">
-        <search><![CDATA[{{ heading_title }}]]></search>
-        <add position="after"><![CDATA[
+        <search><![CDATA[{{ description }}]]></search>
+        <add position="replace"><![CDATA[
       {% if not information_exclusion %}
       <ul class="list-inline text-muted">
         {% if show_date %}
@@ -220,17 +218,8 @@
       {% endfor %} </p>
       {% endif %}
       <hr>
-      <!-- AddThis Button BEGIN -->
-      <div class="addthis_toolbox addthis_default_style" data-url="{{ share }}"><a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>
-      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-515eeaf54693130e"></script> 
-      <!-- AddThis Button END -->
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-      {{ description }}{{ content_bottom }}</div>
-        ]]></search>
-        <add position="replace"><![CDATA[
+      {{ share }}
+
       {% if informations %}
       <h3>{{ text_related }}</h3>
       <div class="row"> {% set i = 0 %}
@@ -325,13 +314,10 @@
         {% set i = i + 1 %}
         {% endfor %} </div>
         {% endif %}
-      {{ content_bottom }}</div>
         ]]></add>
       </operation>
       <operation error="skip">
-        <search><![CDATA[
-{{ footer }}
-        ]]></search>
+        <search><![CDATA[{{ footer }}]]></search>
         <add position="before"><![CDATA[
 <script type="text/javascript"><!--
 $('#review').delegate('.pagination a', 'click', function(e) {
@@ -393,9 +379,7 @@ $(document).ready(function() {
   <!-- Product -->
   <file path="catalog/view/theme/*/template/product/product.twig">
       <operation error="skip">
-        <search><![CDATA[
-        {% if tags %}
-        ]]></search>
+        <search><![CDATA[{% if tags %}]]></search>
         <add position="before"><![CDATA[
       {% if informations %}
       <h3>{{ text_related_information }}</h3>
@@ -453,21 +437,19 @@ $(document).ready(function() {
   <!-- Review -->
   <file path="catalog/view/theme/*/template/product/review.twig">
       <operation error="skip">
-        <search><![CDATA[{% endfor %}</td>]]></search>
-        <add position="replace"><![CDATA[{% endfor %}
+        <search index="0"><![CDATA[{% endfor %}]]></search>
+        <add position="after"><![CDATA[
       {% if review.reply %}
       <div class="well well-sm">{{ review.reply }}</div>
       {% endif %}
-    </td>]]></add>
+        ]]></add>
       </operation>
   </file>
 
   <!-- Information Sitemap -->
   <file path="catalog/view/theme/*/template/information/sitemap.twig">
       <operation error="skip">
-        <search index="6"><![CDATA[
-          </ul>
-        ]]></search>
+        <search index="6"><![CDATA[</ul>]]></search>
         <add position="before"><![CDATA[
             {% for category_1 in information_categories %}
             <li><a href="{{ category_1.href }}">{{ category_1.name }}</a>
