@@ -22,21 +22,31 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 
 
 ## The functionality and capabilities of the module OptimBlog
-### General for categories, products and articles:
+### Categories:
 1. **Heading H1**
 2. **Short Description** - Displayed in categories and modules displaying products or articles.
 There is no modification for commodity modules.
+3. **Additional Images**
 
-### General for products and articles:
-1. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the canonical property for the site pages.
-2. **Related Products and Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
+### Products:
+1. **Heading H1**
+2. **Short Description** - Displayed in categories and modules displaying products or articles.
+There is no modification for commodity modules.
+3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the canonical property for the site pages.
+4. **Related Products and Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
 
 ### Articles:
-1. **Tags**
-2. **Date Available** and **Date End** of this publication
-3. **Author**
-4. **Attributes**
-5. **Additional Images**
+1. **Heading H1**
+2. **Short Description** - Displayed in categories and modules displaying products or articles.
+There is no modification for commodity modules.
+3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the canonical property for the site pages.
+4. **Related Products and Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
+5. **Tags**
+6. **Date Added**
+7. **Date Available** and **Date End** of this publication
+8. **Author**
+9. **Attributes**
+10. **Additional Images**
 
 ### For Developers:
 - Some functions and features that developers can use to create their modules are laid down for the future. For example: «additional images» in the category settings can be displayed using the slider. And «Manufacturer» to use for appropriate bindings and sorting.
