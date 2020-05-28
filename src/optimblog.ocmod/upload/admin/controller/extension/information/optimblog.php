@@ -13,8 +13,9 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 	public function index() {
 		// Version
 		define('OPTIMBLOG', '3.0.1.0');
-		$data['version'] = 'v' . OPTIMBLOG;
 
+		$data['information_optimblog_version'] = OPTIMBLOG;
+		
 		$this->load->language('extension/information/optimblog');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -23,48 +24,6 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('information_optimblog', $this->request->post, $this->request->get['store_id']);
-
-			$this->load->model('setting/event');
-
-			if (!empty($this->request->post['information_optimblog_canonical_category_product']) || !empty($this->request->post['information_optimblog_canonical_information'])) {
-				$canonical = $this->model_setting_event->getEventByCode('optimblog_canonical');
-
-				if (empty($canonical)) {
-					$this->model_setting_event->addEvent('optimblog_canonical', 'catalog/view/common/header/before', 'extension/information/optimblog/canonical');
-				}
-			} else {
-				$this->model_setting_event->deleteEventByCode('optimblog_canonical');
-			}
-
-			if (!empty($this->request->post['information_optimblog_breadcrumbs_category_product'])) {
-				$breadcrumbs_category_product = $this->model_setting_event->getEventByCode('optimblog_breadcrumbs_category_product');
-
-				if (empty($breadcrumbs_category_product)) {
-					$this->model_setting_event->addEvent('optimblog_breadcrumbs_category_product', 'catalog/view/product/category/before', 'extension/information/optimblog/breadcrumbsCategoryProduct');
-				}
-			} else {
-				$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_category_product');
-			} 
-
-			if (!empty($this->request->post['information_optimblog_breadcrumbs_product'])) {
-				$breadcrumbs_product = $this->model_setting_event->getEventByCode('optimblog_breadcrumbs_product');
-
-				if (empty($breadcrumbs_product)) {
-					$this->model_setting_event->addEvent('optimblog_breadcrumbs_product', 'catalog/view/product/product/before', 'extension/information/optimblog/breadcrumbsProduct');
-				}
-			} else {
-				$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_product');
-			} 
-
-			if (!empty($this->request->post['information_optimblog_breadcrumbs_information'])) {
-				$breadcrumbs_information = $this->model_setting_event->getEventByCode('optimblog_breadcrumbs_information');
-
-				if (empty($breadcrumbs_information)) {
-					$this->model_setting_event->addEvent('optimblog_breadcrumbs_information', 'catalog/view/information/information/before', 'extension/information/optimblog/breadcrumbsInformation');
-				}
-			} else {
-				$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_information');
-			} 
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -75,12 +34,6 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
-		}
-
-		if (isset($this->error['share_code'])) {
-			$data['error_share_code'] = $this->error['share_code'];
-		} else {
-			$data['error_share_code'] = '';
 		}
 
 		if (isset($this->error['description_length'])) {
@@ -176,25 +129,6 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$data['information_optimblog_status'] = $setting_info['information_optimblog_status'];
 		} else {
 			$data['information_optimblog_status'] = '';
-		}
-		
-		if (isset($this->request->post['information_optimblog_share_status'])) {
-			$data['information_optimblog_share_status'] = $this->request->post['information_optimblog_share_status'];
-		} elseif (isset($setting_info['information_optimblog_share_status'])) {
-			$data['information_optimblog_share_status'] = $setting_info['information_optimblog_share_status'];
-		} else {
-			$data['information_optimblog_share_status'] = '';
-		}
-		
-		if (isset($this->request->post['information_optimblog_share_code'])) {
-			$data['information_optimblog_share_code'] = $this->request->post['information_optimblog_share_code'];
-		} elseif (isset($setting_info['information_optimblog_share_code'])) {
-			$data['information_optimblog_share_code'] = $setting_info['information_optimblog_share_code'];
-		} else {
-			$data['information_optimblog_share_code']  = '<!-- AddThis Button BEGIN -->';
-			$data['information_optimblog_share_code'] .= '<div class="addthis_toolbox addthis_default_style" data-url="{{ share }}"><a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>';
-			$data['information_optimblog_share_code'] .= '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-515eeaf54693130e"></script>';
-			$data['information_optimblog_share_code'] .= '<!-- AddThis Button END -->';
 		}
 		
 		if (isset($this->request->post['information_optimblog_canonical_category_product'])) {
@@ -351,6 +285,14 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$data['information_optimblog_information_count'] = '';
 		}
 
+		if (isset($this->request->post['information_optimblog_share'])) {
+			$data['information_optimblog_share'] = $this->request->post['information_optimblog_share'];
+		} elseif (isset($setting_info['information_optimblog_share'])) {
+			$data['information_optimblog_share'] = $setting_info['information_optimblog_share'];
+		} else {
+			$data['information_optimblog_share']  = '';
+		}
+		
 		if (isset($this->request->post['information_optimblog_category_author'])) {
 			$data['information_optimblog_category_author'] = $this->request->post['information_optimblog_category_author'];
 		} elseif (isset($setting_info['information_optimblog_category_author'])) {
@@ -657,7 +599,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_thumb_width'])) {
 			$data['information_optimblog_image_thumb_width'] = $setting_info['information_optimblog_image_thumb_width'];
 		} else {
-			$data['information_optimblog_image_thumb_width'] = 228;
+			$data['information_optimblog_image_thumb_width'] = 850;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_thumb_height'])) {
@@ -665,7 +607,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_thumb_height'])) {
 			$data['information_optimblog_image_thumb_height'] = $setting_info['information_optimblog_image_thumb_height'];
 		} else {
-			$data['information_optimblog_image_thumb_height'] = 228;		
+			$data['information_optimblog_image_thumb_height'] = 240;		
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_popup_width'])) {
@@ -776,10 +718,6 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->request->post['information_optimblog_share_code'] && !empty($this->request->post['information_optimblog_share_status'])) {
-			$this->error['share_code'] = $this->language->get('error_share_code');
-		}			
-
 		if (!$this->request->post['information_optimblog_information_description_length']) {
 			$this->error['description_length'] = $this->language->get('error_limit');
 		}
@@ -831,14 +769,49 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		$this->load->model('extension/information/optimblog');
         
 		$this->model_extension_information_optimblog->createTables();
+
+		$this->model_extension_information_optimblog->update();
+
+		$this->load->model('setting/event');
+
+		$this->model_setting_event->addEvent('optimblog_catalog_view_header', 'catalog/view/common/header/before', 'extension/information/optimblog/viewHeaderBefore');
+		$this->model_setting_event->addEvent('optimblog_catalog_view_category', 'catalog/view/product/category/before', 'extension/information/optimblog/viewCategory');
+//		$this->model_setting_event->addEvent('optimblog_catalog_view_category_after', 'catalog/view/product/category/after', 'extension/information/optimblog/viewCategoryAfter');
+		$this->model_setting_event->addEvent('optimblog_catalog_view_product', 'catalog/view/product/product/before', 'extension/information/optimblog/viewProduct');
+		$this->model_setting_event->addEvent('optimblog_catalog_view_information', 'catalog/view/information/information/before', 'extension/information/optimblog/viewInformationBefore');
+//		$this->model_setting_event->addEvent('optimblog_catalog_view_information_after', 'catalog/view/information/information/after', 'extension/information/optimblog/viewInformationAfter');
+
+		$this->model_setting_event->addEvent('optimblog_catalog_information_review', 'catalog/controller/information/information/review/before', 'extension/information/optimblog/informationReview');
+		$this->model_setting_event->addEvent('optimblog_catalog_information_write', 'catalog/controller/information/information/write/before', 'extension/information/optimblog/informationWrite');
+//		$this->model_setting_event->addEvent('optimblog_catalog_information', 'catalog/controller/information/information/before', 'extension/information/optimblog/informationBefore');
+
+		$this->model_setting_event->addEvent('optimblog_catalog_model_information_get', 'catalog/model/catalog/information/getInformation/before', 'extension/information/optimblog/getInformation');
+		$this->model_setting_event->addEvent('optimblog_catalog_model_informations_get', 'catalog/model/catalog/information/getInformations/before', 'extension/information/optimblog/getInformations');
+		$this->model_setting_event->addEvent('optimblog_catalog_model_product_get', 'catalog/model/catalog/product/getProduct/before', 'extension/information/optimblog/getProduct');
+		$this->model_setting_event->addEvent('optimblog_catalog_model_product_related', 'catalog/model/catalog/product/getProductRelated/before', 'extension/information/optimblog/getProductRelated');
+		$this->model_setting_event->addEvent('optimblog_catalog_model_product_review', 'model/catalog/review/getReviewsByProductId/before', 'extension/information/optimblog/getReviewsByProductId');
+		$this->model_setting_event->addEvent('optimblog_catalog_model_product_review_total', 'model/catalog/review/getTotalReviewsByProductId/before', 'extension/information/optimblog/getTotalReviewsByProductId');
 	}
 
 	public function uninstall() {
 		$this->load->model('setting/event');
 
-		$this->model_setting_event->deleteEventByCode('optimblog_canonical');
-		$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_category_product');
-		$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_product');
-		$this->model_setting_event->deleteEventByCode('optimblog_breadcrumbs_information');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_header');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_category');
+//		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_category_after');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_information');
+//		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_information_after');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information_review');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information_write');
+//		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_information_get');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_informations_get');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_get');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_related');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review_total');
 	}
 }

@@ -5,7 +5,7 @@
       <div class="pull-right">
         <button type="submit" form="form-theme" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
         <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
-      <h1>{{ heading_title }} {{ version }}</h1>
+      <h1>{{ heading_title }} v{{ information_optimblog_version }}</h1>
       <ul class="breadcrumb">
         {% for breadcrumb in breadcrumbs %}
         <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
@@ -49,27 +49,7 @@
                     </select>
                   </div>
                 </div>
-              </fieldset>
-              <fieldset>
-                <legend>{{ text_share }}</legend>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-share-status">{{ entry_share_status }}</label>
-                  <div class="col-sm-10">
-                    <select name="information_optimblog_share_status" id="input-share-status" class="form-control">
-                      {% if information_optimblog_share_status %}
-                      <option value="1" selected="selected">{{ text_enabled }}</option>
-                      <option value="0">{{ text_disabled }}</option>
-                      {% else %}
-                      <option value="1">{{ text_enabled }}</option>
-                      <option value="0" selected="selected">{{ text_disabled }}</option>
-                      {% endif %}
-                    </select>
-                    <textarea name="information_optimblog_share_code" rows="5" placeholder="{{ entry_share_code }}" class="form-control">{{ information_optimblog_share_code }}</textarea>
-                    {% if error_share_code %}
-                    <div class="text-danger">{{ error_share_code }}</div>
-                    {% endif %}
-                  </div>
-                </div>
+                <input type="hidden" name="information_optimblog_version" value="{{ information_optimblog_version }}" />
               </fieldset>
               <fieldset>
                 <legend>{{ text_seo }}</legend>
@@ -385,6 +365,15 @@
                       </div>
                     {% endfor %}
                     </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_share }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-share">{{ entry_share }}</label>
+                  <div class="col-sm-10">
+                    <textarea name="information_optimblog_share" id="input-share" rows="5" placeholder="{{ entry_share }}" class="form-control">{{ information_optimblog_share }}</textarea>
                   </div>
                 </div>
               </fieldset>
