@@ -119,6 +119,10 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 		$data['user_token'] = $this->session->data['user_token'];
 
+		$data['store_id'] = $this->request->get['store_id'];
+
+		$data['download'] = $this->url->link('extension/information/optimblog/export', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true);
+
 		if (isset($this->request->get['store_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$setting_info = $this->model_setting_setting->getSetting('information_optimblog', $this->request->get['store_id']);
 		}
@@ -813,5 +817,86 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_related');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review_total');
+	}
+
+	public function export() {
+		$this->load->language('extension/information/optimblog');
+
+		if (!$this->user->hasPermission('modify', 'extension/information/optimblog')) {
+			$this->session->data['error'] = $this->language->get('error_permission');
+
+			$this->response->redirect($this->url->link('extension/information/optimblog', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true));
+		} else {
+			$this->response->addheader('Pragma: public');
+			$this->response->addheader('Expires: 0');
+			$this->response->addheader('Content-Description: File Transfer');
+			$this->response->addheader('Content-Type: application/octet-stream');
+			$this->response->addheader('Content-Disposition: attachment; filename="optimblog_setting_backup_' . date('Y-m-d_H-i-s', time()) . '.txt"');
+			$this->response->addheader('Content-Transfer-Encoding: binary');
+
+			$this->load->model('setting/setting');
+
+			$this->response->setOutput(json_encode($this->model_setting_setting->getSetting('information_optimblog', $this->request->get['store_id'])));
+		}
+	}	
+
+	public function import() {
+		$this->load->language('extension/information/optimblog');
+		
+		$json = array();
+		
+		if (!$this->user->hasPermission('modify', 'extension/information/optimblog')) {
+			$json['error'] = $this->language->get('error_permission');
+		}
+		
+		if (isset($this->request->files['import']['tmp_name']) && is_uploaded_file($this->request->files['import']['tmp_name'])) {
+			$filename = tempnam(DIR_UPLOAD, 'bac');
+			
+			move_uploaded_file($this->request->files['import']['tmp_name'], $filename);
+		} elseif (isset($this->request->get['import'])) {
+			$filename = html_entity_decode($this->request->get['import'], ENT_QUOTES, 'UTF-8');
+		} else {
+			$filename = '';
+		}
+		
+		if (!is_file($filename)) {
+			$json['error'] = $this->language->get('error_file');
+		}	
+
+		// Check to see if any PHP files are trying to be uploaded
+		$content = file_get_contents($filename);
+
+		if (preg_match('/\<\?php/i', $content)) {
+			$json['error'] = $this->language->get('error_filetype');
+		}
+
+		// Return any upload error				
+		if ($this->request->files['import']['error'] != UPLOAD_ERR_OK) {
+			$json['error'] = $this->language->get('error_upload_' . $this->request->files['import']['error']);
+		}
+
+		if (!$json) {
+			$handle = fopen($filename, 'r');
+
+			$setting = json_decode(fread($handle, filesize($filename)));
+
+			// Check json data
+			if ($setting) {
+				$this->load->model('setting/setting');
+
+				$this->model_setting_setting->editSetting('information_optimblog', $setting, $this->request->get['store_id']);
+
+				$json['success'] = $this->language->get('text_import');
+			} else {
+				$json['error'] = $this->language->get('error_datatype');
+			}
+
+			fclose($handle);
+				
+			unlink($filename);
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 }

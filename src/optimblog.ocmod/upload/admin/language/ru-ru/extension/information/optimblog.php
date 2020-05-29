@@ -34,6 +34,8 @@ $_['text_rating_asc']                          = 'Рейтинг (начиная
 $_['text_rating_desc']                         = 'Рейтинг (начиная с высокого)';
 $_['text_share']                               = 'Поделиться';
 $_['text_seo']                                 = 'SEO';
+$_['text_backup']                              = 'Резервное Копирование и Восстановление';
+$_['text_import']                              = 'Файл успешно загружен!';
 
 // Entry
 $_['entry_status']                             = 'Статус';
@@ -76,8 +78,7 @@ $_['entry_exclusion_information_manufacturer'] = 'Исключение';
 $_['entry_exclusion_category_author']          = 'Исключение';
 $_['entry_exclusion_category_date']            = 'Исключение';
 $_['entry_exclusion_category_review']          = 'Исключение';
-$_['entry_share_status']                       = 'Статус';
-$_['entry_share_code']                         = 'Код';
+$_['entry_share']                              = 'Введите Код';
 $_['entry_canonical_category_product']         = 'Канонический URL категории товаров';
 $_['entry_canonical_category_information']     = 'Канонический URL категории статей';
 $_['entry_canonical_information']              = 'Канонический URL статьи';
@@ -85,6 +86,8 @@ $_['entry_breadcrumbs_category_product']       = 'Хлебные крошки к
 $_['entry_breadcrumbs_category_information']   = 'Хлебные крошки категории статей';
 $_['entry_breadcrumbs_product']                = 'Хлебные крошки товара';
 $_['entry_breadcrumbs_information']            = 'Хлебные крошки статьи';
+$_['entry_backup']                             = 'Резервное копирование';
+$_['entry_restore']                            = 'Восстановление';
 
 // Tab
 $_['tab_article']                              = 'Статьи';
@@ -106,6 +109,8 @@ $_['help_canonical_information']               = 'Подкатегории в к
 $_['help_breadcrumbs_category']                = 'Полный путь при коротком URL /subcategory. Например: /category/subcategory/subcategory';
 $_['help_breadcrumbs_product']                 = 'Полный путь при коротком URL /product. Например: /category/subcategory/product. При наличии главной категории в настройках.';
 $_['help_breadcrumbs_information']             = 'Полный путь при коротком URL /article. Например: /category/subcategory/article. При наличии главной категории в настройках.';
+$_['help_backup']                              = 'Резервное копирование настроек из Базы Данных';
+$_['help_restore']                             = 'Восстановление настроек в Базу Данных';
 
 // Buttons
 $_['button_block']                             = 'На всю ширину';
@@ -115,7 +120,9 @@ $_['button_grid']                              = 'Сетка';
 // Error
 $_['error_warning']                            = 'Ошибка! Проверьте форму на наличие ошибок!';
 $_['error_permission']                         = 'У Вас нет прав для изменения настроек!';
-$_['error_share_code']                         = 'Код обязателен при включении!';
+$_['error_file']                               = 'Файл не найден!';
+$_['error_filetype']                           = 'Неправильный тип файла!';
+$_['error_datatype']                           = 'Неправильный тип данных в файле!';
 $_['error_limit']                              = 'Укажите лимит!';
 $_['error_image_thumb']                        = 'Необходимо указать размер большого изображения статьи!';
 $_['error_image_popup']                        = 'Необходимо указать размер всплывающего изображения статьи!';

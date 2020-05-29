@@ -34,6 +34,8 @@ $_['text_rating_asc']                          = 'Rating (Lowest)';
 $_['text_rating_desc']                         = 'Rating (Highest)';
 $_['text_share']                               = 'Share';
 $_['text_seo']                                 = 'SEO';
+$_['text_backup']                              = 'Backup &amp; Restore';
+$_['text_import']                              = 'Your file was successfully imported!';
 
 // Entry
 $_['entry_status']                             = 'Status';
@@ -84,6 +86,8 @@ $_['entry_breadcrumbs_category_product']       = 'Breadcrumbs Category Products'
 $_['entry_breadcrumbs_category_information']   = 'Breadcrumbs Category Articles';
 $_['entry_breadcrumbs_product']                = 'Breadcrumbs Product';
 $_['entry_breadcrumbs_information']            = 'Breadcrumbs Article';
+$_['entry_backup']                             = 'Backup';
+$_['entry_restore']                            = 'Restore';
 
 // Tab
 $_['tab_article']                              = 'Article';
@@ -105,6 +109,8 @@ $_['help_canonical_information']               = 'Adds the parent categories, if
 $_['help_breadcrumbs_category']                = 'Full path with a short URL /subcategory. Example: /category/subcategory/subcategory';
 $_['help_breadcrumbs_product']                 = 'Full path with a short URL /product, if the Main Category is available in its settings. Example: /category/subcategory/product.';
 $_['help_breadcrumbs_information']             = 'Full path with a short URL /article, if the Main Category is available in its settings. Example: /category/subcategory/article.';
+$_['help_backup']                              = 'Backup Settings from your DateBase';
+$_['help_restore']                             = 'Restore Settings into your DateBase';
 
 // Buttons
 $_['button_block']                             = 'Block';
@@ -114,7 +120,9 @@ $_['button_grid']                              = 'Grid';
 // Error
 $_['error_warning']                            = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']                         = 'Warning: You do not have permission to modify the OptimBlog!';
-$_['error_share_code']                         = 'Code required!';
+$_['error_file']                               = 'File could not be found!';
+$_['error_filetype']                           = 'Invalid file type!';
+$_['error_datatype']                           = 'Invalid data type!';
 $_['error_limit']                              = 'Limit required!';
 $_['error_image_thumb']                        = 'Article Image Thumb Size dimensions required!';
 $_['error_image_popup']                        = 'Article Image Popup Size dimensions required!';
