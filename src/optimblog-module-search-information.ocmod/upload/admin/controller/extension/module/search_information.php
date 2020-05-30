@@ -12,8 +12,9 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 
 	public function index() {
 		// Version
-		define('OptimBlogSearchInformation', '3.0.1.0');
-		$data['version'] = 'v' . OptimBlogSearchInformation;
+		define('OPTIMBLOGSEARCHINFORMATION', '3.0.1.0');
+
+		$data['version'] = 'v' . OPTIMBLOGSEARCHINFORMATION;
 
 		$this->load->language('extension/module/search_information');
 

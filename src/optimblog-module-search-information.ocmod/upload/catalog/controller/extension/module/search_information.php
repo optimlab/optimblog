@@ -11,7 +11,7 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 	public function index() {
 		$this->load->language('extension/module/search_information');
 
-		$this->document->addScript('catalog/view/javascript/information.js');
+		$this->document->addScript('catalog/view/javascript/optimblog.js');
 
 		$data['text_search'] = $this->language->get('text_search');
 
@@ -31,7 +31,7 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 
 		$this->load->model('catalog/category');
 
-		$this->load->model('catalog/information');
+		$this->load->model('extension/information/optimblog_information');
 
 		$this->load->model('tool/image');
 
@@ -88,10 +88,10 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
 		} else {
-			$limit = $this->config->get('information_limit');
+			$limit = $this->config->get('information_optimblog_information_limit');
 		}
 
-		$this->document->addScript('catalog/view/javascript/information.js');
+		$this->document->addScript('catalog/view/javascript/optimblog.js');
 
 		if (isset($this->request->get['search'])) {
 			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->request->get['search']);
@@ -214,18 +214,18 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 				'limit'               => $limit
 			);
 
-			$information_total = $this->model_catalog_information->getTotalInformations($filter_data);
+			$information_total = $this->model_extension_information_optimblog_information->getTotalInformations($filter_data);
 
-			$results = $this->model_catalog_information->getInformations($filter_data);
+			$results = $this->model_extension_information_optimblog_information->getInformations($filter_data);
 
 			foreach ($results as $result) {
 				if ($result['image']) {
-					$image = $this->model_tool_image->resize($result['image'], $this->config->get('information_image_information_width'), $this->config->get('information_image_information_height'));
+					$image = $this->model_tool_image->resize($result['image'], $this->config->get('information_optimblog_image_information_width'), $this->config->get('information_optimblog_image_information_height'));
 				} else {
 					$image = false;
 				}
 
-				if ($this->config->get('information_review_status')) {
+				if ($this->config->get('information_optimblog_review_status')) {
 					$rating = (int)$result['rating'];
 				} else {
 					$rating = false;
@@ -235,7 +235,7 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 					'information_id' => $result['information_id'],
 					'thumb'          => $image,
 					'title'          => $result['title'],
-					'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_description_length')) . '..',
+					'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_optimblog_information_description_length')) . '..',
 					'user_id'        => $result['user_id'],
 					'author'         => $result['author'],
 					'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
@@ -303,7 +303,7 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 				'href'  => $this->url->link('information/search', 'sort=i.date_added&order=DESC' . $url)
 			);
 
-			if ($this->config->get('information_review_status')) {
+			if ($this->config->get('information_optimblog_review_status')) {
 				$data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_desc'),
 					'value' => 'rating-DESC',
@@ -349,7 +349,7 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 
 			$data['limits'] = array();
 
-			$limits = array_unique(array($this->config->get('information_limit'), 25, 50, 75, 100));
+			$limits = array_unique(array($this->config->get('information_optimblog_information_limit'), 25, 50, 75, 100));
 
 			sort($limits);
 
@@ -444,13 +444,13 @@ class ControllerExtensionModuleSearchInformation extends Controller {
 		$data['order'] = $order;
 		$data['limit'] = $limit;
 
-		$data['sort_show'] = $this->config->get('information_category_sort_show');
-		$data['limit_show'] = $this->config->get('information_category_limit_show');
-		$data['view_show'] = $this->config->get('information_category_view_show');
-		$data['view'] = $this->config->get('information_category_view');
-		$data['show_author'] = $this->config->get('information_category_author');
-		$data['show_date'] = $this->config->get('information_category_date');
-		$data['show_review'] = $this->config->get('information_category_review');
+		$data['sort_show'] = $this->config->get('information_optimblog_category_sort_show');
+		$data['limit_show'] = $this->config->get('information_optimblog_category_limit_show');
+		$data['view_show'] = $this->config->get('information_optimblog_category_view_show');
+		$data['view'] = $this->config->get('information_optimblog_category_view');
+		$data['show_author'] = $this->config->get('information_optimblog_category_author');
+		$data['show_date'] = $this->config->get('information_optimblog_category_date');
+		$data['show_review'] = $this->config->get('information_optimblog_category_review');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
