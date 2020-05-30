@@ -112,7 +112,7 @@ class ControllerExtensionInformationCategory extends Controller {
 			$this->document->setTitle($category_info['meta_title']);
 			$this->document->setDescription($category_info['meta_description']);
 			$this->document->setKeywords($category_info['meta_keyword']);
-			$this->document->addScript('catalog/view/javascript/information.js');
+			$this->document->addScript('catalog/view/javascript/optimblog.js');
 			
 			$data['heading_title'] = $category_info['header'] ? $category_info['header'] : $category_info['name'];
 
