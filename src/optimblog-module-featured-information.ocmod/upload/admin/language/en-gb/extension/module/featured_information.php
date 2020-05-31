@@ -8,7 +8,7 @@
  * @link       http://optimlab.com
  */
 // Heading
-$_['heading_title']     = 'OptimBlog : Featured Articles v3.0.1.0';
+$_['heading_title']     = 'OptimBlog : Featured Articles';
 
 // Text
 $_['text_extension']    = 'Extensions';

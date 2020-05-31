@@ -11,6 +11,8 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 	private $error = array();
 
 	public function index() {
+		$data['version'] = 'v' . '3.0.1.0';
+
 		$this->load->language('extension/module/featured_information');
 
 		$this->document->setTitle($this->language->get('heading_title'));

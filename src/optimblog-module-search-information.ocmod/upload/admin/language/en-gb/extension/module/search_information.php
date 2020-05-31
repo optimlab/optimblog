@@ -8,15 +8,15 @@
  * @link       http://optimlab.com
  */
 // Heading
-$_['heading_title']    = 'OptimBlog : Search Information';
+$_['heading_title']    = 'OptimBlog : Search Articles';
 
 // Text
 $_['text_extension']   = 'Extensions';
-$_['text_success']     = 'Success: You have modified Search Information module!';
-$_['text_edit']        = 'Edit Search Information Module';
+$_['text_success']     = 'Success: You have modified Search Articles module!';
+$_['text_edit']        = 'Edit Search Articles Module';
 
 // Entry
 $_['entry_status']     = 'Status';
 
 // Error
-$_['error_permission'] = 'Warning: You do not have permission to modify Search Information module!';
+$_['error_permission'] = 'Warning: You do not have permission to modify Search Articles module!';
