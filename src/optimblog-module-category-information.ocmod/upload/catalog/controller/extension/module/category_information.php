@@ -31,7 +31,7 @@ class ControllerExtensionModuleCategoryInformation extends Controller {
 
 		$this->load->model('catalog/category');
 
-		$this->load->model('catalog/information');
+		$this->load->model('extension/information/optimblog_information');
 
 		$data['categories'] = array();
 
@@ -52,7 +52,7 @@ class ControllerExtensionModuleCategoryInformation extends Controller {
 
 					$children_data[] = array(
 						'category_id' => $child['category_id'],
-						'name' => $child['name'] . ($this->config->get('information_optimblog_information_count') ? ' (' . $this->model_catalog_information->getTotalInformations($filter_data) . ')' : ''),
+						'name' => $child['name'] . ($this->config->get('information_optimblog_information_count') ? ' (' . $this->model_extension_information_optimblog_information->getTotalInformations($filter_data) . ')' : ''),
 						'href' => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
 					);
 				}
@@ -65,7 +65,7 @@ class ControllerExtensionModuleCategoryInformation extends Controller {
 
 			$data['categories'][] = array(
 				'category_id' => $category['category_id'],
-				'name'        => $category['name'] . ($this->config->get('information_optimblog_information_count') ? ' (' . $this->model_catalog_information->getTotalInformations($filter_data) . ')' : ''),
+				'name'        => $category['name'] . ($this->config->get('information_optimblog_information_count') ? ' (' . $this->model_extension_information_optimblog_information->getTotalInformations($filter_data) . ')' : ''),
 				'children'    => $children_data,
 				'href'        => $this->url->link('product/category', 'path=' . $category['category_id'])
 			);
