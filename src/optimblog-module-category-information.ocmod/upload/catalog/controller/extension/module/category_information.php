@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.5
+ * @version    3.0.1.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -52,7 +52,7 @@ class ControllerExtensionModuleCategoryInformation extends Controller {
 
 					$children_data[] = array(
 						'category_id' => $child['category_id'],
-						'name' => $child['name'] . ($this->config->get('information_count') ? ' (' . $this->model_catalog_information->getTotalInformations($filter_data) . ')' : ''),
+						'name' => $child['name'] . ($this->config->get('information_optimblog_information_count') ? ' (' . $this->model_catalog_information->getTotalInformations($filter_data) . ')' : ''),
 						'href' => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
 					);
 				}
@@ -65,7 +65,7 @@ class ControllerExtensionModuleCategoryInformation extends Controller {
 
 			$data['categories'][] = array(
 				'category_id' => $category['category_id'],
-				'name'        => $category['name'] . ($this->config->get('information_count') ? ' (' . $this->model_catalog_information->getTotalInformations($filter_data) . ')' : ''),
+				'name'        => $category['name'] . ($this->config->get('information_optimblog_information_count') ? ' (' . $this->model_catalog_information->getTotalInformations($filter_data) . ')' : ''),
 				'children'    => $children_data,
 				'href'        => $this->url->link('product/category', 'path=' . $category['category_id'])
 			);

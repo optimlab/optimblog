@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.8
+ * @version    3.0.1.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -24,7 +24,7 @@ class ControllerExtensionModuleBestSellerInformation extends Controller {
 				$this->model_setting_module->editModule($this->request->get['module_id'], $this->request->post);
 			}
 
-			$this->cache->delete('product');
+			$this->cache->delete('information');
 
 			$this->session->data['success'] = $this->language->get('text_success');
 

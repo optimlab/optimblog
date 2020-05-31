@@ -1,19 +1,19 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.0.8
+ * @version    3.0.1.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
  * @link       http://optimlab.com
  */
 // Heading
-$_['heading_title']    = 'OptimBlog : Best Information';
+$_['heading_title']    = 'OptimBlog : Best Articles v3.0.1.0';
 
 // Text
 $_['text_extension']   = 'Extensions';
-$_['text_success']     = 'Success: You have modified Best Information module!';
-$_['text_edit']        = 'Edit Best Information Module';
+$_['text_success']     = 'Success: You have modified Best Articles module!';
+$_['text_edit']        = 'Edit Best Articles Module';
 $_['text_viewed']      = 'Viewed';
 $_['text_rating']      = 'Rating';
 
@@ -37,7 +37,7 @@ $_['help_title']       = 'Can Use HTML';
 $_['help_category']    = '(Autocomplete)';
 
 // Error
-$_['error_permission'] = 'Warning: You do not have permission to modify Best Information module!';
+$_['error_permission'] = 'Warning: You do not have permission to modify Best Articles module!';
 $_['error_name']       = 'Module Name must be between 3 and 64 characters!';
 $_['error_width']      = 'Width required!';
 $_['error_height']     = 'Height required!';
