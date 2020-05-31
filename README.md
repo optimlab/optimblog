@@ -54,17 +54,17 @@ There is no modification for commodity modules.
 - Used the layout with Bootstrap 3 classes. That can be easily used for your templates without wasting time.
 
 
-## The composition of the modules and modifications of the OptimCart Family
+## The composition of the modules and modifications of the OptimBlog Family
 1. **optimblog.ocmod.zip**.
 2. **breadcrumb-last.ocmod.zip** — modification eliminates the clickability of the last item of the breadcrumbs.
 3. **canonical-category.ocmod.zip** — modification that adds the parent categories to the canonical url of the subcategory.
 4. **canonical-category-no-page.ocmod.zip** — modification is similar to the previous one, only removes the canonical URL on the pagination (page=n).
 5. **canonical-information.ocmod.zip** — modification is similar to **canonical-category.ocmod.zip** that adds subcategories to the canonical URL of the article, if the Main Category is available in its settings.
-6. **optimblog-module-bestseller-information.ocmod.zip** — module «Best Information».
-7. **optimblog-module-featured-information.ocmod.zip** — module «Featured Information».
-8. **optimblog-module-latest-information.ocmod.zip** — module «Latest Information».
-9. **optimblog-module-category-information.ocmod.zip** — module «Category Information».
-10. **optimblog-module-search-information.ocmod.zip** - module «Search Information».
+6. **optimblog-module-bestseller-information.ocmod.zip** — module «Best Articles».
+7. **optimblog-module-featured-information.ocmod.zip** — module «Featured Articles».
+8. **optimblog-module-latest-information.ocmod.zip** — module «Latest Articles».
+9. **optimblog-module-category-information.ocmod.zip** — module «Category Articles».
+10. **optimblog-module-search-information.ocmod.zip** - module «Search Articles».
 
 
 ## Information:
