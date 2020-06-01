@@ -153,10 +153,27 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 					'media' => 'screen'
 				);
 
+				$this->load->model('extension/information/optimblog_information');
+
+				if ($this->model_extension_information_optimblog_information->getInformationImages($information_id)) {
+					$data['styles']['catalog/view/javascript/jquery/swiper/css/swiper.min.css'] = array(
+						'href'  => 'catalog/view/javascript/jquery/swiper/css/swiper.min.css',
+						'rel'   => 'stylesheet',
+						'media' => 'screen'
+					);
+
+					$data['styles']['catalog/view/javascript/jquery/swiper/css/opencart.css'] = array(
+						'href'  => 'catalog/view/javascript/jquery/swiper/css/opencart.css',
+						'rel'   => 'stylesheet',
+						'media' => 'screen'
+					);
+
+					$data['scripts'][] = 'catalog/view/javascript/jquery/swiper/js/swiper.jquery.js';
+				}
+
 				// Canonical Information
 				if ($this->config->get('information_optimblog_canonical_information')) {
 					$this->load->model('extension/information/optimblog_category');
-					$this->load->model('extension/information/optimblog_information');
 
 					$main_category = $this->model_extension_information_optimblog_information->getMainCategory($information_id);
 
@@ -287,7 +304,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 			if ($product_info) {
 				// Breadcrumbs Product
-				$main_category = $this->model_catalog_product->getMainCategory($product_id);
+				$main_category = $this->model_extension_information_optimblog_product->getMainCategory($product_id);
 
 				if ($main_category && !isset($this->request->get['path']) && !isset($this->request->get['manufacturer_id']) && !isset($this->request->get['search']) && !isset($this->request->get['tag']) && $this->config->get('information_optimblog_breadcrumbs_product')) {
 					$this->load->model('extension/information/optimblog_category');
@@ -401,7 +418,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 				$data['informations'] = array();
 
-				$results = $this->model_catalog_product->getInformationRelated($product_id);
+				$results = $this->model_extension_information_optimblog_product->getInformationRelated($product_id);
 
 				foreach ($results as $result) {
 					if ($result['image']) {

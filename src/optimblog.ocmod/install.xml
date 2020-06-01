@@ -3382,17 +3382,48 @@ $('input[name=\'information\']').autocomplete({
         {% endif %}
       </ul>
       {% endif %}
-      {% if thumb or images %}
-      <ul class="thumbnails">
-        {% if thumb %}
-        <li><a class="thumbnail" href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
-        {% endif %}
-        {% if images %}
-        {% for image in images %}
-        <li class="image-additional"><a class="thumbnail" href="{{ image.popup }}" title="{{ heading_title }}"> <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
-        {% endfor %}
-        {% endif %}
-      </ul>
+      {% if images %}
+      {% if images|length > 1 %}
+      <div class="swiper-viewport">
+        <div id="slideshow-information" class="swiper-container">
+          <div class="swiper-wrapper">
+            {% for image in images %}
+            <div class="swiper-slide text-center">
+            {% if image.popup %}
+            <a href="{{ image.popup }}" title="{{ heading_title }}"><img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" /></a>
+            {% else %}
+            <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" />
+            {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="swiper-pagination slideshow-information"></div>
+        <div class="swiper-pager">
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+      <script type="text/javascript"><!--
+      $('#slideshow-information').swiper({
+      	mode: 'horizontal',
+      	slidesPerView: 1,
+      	pagination: '.slideshow-information',
+      	paginationClickable: true,
+      	nextButton: '.swiper-button-next',
+      	prevButton: '.swiper-button-prev',
+      	spaceBetween: 30,
+      	autoplay: 5000,
+      	autoplayDisableOnInteraction: true
+      });
+      --></script>
+      {% else %}
+      {% for image in images %}
+      <div class="swiper-wrapper">
+        <a class="thumbnail" href="{{ image.popup }}" title="{{ heading_title }}"> <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a>
+      </div>
+      {% endfor %}
+      {% endif %}
       {% endif %}
       <div id="description">{{ description }}</div>
       {% if attribute_groups %}
@@ -3695,12 +3726,12 @@ $(document).ready(function() {
   <!-- Review -->
   <file path="catalog/view/theme/default/template/product/review.twig">
       <operation error="skip">
-        <search index="0"><![CDATA[{% endfor %}]]></search>
-        <add position="after"><![CDATA[
+        <search><![CDATA[{% endfor %}</td>]]></search>
+        <add position="replace"><![CDATA[{% endfor %}
       {% if review.reply %}
       <div class="well well-sm">{{ review.reply }}</div>
       {% endif %}
-        ]]></add>
+    </td>]]></add>
       </operation>
   </file>
 
