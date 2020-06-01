@@ -793,8 +793,8 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		$this->model_setting_event->addEvent('optimblog_catalog_model_informations_get', 'catalog/model/catalog/information/getInformations/before', 'extension/information/optimblog/getInformations');
 		$this->model_setting_event->addEvent('optimblog_catalog_model_product_get', 'catalog/model/catalog/product/getProduct/before', 'extension/information/optimblog/getProduct');
 		$this->model_setting_event->addEvent('optimblog_catalog_model_product_related', 'catalog/model/catalog/product/getProductRelated/before', 'extension/information/optimblog/getProductRelated');
-		$this->model_setting_event->addEvent('optimblog_catalog_model_product_review', 'model/catalog/review/getReviewsByProductId/before', 'extension/information/optimblog/getReviewsByProductId');
-		$this->model_setting_event->addEvent('optimblog_catalog_model_product_review_total', 'model/catalog/review/getTotalReviewsByProductId/before', 'extension/information/optimblog/getTotalReviewsByProductId');
+		$this->model_setting_event->addEvent('optimblog_catalog_model_product_review', 'catalog/model/catalog/review/getReviewsByProductId/before', 'extension/information/optimblog/getReviewsByProductId');
+		$this->model_setting_event->addEvent('optimblog_catalog_model_product_review_total', 'catalog/model/catalog/review/getTotalReviewsByProductId/before', 'extension/information/optimblog/getTotalReviewsByProductId');
 	}
 
 	public function uninstall() {
