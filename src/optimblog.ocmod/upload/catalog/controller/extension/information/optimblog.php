@@ -172,6 +172,11 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 				}
 
 				// Canonical Information
+				$data['links'][$this->url->link('information/information', 'information_id=' . $information_id)] = array(
+					'href' => $this->url->link('information/information', 'information_id=' . $information_id),
+					'rel'  => 'canonical'
+				);
+
 				if ($this->config->get('information_optimblog_canonical_information')) {
 					$this->load->model('extension/information/optimblog_category');
 
@@ -200,11 +205,6 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 							);
 						}
 					}
-				} else {
-					$data['links'][$this->url->link('information/information', 'information_id=' . $information_id)] = array(
-						'href' => $this->url->link('information/information', 'information_id=' . $information_id),
-						'rel'  => 'canonical'
-					);
 				}
 			}
 		}
