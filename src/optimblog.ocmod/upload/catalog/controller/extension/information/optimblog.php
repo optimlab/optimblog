@@ -145,17 +145,19 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
 
 			if ($information_info) {
-				$data['scripts'][] = 'catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js';
-
-				$data['styles']['catalog/view/javascript/jquery/magnific/magnific-popup.css'] = array(
-					'href'  => 'catalog/view/javascript/jquery/magnific/magnific-popup.css',
-					'rel'   => 'stylesheet',
-					'media' => 'screen'
-				);
-
 				$this->load->model('extension/information/optimblog_information');
 
 				if ($this->model_extension_information_optimblog_information->getInformationImages($information_id)) {
+					$data['scripts'][] = 'catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js';
+
+					$data['styles']['catalog/view/javascript/jquery/magnific/magnific-popup.css'] = array(
+						'href'  => 'catalog/view/javascript/jquery/magnific/magnific-popup.css',
+						'rel'   => 'stylesheet',
+						'media' => 'screen'
+					);
+
+					$data['scripts'][] = 'catalog/view/javascript/jquery/swiper/js/swiper.jquery.js';
+
 					$data['styles']['catalog/view/javascript/jquery/swiper/css/swiper.min.css'] = array(
 						'href'  => 'catalog/view/javascript/jquery/swiper/css/swiper.min.css',
 						'rel'   => 'stylesheet',
@@ -167,8 +169,6 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 						'rel'   => 'stylesheet',
 						'media' => 'screen'
 					);
-
-					$data['scripts'][] = 'catalog/view/javascript/jquery/swiper/js/swiper.jquery.js';
 				}
 
 				// Canonical Information
