@@ -603,7 +603,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_thumb_width'])) {
 			$data['information_optimblog_image_thumb_width'] = $setting_info['information_optimblog_image_thumb_width'];
 		} else {
-			$data['information_optimblog_image_thumb_width'] = 850;
+			$data['information_optimblog_image_thumb_width'] = 840;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_thumb_height'])) {
@@ -619,7 +619,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_popup_width'])) {
 			$data['information_optimblog_image_popup_width'] = $setting_info['information_optimblog_image_popup_width'];
 		} else {
-			$data['information_optimblog_image_popup_width'] = 500;
+			$data['information_optimblog_image_popup_width'] = 1680;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_popup_height'])) {
@@ -627,7 +627,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_popup_height'])) {
 			$data['information_optimblog_image_popup_height'] = $setting_info['information_optimblog_image_popup_height'];
 		} else {
-			$data['information_optimblog_image_popup_height'] = 500;
+			$data['information_optimblog_image_popup_height'] = 480;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_information_width'])) {
@@ -651,7 +651,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_additional_width'])) {
 			$data['information_optimblog_image_additional_width'] = $setting_info['information_optimblog_image_additional_width'];
 		} else {
-			$data['information_optimblog_image_additional_width'] = 74;
+			$data['information_optimblog_image_additional_width'] = 840;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_additional_height'])) {
@@ -659,7 +659,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_additional_height'])) {
 			$data['information_optimblog_image_additional_height'] = $setting_info['information_optimblog_image_additional_height'];
 		} else {
-			$data['information_optimblog_image_additional_height'] = 74;
+			$data['information_optimblog_image_additional_height'] = 240;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_related_width'])) {
@@ -667,7 +667,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_related_width'])) {
 			$data['information_optimblog_image_related_width'] = $setting_info['information_optimblog_image_related_width'];
 		} else {
-			$data['information_optimblog_image_related_width'] = 80;
+			$data['information_optimblog_image_related_width'] = 200;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_related_height'])) {
@@ -675,7 +675,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		} elseif (isset($setting_info['information_optimblog_image_related_height'])) {
 			$data['information_optimblog_image_related_height'] = $setting_info['information_optimblog_image_related_height'];
 		} else {
-			$data['information_optimblog_image_related_height'] = 80;
+			$data['information_optimblog_image_related_height'] = 200;
 		}
 		
 		if (isset($this->request->post['information_optimblog_image_category_popup_width'])) {
