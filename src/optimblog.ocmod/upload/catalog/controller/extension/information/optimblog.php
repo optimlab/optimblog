@@ -1018,25 +1018,25 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 	// model/catalog/information/getInformation/before
 	public function getInformation(&$route, &$args) {
 		$this->load->model('extension/information/optimblog_information');
-        $route = 'extension/information/optimblog_information/getInformation';
+		$route = 'extension/information/optimblog_information/getInformation';
 	}
 
 	// model/catalog/information/getInformations/before
 	public function getInformations(&$route, &$args) {
 		$this->load->model('extension/information/optimblog_information');
-        $route = 'extension/information/optimblog_information/getInformations';
+		$route = 'extension/information/optimblog_information/getInformations';
 	}
 
 	// model/catalog/product/getProduct/before
 	public function getProduct(&$route, &$args) {
 		$this->load->model('extension/information/optimblog_product');
-        $route = 'extension/information/optimblog_product/getProduct';
+		$route = 'extension/information/optimblog_product/getProduct';
 	}
 
 	// model/catalog/product/getProductRelated/before
 	public function getProductRelated(&$route, &$args) {
 		$this->load->model('extension/information/optimblog_product');
-        $route = 'extension/information/optimblog_product/getProductRelated';
+		$route = 'extension/information/optimblog_product/getProductRelated';
 	}
 
 	/**
@@ -1046,12 +1046,12 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 	// model/catalog/review/getReviewsByProductId/before
 	public function getReviewsByProductId(&$route, &$args) {
 		$this->load->model('extension/information/optimblog_review');
-        $route = 'extension/information/optimblog_review/getReviewsByProductId';
+		$route = 'extension/information/optimblog_review/getReviewsByProductId';
 	}
 
 	// model/catalog/review/getTotalReviewsByProductId/before
 	public function getTotalReviewsByProductId(&$route, &$args) {
 		$this->load->model('extension/information/optimblog_review');
-        $route = 'extension/information/optimblog_review/getTotalReviewsByProductId';
+		$route = 'extension/information/optimblog_review/getTotalReviewsByProductId';
 	}
 }

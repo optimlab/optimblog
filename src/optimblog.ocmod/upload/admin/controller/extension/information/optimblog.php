@@ -15,7 +15,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		define('OPTIMBLOG', '3.0.1.0');
 
 		$data['information_optimblog_version'] = OPTIMBLOG;
-		
+
 		$this->load->language('extension/information/optimblog');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -831,7 +831,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$this->response->addheader('Expires: 0');
 			$this->response->addheader('Content-Description: File Transfer');
 			$this->response->addheader('Content-Type: application/octet-stream');
-			$this->response->addheader('Content-Disposition: attachment; filename="optimblog_setting_backup_' . date('Y-m-d_H-i-s', time()) . '.txt"');
+			$this->response->addheader('Content-Disposition: attachment; filename="optimblog_setting_backup_' . $this->request->get['store_id'] . '_' . date('Y-m-d_H-i-s', time()) . '.txt"');
 			$this->response->addheader('Content-Transfer-Encoding: binary');
 
 			$this->load->model('setting/setting');
