@@ -2502,12 +2502,8 @@ $('#product-category').delegate('.fa-dot-circle-o', 'click', function() {
         <add position="replace"><![CDATA[]]></add>
       </operation>
       <operation error="skip">
-        <search><![CDATA[
-			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
-        ]]></search>
-        <add position="replace"><![CDATA[
-			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}{% if product_id %}&product_id={{ product_id }}{% endif %}&filter_name=' +  encodeURIComponent(request),
-        ]]></add>
+        <search><![CDATA[index.php?route=catalog/product/autocomplete&user_token={{ user_token }}]]></search>
+        <add position="replace"><![CDATA[index.php?route=catalog/product/autocomplete&user_token={{ user_token }}{% if product_id %}&product_id={{ product_id }}{% endif %}]]></add>
       </operation>
       <operation error="skip">
         <search><![CDATA[
