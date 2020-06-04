@@ -374,12 +374,8 @@
         ]]></add>
       </operation>
       <operation error="skip">
-        <search><![CDATA[
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
-        ]]></search>
-        <add position="replace"><![CDATA[
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}{% if information != '' %}&filter_information={{ information }}{% endif %}&filter_name=' +  encodeURIComponent(request),
-        ]]></add>
+        <search><![CDATA[catalog/category/autocomplete&user_token={{ user_token }}]]></search>
+        <add position="replace"><![CDATA[catalog/category/autocomplete&user_token={{ user_token }}{% if information != '' %}&filter_information={{ information }}{% endif %}]]></add>
       </operation>
       <operation error="skip">
         <search index="2"><![CDATA[
@@ -2413,12 +2409,8 @@ $('input[name=\'filter_name\']').autocomplete({
         ]]></add>
       </operation>
       <operation error="skip">
-        <search><![CDATA[
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
-        ]]></search>
-        <add position="replace"><![CDATA[
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=0&filter_name=' +  encodeURIComponent(request),
-        ]]></add>
+        <search><![CDATA[catalog/category/autocomplete&user_token={{ user_token }}]]></search>
+        <add position="replace"><![CDATA[catalog/category/autocomplete&user_token={{ user_token }}&filter_information=0]]></add>
       </operation>
       <operation error="skip">
         <search><![CDATA[
