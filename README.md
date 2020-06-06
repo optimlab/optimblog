@@ -55,16 +55,13 @@ There is no modification for commodity modules.
 
 
 ## The composition of the modules and modifications of the OptimBlog Family
-1. **optimblog.ocmod.zip**.
-2. **breadcrumb-last.ocmod.zip** — modification eliminates the clickability of the last item of the breadcrumbs.
-3. **canonical-category.ocmod.zip** — modification that adds the parent categories to the canonical url of the subcategory.
-4. **canonical-category-no-page.ocmod.zip** — modification is similar to the previous one, only removes the canonical URL on the pagination (page=n).
-5. **canonical-information.ocmod.zip** — modification is similar to **canonical-category.ocmod.zip** that adds subcategories to the canonical URL of the article, if the Main Category is available in its settings.
-6. **optimblog-module-bestseller-information.ocmod.zip** — module «Best Articles».
-7. **optimblog-module-featured-information.ocmod.zip** — module «Featured Articles».
-8. **optimblog-module-latest-information.ocmod.zip** — module «Latest Articles».
-9. **optimblog-module-category-information.ocmod.zip** — module «Category Articles».
-10. **optimblog-module-search-information.ocmod.zip** - module «Search Articles».
+1. **optimblog.ocmod.zip** — main module.
+2. **optimblog-module-bestseller-information.ocmod.zip** — module «Best Articles».
+3. **optimblog-module-featured-information.ocmod.zip** — module «Featured Articles».
+4. **optimblog-module-latest-information.ocmod.zip** — module «Latest Articles».
+5. **optimblog-module-category-information.ocmod.zip** — module «Category Articles».
+6. **optimblog-module-search-information.ocmod.zip** - module «Search Articles».
+6. **optimblog-admin-filter.ocmod.zip** - modification to extend the ability to filter Categories, Products and Articles.
 
 
 ## Information:
@@ -75,3 +72,25 @@ There is no modification for commodity modules.
 
 ## License
 [GNU General Public License version 3 (GPLv3)](https://github.com/optimlab/optimblog/blob/master/LICENSE)
+
+
+## Install Instructions
+1. Install **optimblog.ocmod.zip**.
+2. Update modification cache.
+3. Go to «User Groups» and assign the appropriate Access Permission:`extension/extension/information` and `extension/information/optimblog`.
+4. In the «Extensions -> Extensions» section drop-down list, select «Articles».
+5. Install the OptimBlog module for your store (multi-store module, similar to Theme modules).
+6. Edit the OptimBlog module settings and save.
+7. Go to Design -> Layouts -> Add Layout «Category Article» -> Add Route `extension/information/category` -> Save.
+
+
+
+## Upgrade Instructions
+### From 3.0.0.x to 3.0.1.x
+1. In the «Extensions->Extensions» section drop-down list, select «Articles».
+2. Uninstall the OptimBlog module.
+3. Go to Extension Installer.
+4. Uninstall **optimblog.ocmod.zip**.
+5. Uninstall all optimblog-modules and optimblog-modifications.
+6. Download the latest version OptimBlog modules and modifications.
+7. ReInstall all OptimBlog modules and modifications.
