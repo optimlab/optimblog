@@ -297,6 +297,37 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$data['information_optimblog_share']  = '';
 		}
 		
+		if (isset($this->request->post['information_optimblog_information_thumb'])) {
+			$data['information_optimblog_information_thumb'] = $this->request->post['information_optimblog_information_thumb'];
+		} elseif (isset($setting_info['information_optimblog_information_thumb'])) {
+			$data['information_optimblog_information_thumb'] = $setting_info['information_optimblog_information_thumb'];
+		} else {
+			$data['information_optimblog_information_thumb']  = '';
+		}
+		
+		if (isset($this->request->post['information_optimblog_information_style'])) {
+			$data['information_optimblog_information_style'] = $this->request->post['information_optimblog_information_style'];
+		} elseif (isset($setting_info['information_optimblog_information_style'])) {
+			$data['information_optimblog_information_style'] = $setting_info['information_optimblog_information_style'];
+		} else {
+			$data['information_optimblog_information_style'] = array(
+				'catalog/view/javascript/jquery/magnific/magnific-popup.css',
+				'catalog/view/javascript/jquery/swiper/css/swiper.min.css',
+				'catalog/view/javascript/jquery/swiper/css/opencart.css'
+			);
+		}
+
+		if (isset($this->request->post['information_optimblog_information_script'])) {
+			$data['information_optimblog_information_script'] = $this->request->post['information_optimblog_information_script'];
+		} elseif (isset($setting_info['information_optimblog_information_script'])) {
+			$data['information_optimblog_information_script'] = $setting_info['information_optimblog_information_script'];
+		} else {
+			$data['information_optimblog_information_script']['header'] = array(
+				'catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js',
+				'catalog/view/javascript/jquery/swiper/js/swiper.jquery.js'
+			);
+		}
+
 		if (isset($this->request->post['information_optimblog_category_author'])) {
 			$data['information_optimblog_category_author'] = $this->request->post['information_optimblog_category_author'];
 		} elseif (isset($setting_info['information_optimblog_category_author'])) {
@@ -878,7 +909,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		if (!$json) {
 			$handle = fopen($filename, 'r');
 
-			$setting = json_decode(fread($handle, filesize($filename)));
+			$setting = json_decode(fread($handle, filesize($filename)), true);
 
 			// Check json data
 			if ($setting) {

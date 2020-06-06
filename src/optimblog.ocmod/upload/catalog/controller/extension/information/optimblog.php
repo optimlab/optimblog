@@ -147,28 +147,24 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			if ($information_info) {
 				$this->load->model('extension/information/optimblog_information');
 
-				if ($this->model_extension_information_optimblog_information->getInformationImages($information_id)) {
-					$data['scripts'][] = 'catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js';
+				$information_images = $this->model_extension_information_optimblog_information->getInformationImages($information_id);
 
-					$data['styles']['catalog/view/javascript/jquery/magnific/magnific-popup.css'] = array(
-						'href'  => 'catalog/view/javascript/jquery/magnific/magnific-popup.css',
-						'rel'   => 'stylesheet',
-						'media' => 'screen'
-					);
+				if ($information_images) {
+					if (!empty($this->config->get('information_optimblog_information_style'))) {
+						foreach ($this->config->get('information_optimblog_information_style') as $link) {
+							$data['styles'][$link] = array(
+								'href'  => $link,
+								'rel'   => 'stylesheet',
+								'media' => 'screen'
+							);
+						}
+					}
 
-					$data['scripts'][] = 'catalog/view/javascript/jquery/swiper/js/swiper.jquery.js';
-
-					$data['styles']['catalog/view/javascript/jquery/swiper/css/swiper.min.css'] = array(
-						'href'  => 'catalog/view/javascript/jquery/swiper/css/swiper.min.css',
-						'rel'   => 'stylesheet',
-						'media' => 'screen'
-					);
-
-					$data['styles']['catalog/view/javascript/jquery/swiper/css/opencart.css'] = array(
-						'href'  => 'catalog/view/javascript/jquery/swiper/css/opencart.css',
-						'rel'   => 'stylesheet',
-						'media' => 'screen'
-					);
+					if (!empty($this->config->get('information_optimblog_information_script')['header'])) {
+						foreach ($this->config->get('information_optimblog_information_script')['header'] as $link) {
+							$data['scripts'][] = $link;
+						}
+					}
 				}
 
 				// Canonical Information
@@ -917,6 +913,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 					$data['show_review'] = $this->config->get('information_optimblog_information_review');
 				}
 
+				$data['show_thumb'] = $this->config->get('information_optimblog_information_thumb');
 				$data['show_related_author'] = $this->config->get('information_optimblog_category_author');
 				$data['show_related_date'] = $this->config->get('information_optimblog_category_date');
 				$data['show_related_review'] = $this->config->get('information_optimblog_category_review');

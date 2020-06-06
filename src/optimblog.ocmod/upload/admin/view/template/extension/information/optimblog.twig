@@ -25,6 +25,7 @@
       </div>
       <div class="panel-body">
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-theme" class="form-horizontal">
+          <input type="hidden" name="information_optimblog_version" value="{{ information_optimblog_version }}" />
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
             <li><a href="#tab-article" data-toggle="tab">{{ tab_article }}</a></li>
@@ -51,7 +52,6 @@
                     </select>
                   </div>
                 </div>
-                <input type="hidden" name="information_optimblog_version" value="{{ information_optimblog_version }}" />
               </fieldset>
               <fieldset>
                 <legend>{{ text_seo }}</legend>
@@ -391,6 +391,114 @@
                   <label class="col-sm-2 control-label" for="input-share">{{ entry_share }}</label>
                   <div class="col-sm-10">
                     <textarea name="information_optimblog_share" id="input-share" rows="5" placeholder="{{ entry_share }}" class="form-control">{{ information_optimblog_share }}</textarea>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_image }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-thumb">{{ entry_thumb }}</label>
+                  <div class="col-sm-10">
+                    <select name="information_optimblog_information_thumb" id="input-thumb" class="form-control">
+                      {% if information_optimblog_information_thumb %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-style">{{ entry_style }}</label>
+                  <div class="col-sm-10">
+                    <table id="style" class="table table-striped table-bordered table-hover">
+                      <tbody>
+                        {% set style_row = 0 %}
+                        {% for information_style in information_optimblog_information_style %}
+                        <tr id="style-row{{ style_row }}">
+                          <td>
+                            <div class="input-group">
+                              <input type="text" name="information_optimblog_information_style[]" value="{{ information_style }}" placeholder="{{ entry_link }}" class="form-control input-sm"/>
+                              <div class="input-group-btn">
+                                <button type="button" onclick="$('#style-row{{ style_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i></button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        {% set style_row = style_row + 1 %}
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td>
+                            <div class="input-group">
+                              <input type="text" placeholder="{{ entry_link }}" class="form-control input-sm" disabled />
+                              <div class="input-group-btn">
+                                <button type="button" onclick="addStyle();" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i></button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-script">{{ entry_script }}</label>
+                  <div class="col-sm-10">
+                    <table id="script" class="table table-striped table-bordered table-hover">
+                      <tbody>
+                        {% set script_row = 0 %}
+                        {% for key, position in information_optimblog_information_script %}
+                        {% if key == 'header' %}
+                        {% for information_script in position %}
+                        <tr id="script-row{{ script_row }}">
+                          <td>
+                            <div class="input-group">
+                              <input type="text" name="information_optimblog_information_script[header][]" value="{{ information_script }}" placeholder="{{ entry_link }}" class="form-control input-sm"/>
+                              <div class="input-group-btn">
+                                <button type="button" onclick="rePosition(this, {{ script_row }});" class="btn btn-sm btn-default" data-toggle="tooltip" title="{{ button_position }}">header</button>
+                                <button type="button" onclick="$('#script-row{{ script_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i></button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        {% set script_row = script_row + 1 %}
+                        {% endfor %}
+                        {% elseif key == 'footer' %}
+                        {% for information_script in position %}
+                        <tr id="script-row{{ script_row }}">
+                          <td>
+                            <div class="input-group">
+                              <input type="text" name="information_optimblog_information_script[footer][]" value="{{ information_script }}" placeholder="{{ entry_link }}" class="form-control input-sm"/>
+                              <div class="input-group-btn">
+                                <button type="button" onclick="rePosition(this, {{ script_row }});" class="btn btn-sm btn-default" data-toggle="tooltip" title="{{ button_position }}">footer</button>
+                                <button type="button" onclick="$('#script-row{{ script_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i></button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        {% set script_row = script_row + 1 %}
+                        {% endfor %}
+                        {% endif %}
+                        {% set script_row = script_row + 1 %}
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td>
+                            <div class="input-group">
+                              <input type="text" placeholder="{{ entry_link }}" class="form-control input-sm" disabled />
+                              <span class="input-group-btn">
+                                <button type="button" onclick="addScript();" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i></button>
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
                   </div>
                 </div>
               </fieldset>
@@ -889,6 +997,57 @@ $('#button-import').on('click', function() {
 		}
 	}, 500);
 });
+
+// Style
+var style_row = {{ style_row }};
+
+function addStyle() {
+	html  = '<tr id="style-row' + style_row + '">';
+	html += '  <td>';
+	html += '    <div class="input-group">';
+	html += '      <input type="text" name="information_optimblog_information_style[' + style_row + ']" value="" placeholder="{{ entry_link }}" class="form-control input-sm"/>';
+	html += '      <div class="input-group-btn">';
+	html += '        <button type="button" onclick="$(\'#style-row' + style_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-sm btn-danger"><i class="fa fa-minus-circle"></i></button>';
+	html += '      </div>';
+	html += '    </div>';
+	html += '  </td>';
+	html += '</tr>';
+	
+	$('#style tbody').append(html);
+	
+	style_row++;
+}
+
+// Script
+var script_row = {{ script_row }};
+
+function addScript() {
+	html  = '<tr id="script-row' + script_row + '">';
+	html += '  <td>';
+	html += '    <div class="input-group">';
+	html += '      <input type="text" name="information_optimblog_information_script[header][]" value="" placeholder="{{ entry_link }}" class="form-control input-sm"/>';
+	html += '      <div class="input-group-btn">';
+	html += '        <button type="button" onclick="rePosition(this);" class="btn btn-sm btn-default" data-toggle="tooltip" title="{{ button_position }}">header</button>';
+	html += '        <button type="button" onclick="$(\'#script-row' + script_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-sm btn-danger"><i class="fa fa-minus-circle"></i></button>';
+	html += '      </div>';
+	html += '    </div>';
+	html += '  </td>';
+	html += '</tr>';
+	
+	$('#script tbody').append(html);
+	
+	script_row++;
+}
+
+function rePosition(elem, script_row) {	
+	if ($(elem).text() == 'header') {
+    	$(elem).parent().prev().attr('name', 'information_optimblog_information_script[footer][]');
+        $(elem).text('footer');
+	} else {
+    	$(elem).parent().prev().attr('name', 'information_optimblog_information_script[header][]');
+        $(elem).text('header');
+	}
+}
   //--></script> 
 </div>
 {{ footer }}

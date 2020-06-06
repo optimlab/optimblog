@@ -79,6 +79,10 @@ $_['entry_exclusion_category_author']          = 'Exclusion';
 $_['entry_exclusion_category_date']            = 'Exclusion';
 $_['entry_exclusion_category_review']          = 'Exclusion';
 $_['entry_share']                              = 'Entry Code';
+$_['entry_thumb']                              = 'Show Image Thumb';
+$_['entry_link']                               = 'Link';
+$_['entry_style']                              = 'Styles for Additional Images';
+$_['entry_script']                             = 'Scripts for Additional Images';
 $_['entry_canonical_category_product']         = 'Canonical URL Category Products';
 $_['entry_canonical_category_information']     = 'Canonical URL Category Articles';
 $_['entry_canonical_information']              = 'Canonical URL Article';
@@ -116,6 +120,7 @@ $_['help_restore']                             = 'Restore Settings into your Dat
 $_['button_block']                             = 'Block';
 $_['button_list']                              = 'List';
 $_['button_grid']                              = 'Grid';
+$_['button_position']                          = 'Header or Footer Position';
 
 // Error
 $_['error_warning']                            = 'Warning: Please check the form carefully for errors!';

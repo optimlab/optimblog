@@ -79,6 +79,10 @@ $_['entry_exclusion_category_author']          = 'Mostra autore';
 $_['entry_exclusion_category_date']            = 'Mostra data';
 $_['entry_exclusion_category_review']          = 'Mostra Recensioni';
 //$_['entry_share']                              = 'Entry Code';
+//$_['entry_thumb']                              = 'Show Image Thumb';
+//$_['entry_link']                               = 'Link';
+//$_['entry_style']                              = 'Styles for Additional Images';
+//$_['entry_script']                             = 'Scripts for Additional Images';
 //$_['entry_canonical_category_product']         = 'Canonical URL Category Products';
 //$_['entry_canonical_category_information']     = 'Canonical URL Category Articles';
 //$_['entry_canonical_information']              = 'Canonical URL Article';
@@ -116,6 +120,7 @@ $_['help_captcha']                             = 'Captcha da utilizzare per le r
 $_['button_block']                             = 'In blocco';
 $_['button_list']                              = 'Elenco';
 $_['button_grid']                              = 'Griglia';
+//$_['button_position']                          = 'Header or Footer Position';
 
 // Error
 $_['error_warning']                            = 'Attenzione: controlla attentamente il modulo per trovare gli errori!';
