@@ -133,13 +133,18 @@
       <div class="swiper-viewport">
         <div id="slideshow-information" class="swiper-container">
           <div class="swiper-wrapper">
+            {% if thumb and show_thumb %}
+            <div class="swiper-slide text-center">
+              <a href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" /></a>
+            </div>
+            {% endif %}
             {% for image in images %}
             <div class="swiper-slide text-center">
-            {% if image.popup %}
-            <a href="{{ image.popup }}" title="{{ heading_title }}"><img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" /></a>
-            {% else %}
-            <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" />
-            {% endif %}
+              {% if image.popup %}
+              <a href="{{ image.popup }}" title="{{ heading_title }}"><img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" /></a>
+              {% else %}
+              <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" />
+              {% endif %}
             </div>
             {% endfor %}
           </div>
