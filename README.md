@@ -24,29 +24,28 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 ## The functionality and capabilities of the module OptimBlog
 ### Categories:
 1. **Heading H1**
-2. **Short Description** - Displayed in categories and modules displaying products or articles.
-There is no modification for commodity modules.
-3. **Additional Images**
+2. **Short Description** - you can show in a category using: `{{ short_description }}`.
+3. **Additional Images** - you can show in a category using: `{% for image in images %}` -> `{{ image.thumb }}` , `{{ image.popup }}`.
 
 ### Products:
 1. **Heading H1**
-2. **Short Description** - Displayed in categories and modules displaying products or articles.
-There is no modification for commodity modules.
-3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the canonical property for the site pages.
-4. **Related Products and Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
+2. **Short Description** - displayed in categories and product modules using:`{{ short_description }}`.
+3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines.
+4. **Related Products** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
+5. **Related Articles** - It is possible to recommend in three directions: double, or in one of the parties.
 
 ### Articles:
 1. **Heading H1**
-2. **Short Description** - Displayed in categories and modules displaying products or articles.
-There is no modification for commodity modules.
-3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the canonical property for the site pages.
-4. **Related Products and Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
-5. **Tags**
-6. **Date Added**
-7. **Date Available** and **Date End** of this publication
-8. **Author**
-9. **Attributes**
-10. **Additional Images**
+2. **Short Description** - Displayed in categories and article modules using:`{{ short_description }}`.
+3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the Canonical URL property for the site pages.
+4. **Related Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
+5. **Related Products** - It is possible to recommend in three directions: double, or in one of the parties.
+6. **Tags**
+7. **Date Added**
+8. **Date Available** and **Date End** of this publication
+9. **Author**
+10. **Attributes**
+11. **Additional Images**
 
 ### For Developers:
 - Some functions and features that developers can use to create their modules are laid down for the future. For example: «additional images» in the category settings can be displayed using the slider. And «Manufacturer» to use for appropriate bindings and sorting.
@@ -55,13 +54,13 @@ There is no modification for commodity modules.
 
 
 ## The composition of the modules and modifications of the OptimBlog Family
-1. **optimblog.ocmod.zip** — main module.
-2. **optimblog-module-bestseller-information.ocmod.zip** — module «Best Articles».
-3. **optimblog-module-featured-information.ocmod.zip** — module «Featured Articles».
-4. **optimblog-module-latest-information.ocmod.zip** — module «Latest Articles».
-5. **optimblog-module-category-information.ocmod.zip** — module «Category Articles».
-6. **optimblog-module-search-information.ocmod.zip** - module «Search Articles».
-6. **optimblog-admin-filter.ocmod.zip** - modification to extend the ability to filter Categories, Products and Articles.
+1. **[OptimBlog](https://github.com/optimlab/optimblog/blob/master/dist/optimblog/optimblog.ocmod.zip)** — main module.
+2. **[Module «Latest Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-latest-information.ocmod.zip)**
+3. **[Module «Best Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-bestseller-information.ocmod.zip)**
+4. **[Module «Featured Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-featured-information.ocmod.zip)**
+5. **[Module «Category Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-category-information.ocmod.zip)**
+6. **[Module «Search Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-search-information.ocmod.zip)**
+6. **[Modification «Admin Filter»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-admin-filter.ocmod.zip)** - expands the ability to filter Categories, Products and Articles.
 
 
 ## Information:
@@ -79,18 +78,22 @@ There is no modification for commodity modules.
 2. Update modification cache.
 3. Go to «User Groups» and assign the appropriate Access Permission:`extension/extension/information` and `extension/information/optimblog`.
 4. In the «Extensions -> Extensions» section drop-down list, select «Articles».
-5. Install the OptimBlog module for your store (multi-store module, similar to Theme modules).
+5. Activate the OptimBlog module for your store (multi-store module, similar to Theme modules).
 6. Edit the OptimBlog module settings and save.
-7. Go to Design -> Layouts -> Add Layout «Category Article» -> Add Route `extension/information/category` -> Save.
+7. Go to «Design» -> «Layouts»:
+   - Add Layout «Category Information»
+   - Add Route `extension/information/category`
+   - Save.
 
 
 
 ## Upgrade Instructions
 ### From 3.0.0.x to 3.0.1.x
 1. In the «Extensions->Extensions» section drop-down list, select «Articles».
-2. Uninstall the OptimBlog module.
-3. Go to Extension Installer.
-4. Uninstall **optimblog.ocmod.zip**.
-5. Uninstall all optimblog-modules and optimblog-modifications.
-6. Download the latest version OptimBlog modules and modifications.
-7. ReInstall all OptimBlog modules and modifications.
+2. Deactivate the OptimBlog module.
+3. Download the latest version OptimBlog modules and modifications.
+4. Go to «Extension Installer».
+5. Uninstall **optimblog.ocmod.zip**.
+6. Uninstall all old version OptimBlog modules and optimblog-modifications.
+7. Install all new version OptimBlog modules and modifications.
+8. Follow the instructions to install the modules ..
