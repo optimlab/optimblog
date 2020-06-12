@@ -8,7 +8,7 @@
 - Display the main image of the article.
 - Activation of script output of additional images in the «footer».
 
-## [3.0.1.0] - 2020-06-06
+## [3.0.1.0](https://github.com/optimlab/optimblog/releases/tag/3.0.1.0) - 2020-06-06
 ### Added
 - Abandonment of [OCMOD](https://github.com/opencart/opencart/wiki/Modification-System) in favor of [Events System](https://github.com/opencart/opencart/wiki/Events-System).
 - Ability to add your own translation in language files.
@@ -35,6 +35,6 @@
 - canonical-category-no-page.ocmod.zip
 - canonical-information.ocmod.zip
 
-## [3.0.1.0_b]
+## [3.0.1.0_b](https://github.com/optimlab/optimblog/releases/tag/3.0.1.0_b)
 ### Deprecated
 All Deprecated)))
