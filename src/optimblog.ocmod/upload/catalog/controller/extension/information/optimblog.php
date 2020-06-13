@@ -801,7 +801,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 						'information_id' => $result['information_id'],
 						'thumb'          => $image,
 						'title'          => $result['title'],
-						'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_optimblog_description_length')) . '..',
+						'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_optimblog_information_description_length')) . '..',
 						'user_id'        => $result['user_id'],
 						'author'         => $result['author'],
 						'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),

@@ -3303,7 +3303,8 @@ $('input[name=\'information\']').autocomplete({
         {% endif %}
       </div>
       {% endif %}
-      <div class="row"> {% for information in informations %}
+      <div class="row">
+        {% for information in informations %}
         <div class="information-layout {{ view }} col-xs-12">
           <div class="thumbnail media">
             {% if information.thumb %}
@@ -3334,7 +3335,8 @@ $('input[name=\'information\']').autocomplete({
             </div>
           </div>
         </div>
-        {% endfor %} </div>
+        {% endfor %}
+      </div>
       <div class="row">
         <div class="col-sm-6 text-left">{{ pagination }}</div>
         <div class="col-sm-6 text-right">{{ results }}</div>
