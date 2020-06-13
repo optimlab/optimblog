@@ -16,6 +16,7 @@
 
 ### Fixed
 - Display the main image of the article.
+- Related Articles description length.
 
 ## [3.0.1.0](https://github.com/optimlab/optimblog/releases/tag/3.0.1.0) - 2020-06-06
 ### Added
