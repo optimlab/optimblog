@@ -1,12 +1,21 @@
 # Changelog
 ## [Unreleased]
 ### Added
-- Added indexes to article modules.
+- Bootstrap 4 adaptation.
+- Theme adaptation.
+- Updating new versions from the module.
+
+### Changed
+
+## [3.0.1.1](https://github.com/optimlab/optimblog/releases/tag/3.0.1.1) - 2020-06-14
+### Added
 - Added indexes to article modules.
 
 ### Changed
-- Display the main image of the article.
 - Activation of script output of additional images in the «footer».
+
+### Fixed
+- Display the main image of the article.
 
 ## [3.0.1.0](https://github.com/optimlab/optimblog/releases/tag/3.0.1.0) - 2020-06-06
 ### Added
