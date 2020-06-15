@@ -97,3 +97,13 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 6. Uninstall all old version OptimBlog modules and optimblog-modifications.
 7. Install all new version OptimBlog modules and modifications.
 8. Follow the instructions to install the modules ..
+
+### From 3.0.1.x to 3.0.1.x+n
+1. Download the latest version OptimBlog module.
+2. Go to «Extension Installer».
+3. Uninstall **optimblog.ocmod.zip**.
+4. Install new version OptimBlog module **optimblog.ocmod.zip**.
+5. Update modification cache.
+6. In the «Extensions -> Extensions» section drop-down list, select «Articles».
+7. Edit the OptimBlog module settings and save.
+
