@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.0
+ * @version    3.0.1.1
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -12,7 +12,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 	public function index() {
 		// Version
-		define('OPTIMBLOG', '3.0.1.0');
+		define('OPTIMBLOG', '3.0.1.1');
 
 		$data['information_optimblog_version'] = OPTIMBLOG;
 
@@ -24,6 +24,26 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('information_optimblog', $this->request->post, $this->request->get['store_id']);
+            
+			if (isset($this->request->post['information_optimblog_information_script']['footer'])) {
+				// If has been upgraded, verify that the module has the new event registered.
+				$this->load->model('setting/event');
+
+				$event = $this->model_setting_event->getEventByCode('optimblog_catalog_view_footer');
+
+				if (empty($event)) {
+					// Event is missing, add it
+					$this->model_setting_event->addEvent('optimblog_catalog_view_footer', 'catalog/view/common/footer/before', 'extension/information/optimblog/viewFooterBefore');
+				}
+			} else {
+				$this->load->model('setting/event');
+
+				$event = $this->model_setting_event->getEventByCode('optimblog_catalog_view_footer');
+
+				if (!empty($event)) {
+					$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_footer');
+				}
+			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
