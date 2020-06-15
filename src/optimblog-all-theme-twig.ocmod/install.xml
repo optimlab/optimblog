@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog - All Theme</name>
   <code>optimblog-category-theme-all</code>
-  <version>3.0.1.0</version>
+  <version>3.0.1.1</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -128,23 +128,28 @@
         {% endif %}
       </ul>
       {% endif %}
-      {% if images %}
-      {% if images|length > 1 %}
+      {% if thumb and not images %}
+      <div class="swiper-wrapper">
+        <a class="thumbnail" href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" /></a>
+      </div>
+      {% elseif not thumb and images|length == 1 %}
+      <div class="swiper-wrapper">
+      {% for image in images %}
+        <a class="thumbnail" href="{{ image.popup }}" title="{{ heading_title }}"> <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a>
+      {% endfor %}
+      </div>
+      {% else %}
       <div class="swiper-viewport">
         <div id="slideshow-information" class="swiper-container">
           <div class="swiper-wrapper">
-            {% if thumb and show_thumb %}
+            {% if thumb %}
             <div class="swiper-slide text-center">
               <a href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" /></a>
             </div>
             {% endif %}
             {% for image in images %}
             <div class="swiper-slide text-center">
-              {% if image.popup %}
               <a href="{{ image.popup }}" title="{{ heading_title }}"><img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" /></a>
-              {% else %}
-              <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive" />
-              {% endif %}
             </div>
             {% endfor %}
           </div>
@@ -168,13 +173,6 @@
       	autoplayDisableOnInteraction: true
       });
       --></script>
-      {% else %}
-      {% for image in images %}
-      <div class="swiper-wrapper">
-        <a class="thumbnail" href="{{ image.popup }}" title="{{ heading_title }}"> <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a>
-      </div>
-      {% endfor %}
-      {% endif %}
       {% endif %}
       <div id="description">{{ description }}</div>
       {% if attribute_groups %}
