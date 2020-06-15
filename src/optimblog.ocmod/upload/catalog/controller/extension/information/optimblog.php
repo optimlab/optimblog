@@ -729,13 +729,13 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 				$this->load->model('tool/image');
 
-				if ($information_info['image']) {
+				if ($information_info['image'] && $this->config->get('information_optimblog_information_thumb')) {
 					$data['popup'] = $this->model_tool_image->resize($information_info['image'], $this->config->get('information_optimblog_image_popup_width'), $this->config->get('information_optimblog_image_popup_height'));
 				} else {
 					$data['popup'] = '';
 				}
 
-				if ($information_info['image']) {
+				if ($information_info['image'] && $this->config->get('information_optimblog_information_thumb')) {
 					$data['thumb'] = $this->model_tool_image->resize($information_info['image'], $this->config->get('information_optimblog_image_thumb_width'), $this->config->get('information_optimblog_image_thumb_height'));
 				} else {
 					$data['thumb'] = '';
@@ -913,7 +913,6 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 					$data['show_review'] = $this->config->get('information_optimblog_information_review');
 				}
 
-				$data['show_thumb'] = $this->config->get('information_optimblog_information_thumb');
 				$data['show_related_author'] = $this->config->get('information_optimblog_category_author');
 				$data['show_related_date'] = $this->config->get('information_optimblog_category_date');
 				$data['show_related_review'] = $this->config->get('information_optimblog_category_review');
