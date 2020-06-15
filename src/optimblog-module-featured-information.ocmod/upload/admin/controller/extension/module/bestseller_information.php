@@ -1,19 +1,19 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.0
+ * @version    3.0.1.1
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
  * @link       http://optimlab.com
  */
-class ControllerExtensionModuleFeaturedInformation extends Controller {
+class ControllerExtensionModuleBestSellerInformation extends Controller {
 	private $error = array();
 
 	public function index() {
-		$data['version'] = 'v' . '3.0.1.0';
+		$data['version'] = 'v' . '3.0.1.1';
 
-		$this->load->language('extension/module/featured_information');
+		$this->load->language('extension/module/bestseller_information');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -21,10 +21,12 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			if (!isset($this->request->get['module_id'])) {
-				$this->model_setting_module->addModule('featured_information', $this->request->post);
+				$this->model_setting_module->addModule('bestseller_information', $this->request->post);
 			} else {
 				$this->model_setting_module->editModule($this->request->get['module_id'], $this->request->post);
 			}
+
+			$this->cache->delete('information');
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -70,19 +72,19 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 		if (!isset($this->request->get['module_id'])) {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/featured_information', 'user_token=' . $this->session->data['user_token'], true)
+				'href' => $this->url->link('extension/module/bestseller_information', 'user_token=' . $this->session->data['user_token'], true)
 			);
 		} else {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/featured_information', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true)
+				'href' => $this->url->link('extension/module/bestseller_information', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true)
 			);
 		}
 
 		if (!isset($this->request->get['module_id'])) {
-			$data['action'] = $this->url->link('extension/module/featured_information', 'user_token=' . $this->session->data['user_token'], true);
+			$data['action'] = $this->url->link('extension/module/bestseller_information', 'user_token=' . $this->session->data['user_token'], true);
 		} else {
-			$data['action'] = $this->url->link('extension/module/featured_information', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true);
+			$data['action'] = $this->url->link('extension/module/bestseller_information', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true);
 		}
 
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true);
@@ -90,8 +92,6 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 		if (isset($this->request->get['module_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$module_info = $this->model_setting_module->getModule($this->request->get['module_id']);
 		}
-
-		$data['user_token'] = $this->session->data['user_token'];
 
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];
@@ -113,27 +113,37 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 			$data['title'] = array();
 		}
 
-		$this->load->model('catalog/information');
+		// Category
+		$this->load->model('catalog/category');
 
-		$data['informations'] = array();
-
-		if (!empty($this->request->post['information'])) {
-			$informations = $this->request->post['information'];
-		} elseif (!empty($module_info['information'])) {
-			$informations = $module_info['information'];
+		if (isset($this->request->post['category_id'])) {
+			$data['category_id'] = $this->request->post['category_id'];
+		} elseif (!empty($module_info)) {
+			$data['category_id'] = $module_info['category_id'];
 		} else {
-			$informations = array();
+			$data['category_id'] = 0;
 		}
 
-		foreach ($informations as $information_id) {
-			$information_info = $this->model_catalog_information->getInformation($information_id);
+		if (isset($this->request->post['category'])) {
+			$data['category'] = $this->request->post['category'];
+		} elseif (!empty($module_info)) {
+			$category_info = $this->model_catalog_category->getCategory($module_info['category_id']);
 
-			if ($information_info) {
-				$data['informations'][] = array(
-					'information_id' => $information_info['information_id'],
-					'title'          => $information_info['title']
-				);
+			if ($category_info) {
+				$data['category'] = ($category_info['path']) ? $category_info['path'] . ' &gt; ' . $category_info['name'] : $category_info['name'];
+			} else {
+				$data['category'] = '';
 			}
+		} else {
+			$data['category'] = '';
+		}
+
+		if (isset($this->request->post['sort'])) {
+			$data['sort'] = $this->request->post['sort'];
+		} elseif (!empty($module_info)) {
+			$data['sort'] = $module_info['sort'];
+		} else {
+			$data['sort'] = 'i.viewed';
 		}
 
 		if (isset($this->request->post['limit'])) {
@@ -200,15 +210,17 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 			$data['status'] = '';
 		}
 
+		$data['user_token'] = $this->session->data['user_token'];
+
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/module/featured_information', $data));
+		$this->response->setOutput($this->load->view('extension/module/bestseller_information', $data));
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/module/featured_information')) {
+		if (!$this->user->hasPermission('modify', 'extension/module/bestseller_information')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

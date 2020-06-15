@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.0
+ * @version    3.0.1.1
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -9,6 +9,8 @@
  */
 class ControllerExtensionModuleLatestInformation extends Controller {
 	public function index($setting) {
+		static $module = 0;
+
 		$this->load->language('extension/module/latest_information');
 
 		$this->load->model('catalog/information');
@@ -53,10 +55,12 @@ class ControllerExtensionModuleLatestInformation extends Controller {
 				$data['heading_title'] = html_entity_decode($setting['title'][$this->config->get('config_language_id')]);
 			}
 
-			$data['author'] = $setting['author'];
 			$data['date'] = $setting['date'];
-			$data['review'] = $setting['review'];
+			$data['author'] = $setting['author'];
 			$data['rating'] = $setting['rating'];
+			$data['review'] = $setting['review'];
+
+			$data['module'] = $module++;
 
 			return $this->load->view('extension/module/latest_information', $data);
 		}
