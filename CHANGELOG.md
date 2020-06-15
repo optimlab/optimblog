@@ -7,7 +7,7 @@
 
 ### Changed
 
-## [3.0.1.1](https://github.com/optimlab/optimblog/releases/tag/3.0.1.1) - 2020-06-14
+## [3.0.1.1](https://github.com/optimlab/optimblog/releases/tag/3.0.1.1) - 2020-06-15
 ### Added
 - [Added indexes to article modules](https://github.com/optimlab/optimblog/commit/76975ac18f6b3f999678b2f079d43d75eec44ea4).
 - Upgrade Instructions from 3.0.1.0 to 3.0.1.1.
