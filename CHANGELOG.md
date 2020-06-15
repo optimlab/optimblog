@@ -9,14 +9,15 @@
 
 ## [3.0.1.1](https://github.com/optimlab/optimblog/releases/tag/3.0.1.1) - 2020-06-14
 ### Added
-- Added indexes to article modules.
+- [Added indexes to article modules](https://github.com/optimlab/optimblog/commit/76975ac18f6b3f999678b2f079d43d75eec44ea4).
+- Upgrade Instructions from 3.0.1.0 to 3.0.1.1.
 
 ### Changed
-- Activation of script output of additional images in the «footer».
+- [Activation of script output of additional images in the «footer»](https://github.com/optimlab/optimblog/commit/7d0f1ea7eea056c1618d79f03aa75351ad8104bf).
 
 ### Fixed
-- Display the main image of the article.
-- Related Articles description length.
+- [Display the main image of the article](https://github.com/optimlab/optimblog/commit/2fdd18c19ad3992020ca25882a101e5deabb91d1).
+- [Related Articles description length](https://github.com/optimlab/optimblog/commit/3e8f414e72c20dab898b273781f69405f8dddf25).
 
 ## [3.0.1.0](https://github.com/optimlab/optimblog/releases/tag/3.0.1.0) - 2020-06-06
 ### Added
