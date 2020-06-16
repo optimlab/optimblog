@@ -56,31 +56,31 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			$category_info = $this->model_catalog_category->getCategory($category_id);
 
 			if ($category_info) {
-				if (isset($this->request->get['filter'])) {
+				if (!empty($this->request->get['filter'])) {
 					$filter = $this->request->get['filter'];
 				} else {
 					$filter = '';
 				}
 
-				if (isset($this->request->get['sort'])) {
+				if (!empty($this->request->get['sort'])) {
 					$sort = $this->request->get['sort'];
 				} else {
 					$sort = 'p.sort_order';
 				}
 
-				if (isset($this->request->get['order'])) {
+				if (!empty($this->request->get['order'])) {
 					$order = $this->request->get['order'];
 				} else {
 					$order = 'ASC';
 				}
 
-				if (isset($this->request->get['page'])) {
+				if (!empty($this->request->get['page'])) {
 					$page = $this->request->get['page'];
 				} else {
 					$page = 1;
 				}
 
-				if (isset($this->request->get['limit'])) {
+				if (!empty($this->request->get['limit'])) {
 					$limit = (int)$this->request->get['limit'];
 				} else {
 					$limit = $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit');
@@ -253,15 +253,15 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 				$url = '';
 
-				if (isset($this->request->get['sort'])) {
+				if (!empty($this->request->get['sort'])) {
 					$url .= '&sort=' . $this->request->get['sort'];
 				}
 
-				if (isset($this->request->get['order'])) {
+				if (!empty($this->request->get['order'])) {
 					$url .= '&order=' . $this->request->get['order'];
 				}
 
-				if (isset($this->request->get['limit'])) {
+				if (!empty($this->request->get['limit'])) {
 					$url .= '&limit=' . $this->request->get['limit'];
 				}
 
@@ -355,19 +355,19 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 					if ($category_info) {
 						$url = '';
 
-						if (isset($this->request->get['sort'])) {
+						if (!empty($this->request->get['sort'])) {
 							$url .= '&sort=' . $this->request->get['sort'];
 						}
 
-						if (isset($this->request->get['order'])) {
+						if (!empty($this->request->get['order'])) {
 							$url .= '&order=' . $this->request->get['order'];
 						}
 
-						if (isset($this->request->get['page'])) {
+						if (!empty($this->request->get['page'])) {
 							$url .= '&page=' . $this->request->get['page'];
 						}
 
-						if (isset($this->request->get['limit'])) {
+						if (!empty($this->request->get['limit'])) {
 							$url .= '&limit=' . $this->request->get['limit'];
 						}
 
@@ -379,39 +379,39 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 					$url = '';
 
-					if (isset($this->request->get['path'])) {
+					if (!empty($this->request->get['path'])) {
 						$url .= '&path=' . $this->request->get['path'];
 					}
 
-					if (isset($this->request->get['filter'])) {
+					if (!empty($this->request->get['filter'])) {
 						$url .= '&filter=' . $this->request->get['filter'];
 					}
 
-					if (isset($this->request->get['description'])) {
+					if (!empty($this->request->get['description'])) {
 						$url .= '&description=' . $this->request->get['description'];
 					}
 
-					if (isset($this->request->get['category_id'])) {
+					if (!empty($this->request->get['category_id'])) {
 						$url .= '&category_id=' . $this->request->get['category_id'];
 					}
 
-					if (isset($this->request->get['sub_category'])) {
+					if (!empty($this->request->get['sub_category'])) {
 						$url .= '&sub_category=' . $this->request->get['sub_category'];
 					}
 
-					if (isset($this->request->get['sort'])) {
+					if (!empty($this->request->get['sort'])) {
 						$url .= '&sort=' . $this->request->get['sort'];
 					}
 
-					if (isset($this->request->get['order'])) {
+					if (!empty($this->request->get['order'])) {
 						$url .= '&order=' . $this->request->get['order'];
 					}
 
-					if (isset($this->request->get['page'])) {
+					if (!empty($this->request->get['page'])) {
 						$url .= '&page=' . $this->request->get['page'];
 					}
 
-					if (isset($this->request->get['limit'])) {
+					if (!empty($this->request->get['limit'])) {
 						$url .= '&limit=' . $this->request->get['limit'];
 					}
 
@@ -464,7 +464,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 	// view/information/information/before
 	public function viewInformationBefore(&$route, &$data) {
-		if (isset($this->request->get['information_id']) && $this->config->get('information_optimblog_status')) {
+		if (!empty($this->request->get['information_id']) && $this->config->get('information_optimblog_status')) {
 			$information_id = (int)$this->request->get['information_id'];
 
 			$information_info = $this->model_catalog_information->getInformation($information_id);
@@ -479,7 +479,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 						'href' => $this->url->link('common/home')
 					);
 
-					if (isset($this->request->get['path'])) {
+					if (!empty($this->request->get['path'])) {
 						$path = '';
 
 						$parts = explode('_', (string)$this->request->get['path']);
@@ -509,19 +509,19 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 						if ($category_info) {
 							$url = '';
 
-							if (isset($this->request->get['sort'])) {
+							if (!empty($this->request->get['sort'])) {
 								$url .= '&sort=' . $this->request->get['sort'];
 							}
 
-							if (isset($this->request->get['order'])) {
+							if (!empty($this->request->get['order'])) {
 								$url .= '&order=' . $this->request->get['order'];
 							}
 
-							if (isset($this->request->get['page'])) {
+							if (!empty($this->request->get['page'])) {
 								$url .= '&page=' . $this->request->get['page'];
 							}
 
-							if (isset($this->request->get['limit'])) {
+							if (!empty($this->request->get['limit'])) {
 								$url .= '&limit=' . $this->request->get['limit'];
 							}
 
@@ -532,7 +532,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 						}
 					}
 
-					if (isset($this->request->get['manufacturer_id'])) {
+					if (!empty($this->request->get['manufacturer_id'])) {
 						$data['breadcrumbs'][] = array(
 							'text' => $this->language->get('text_brand'),
 							'href' => $this->url->link('product/manufacturer')
@@ -540,19 +540,19 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 						$url = '';
 
-						if (isset($this->request->get['sort'])) {
+						if (!empty($this->request->get['sort'])) {
 							$url .= '&sort=' . $this->request->get['sort'];
 						}
 
-						if (isset($this->request->get['order'])) {
+						if (!empty($this->request->get['order'])) {
 							$url .= '&order=' . $this->request->get['order'];
 						}
 
-						if (isset($this->request->get['page'])) {
+						if (!empty($this->request->get['page'])) {
 							$url .= '&page=' . $this->request->get['page'];
 						}
 
-						if (isset($this->request->get['limit'])) {
+						if (!empty($this->request->get['limit'])) {
 							$url .= '&limit=' . $this->request->get['limit'];
 						}
 
@@ -569,39 +569,39 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 					if (isset($this->request->get['search']) || isset($this->request->get['tag'])) {
 						$url = '';
 
-						if (isset($this->request->get['search'])) {
+						if (!empty($this->request->get['search'])) {
 							$url .= '&search=' . $this->request->get['search'];
 						}
 
-						if (isset($this->request->get['tag'])) {
+						if (!empty($this->request->get['tag'])) {
 							$url .= '&tag=' . $this->request->get['tag'];
 						}
 
-						if (isset($this->request->get['description'])) {
+						if (!empty($this->request->get['description'])) {
 							$url .= '&description=' . $this->request->get['description'];
 						}
 
-						if (isset($this->request->get['category_id'])) {
+						if (!empty($this->request->get['category_id'])) {
 							$url .= '&category_id=' . $this->request->get['category_id'];
 						}
 
-						if (isset($this->request->get['sub_category'])) {
+						if (!empty($this->request->get['sub_category'])) {
 							$url .= '&sub_category=' . $this->request->get['sub_category'];
 						}
 
-						if (isset($this->request->get['sort'])) {
+						if (!empty($this->request->get['sort'])) {
 							$url .= '&sort=' . $this->request->get['sort'];
 						}
 
-						if (isset($this->request->get['order'])) {
+						if (!empty($this->request->get['order'])) {
 							$url .= '&order=' . $this->request->get['order'];
 						}
 
-						if (isset($this->request->get['page'])) {
+						if (!empty($this->request->get['page'])) {
 							$url .= '&page=' . $this->request->get['page'];
 						}
 
-						if (isset($this->request->get['limit'])) {
+						if (!empty($this->request->get['limit'])) {
 							$url .= '&limit=' . $this->request->get['limit'];
 						}
 
@@ -647,19 +647,19 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 						if ($category_info) {
 							$url = '';
 
-							if (isset($this->request->get['sort'])) {
+							if (!empty($this->request->get['sort'])) {
 								$url .= '&sort=' . $this->request->get['sort'];
 							}
 
-							if (isset($this->request->get['order'])) {
+							if (!empty($this->request->get['order'])) {
 								$url .= '&order=' . $this->request->get['order'];
 							}
 
-							if (isset($this->request->get['page'])) {
+							if (!empty($this->request->get['page'])) {
 								$url .= '&page=' . $this->request->get['page'];
 							}
 
-							if (isset($this->request->get['limit'])) {
+							if (!empty($this->request->get['limit'])) {
 								$url .= '&limit=' . $this->request->get['limit'];
 							}
 
@@ -672,51 +672,51 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 					$url = '';
 
-					if (isset($this->request->get['path'])) {
+					if (!empty($this->request->get['path'])) {
 						$url .= '&path=' . $this->request->get['path'];
 					}
 
-					if (isset($this->request->get['filter'])) {
+					if (!empty($this->request->get['filter'])) {
 						$url .= '&filter=' . $this->request->get['filter'];
 					}
 
-					if (isset($this->request->get['manufacturer_id'])) {
+					if (!empty($this->request->get['manufacturer_id'])) {
 						$url .= '&manufacturer_id=' . $this->request->get['manufacturer_id'];
 					}
 
-					if (isset($this->request->get['search'])) {
+					if (!empty($this->request->get['search'])) {
 						$url .= '&search=' . $this->request->get['search'];
 					}
 
-					if (isset($this->request->get['tag'])) {
+					if (!empty($this->request->get['tag'])) {
 						$url .= '&tag=' . $this->request->get['tag'];
 					}
 
-					if (isset($this->request->get['description'])) {
+					if (!empty($this->request->get['description'])) {
 						$url .= '&description=' . $this->request->get['description'];
 					}
 
-					if (isset($this->request->get['category_id'])) {
+					if (!empty($this->request->get['category_id'])) {
 						$url .= '&category_id=' . $this->request->get['category_id'];
 					}
 
-					if (isset($this->request->get['sub_category'])) {
+					if (!empty($this->request->get['sub_category'])) {
 						$url .= '&sub_category=' . $this->request->get['sub_category'];
 					}
 
-					if (isset($this->request->get['sort'])) {
+					if (!empty($this->request->get['sort'])) {
 						$url .= '&sort=' . $this->request->get['sort'];
 					}
 
-					if (isset($this->request->get['order'])) {
+					if (!empty($this->request->get['order'])) {
 						$url .= '&order=' . $this->request->get['order'];
 					}
 
-					if (isset($this->request->get['page'])) {
+					if (!empty($this->request->get['page'])) {
 						$url .= '&page=' . $this->request->get['page'];
 					}
 
-					if (isset($this->request->get['limit'])) {
+					if (!empty($this->request->get['limit'])) {
 						$url .= '&limit=' . $this->request->get['limit'];
 					}
 
@@ -938,7 +938,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 		$this->load->model('extension/information/optimblog_review');
 
-		if (isset($this->request->get['page'])) {
+		if (!empty($this->request->get['page'])) {
 			$page = $this->request->get['page'];
 		} else {
 			$page = 1;
