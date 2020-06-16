@@ -399,6 +399,8 @@ class ControllerExtensionInformationCategory extends Controller {
 				}
 			}
 
+			$data['category_information'] = true;
+
 			$data['continue'] = $this->url->link('common/home');
 
 			$data['column_left'] = $this->load->controller('common/column_left');
