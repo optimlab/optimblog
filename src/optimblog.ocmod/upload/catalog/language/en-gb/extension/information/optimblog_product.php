@@ -10,4 +10,4 @@
 // Text
 $_['text_related_information'] = 'Related Articles';
 $_['text_related_reviews']     = '%s reviews';
-$_['text_read']                = 'Read..';
+$_['text_read']                = 'Read More';

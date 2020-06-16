@@ -22,7 +22,7 @@ $_['text_success']            = 'Thank you for your review. It has been submitte
 $_['text_related']            = 'Related Articles';
 $_['text_related_product']    = 'Related Products';
 $_['text_related_reviews']    = '%s reviews';
-$_['text_read']               = 'Read..';
+$_['text_read']               = 'Read More';
 $_['text_tags']               = 'Tags:';
 
 // Entry

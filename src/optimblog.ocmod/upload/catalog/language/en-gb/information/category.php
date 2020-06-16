@@ -8,7 +8,7 @@
  * @link       http://optimlab.com
  */
 // Text
-$_['text_read']      = 'Read..';
+$_['text_read']      = 'Read More';
 $_['text_date_asc']  = 'Date (Old)';
 $_['text_date_desc'] = 'Date (Last)';
 $_['text_review']    = 'Reviews (%s)';
