@@ -27,25 +27,25 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 2. **Short Description** - you can show in a category using: `{{ short_description }}`.
 3. **Additional Images** - you can show in a category using: `{% for image in images %}` -> `{{ image.thumb }}` , `{{ image.popup }}`.
 
+### Articles:
+1. **Heading H1**
+2. **Short Description** - Displayed in categories and article modules using:`{{ short_description }}`.
+3. **Images**
+4. **Date Added**
+5. **Date Available** and **Date End** of this publication.
+6. **Author**
+7. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the Canonical URL property for the site pages.
+8. **Related Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
+9. **Related Products** - It is possible to recommend in three directions: double, or in one of the parties.
+10. **Tags**
+11. **Attributes**
+
 ### Products:
 1. **Heading H1**
 2. **Short Description** - displayed in categories and product modules using:`{{ short_description }}`.
 3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines.
 4. **Related Products** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
 5. **Related Articles** - It is possible to recommend in three directions: double, or in one of the parties.
-
-### Articles:
-1. **Heading H1**
-2. **Short Description** - Displayed in categories and article modules using:`{{ short_description }}`.
-3. **Main Category** - Used to determine the breadcrumbs in the "URL from the base domain" are in the index of Search Engines. As well as the correct configuration of the Canonical URL property for the site pages.
-4. **Related Articles** - There is no adding page on itself. It is possible to recommend in three directions: double, or in one of the parties.
-5. **Related Products** - It is possible to recommend in three directions: double, or in one of the parties.
-6. **Tags**
-7. **Date Added**
-8. **Date Available** and **Date End** of this publication
-9. **Author**
-10. **Attributes**
-11. **Additional Images**
 
 ### For Developers:
 - Some functions and features that developers can use to create their modules are laid down for the future. For example: «additional images» in the category settings can be displayed using the slider. And «Manufacturer» to use for appropriate bindings and sorting.
