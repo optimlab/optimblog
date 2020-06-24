@@ -3351,8 +3351,10 @@ $('input[name=\'information\']').autocomplete({
   <!-- Information -->
   <file path="catalog/view/theme/default/template/information/information.twig">
       <operation error="skip">
-        <search><![CDATA[{{ description }}]]></search>
-        <add position="replace"><![CDATA[
+        <search><![CDATA[
+		  {{ description }}
+        ]]></search>
+        <add position="before"><![CDATA[
       {% if not information_exclusion %}
       <ul class="list-inline text-muted">
         {% if show_date %}
@@ -3382,7 +3384,7 @@ $('input[name=\'information\']').autocomplete({
         <a class="thumbnail" href="{{ image.popup }}" title="{{ heading_title }}"> <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a>
       {% endfor %}
       </div>
-      {% else %}
+      {% elseif images|length > 1 %}
       <div class="swiper-viewport">
         <div id="slideshow-information" class="swiper-container">
           <div class="swiper-wrapper images">
@@ -3418,7 +3420,13 @@ $('input[name=\'information\']').autocomplete({
       });
       --></script>
       {% endif %}
-      <div id="description">{{ description }}</div>
+        ]]></add>
+      </operation>
+      <operation error="skip">
+        <search><![CDATA[
+		  {{ description }}
+        ]]></search>
+        <add position="after"><![CDATA[
       {% if attribute_groups %}
       <div id="specification">
         <h3>{{ text_attribute }}</h3>
