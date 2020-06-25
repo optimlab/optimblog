@@ -34,7 +34,7 @@
               <div class="text-danger">{{ error_name }}</div>
               {% endif %}
             </div>
-          </div>
+          </div>          
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-title"><span data-toggle="tooltip" title="{{ help_title }}">{{ entry_title }}</span></label>
             <div class="col-sm-10">
@@ -47,24 +47,16 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-category"><span data-toggle="tooltip" title="{{ help_category }}">{{ entry_category }}</span></label>
+            <label class="col-sm-2 control-label" for="input-information"><span data-toggle="tooltip" title="{{ help_information }}">{{ entry_information }}</span></label>
             <div class="col-sm-10">
-              <input type="text" name="category" value="{{ category }}" placeholder="{{ entry_category }}" id="input-category" class="form-control" />
-              <input type="hidden" name="category_id" value="{{ category_id }}" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-sort">{{ entry_sort }}</label>
-            <div class="col-sm-10">
-              <select name="sort" id="input-sort" class="form-control">
-                {% if sort == 'i.viewed' %}
-                <option value="i.viewed" selected="selected">{{ text_viewed }}</option>
-                <option value="rating">{{ text_rating }}</option>
-                {% else %}
-                <option value="i.viewed">{{ text_viewed }}</option>
-                <option value="rating" selected="selected">{{ text_rating }}</option>
-                {% endif %}
-              </select>
+              <input type="text" name="information_title" value="" placeholder="{{ entry_information}}" id="input-information" class="form-control" />
+              <div id="featured-information" class="well well-sm" style="height: 150px; overflow: auto;">
+                {% for information in informations %}
+                <div id="featured-information{{ information.information_id }}"><i class="fa fa-minus-circle"></i> {{ information.title }}
+                  <input type="hidden" name="information[]" value="{{ information.information_id }}" />
+                </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -186,31 +178,32 @@
     </div>
   </div>
   <script type="text/javascript"><!--
-$('input[name=\'category\']').autocomplete({
-	'source': function(request, response) {
+$('input[name=\'information_title\']').autocomplete({
+	source: function(request, response) {
 		$.ajax({
-			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=1&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=catalog/information/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',
 			success: function(json) {
-				json.unshift({
-					category_id: 0,
-					name: '{{ text_none }}'
-				});
-
 				response($.map(json, function(item) {
 					return {
-						label: item['name'],
-						value: item['category_id']
+						label: item['title'],
+						value: item['information_id']
 					}
 				}));
 			}
 		});
 	},
-	'select': function(item) {
-		$('input[name=\'category\']').val(item['label']);
-		$('input[name=\'category_id\']').val(item['value']);
+	select: function(item) {
+		$('input[name=\'information_title\']').val('');
+		
+		$('#featured-information' + item['value']).remove();
+		
+		$('#featured-information').append('<div id="featured-information' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="information[]" value="' + item['value'] + '" /></div>');	
 	}
 });
-//--></script> 
-</div>
+	
+$('#featured-information').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script></div>
 {{ footer }}

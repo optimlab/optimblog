@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.0
+ * @version    3.0.1.2
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -28,7 +28,7 @@ $_['text_date_desc']    = 'Date (Last)';
 $_['text_rating_asc']   = 'Rating (Lowest)';
 $_['text_rating_desc']  = 'Rating (Highest)';
 $_['text_limit']        = 'Show:';
-$_['text_read']         = 'Read..';
+$_['text_read']         = 'Read More';
 $_['text_review']       = 'Reviews (%s)';
 $_['text_search']       = 'Search Articles';
 

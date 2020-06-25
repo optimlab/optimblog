@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.1
+ * @version    3.0.1.2
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -12,7 +12,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 	public function index() {
 		// Version
-		define('OPTIMBLOG', '3.0.1.1');
+		define('OPTIMBLOG', '3.0.1.2');
 
 		$data['information_optimblog_version'] = OPTIMBLOG;
 
