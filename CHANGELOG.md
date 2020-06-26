@@ -13,7 +13,7 @@
 
 ### Changed
 - [Read More](https://github.com/optimlab/optimblog/commit/506787d740bc4b502b893929188c0d1836503fa8).
-- Upgrade Instructions.
+- [Upgrade Instructions](https://github.com/optimlab/optimblog/blob/master/README.md#after-opencart-upgrade).
 
 ### Fixed
 - [Button in empty Articles Category](https://github.com/optimlab/optimblog/commit/576fd92d5db5eb5ac78fcbb325496b41ec67b340).
