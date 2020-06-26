@@ -7,6 +7,18 @@
 
 ### Changed
 
+## [3.0.1.2](https://github.com/optimlab/optimblog/releases/tag/3.0.1.2) - 2020-06-26
+### Added
+- [Protection from empty requests](https://github.com/optimlab/optimblog/commit/486f00d9ed18819b8931745513c99345f5952b79) [#8043](https://github.com/opencart/opencart/issues/8043).
+
+### Changed
+- [Read More](https://github.com/optimlab/optimblog/commit/506787d740bc4b502b893929188c0d1836503fa8).
+- Upgrade Instructions.
+
+### Fixed
+- [Button in empty Articles Category](https://github.com/optimlab/optimblog/commit/576fd92d5db5eb5ac78fcbb325496b41ec67b340).
+- [Swiper and Additional images](https://github.com/optimlab/optimblog/commit/8d17952cfcd8a8c75547d978d9f02f50a8b4c52b).
+
 ## [3.0.1.1](https://github.com/optimlab/optimblog/releases/tag/3.0.1.1) - 2020-06-15
 ### Added
 - [Added indexes to article modules](https://github.com/optimlab/optimblog/commit/76975ac18f6b3f999678b2f079d43d75eec44ea4).
