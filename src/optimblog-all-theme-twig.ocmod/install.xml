@@ -107,10 +107,8 @@
   <!-- Information -->
   <file path="catalog/view/theme/*/template/information/information.twig">
       <operation error="skip">
-        <search><![CDATA[
-		  {{ description }}
-        ]]></search>
-        <add position="before"><![CDATA[
+        <search><![CDATA[{{ description }}]]></search>
+        <add position="replace"><![CDATA[
       {% if not information_exclusion %}
       <ul class="list-inline text-muted">
         {% if show_date %}
@@ -176,13 +174,7 @@
       });
       --></script>
       {% endif %}
-        ]]></add>
-      </operation>
-      <operation error="skip">
-        <search><![CDATA[
-		  {{ description }}
-        ]]></search>
-        <add position="after"><![CDATA[
+	  {{ description }}
       {% if attribute_groups %}
       <div id="specification">
         <h3>{{ text_attribute }}</h3>
