@@ -85,8 +85,6 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
    - Add Route `extension/information/category`
    - Save.
 
-
-
 ## Upgrade Instructions
 ### From 3.0.0.x to 3.0.1.x
 1. In the «Extensions->Extensions» section drop-down list, select «Articles».
@@ -107,3 +105,13 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 6. In the «Extensions -> Extensions» section drop-down list, select «Articles».
 7. Edit the OptimBlog module settings and save.
 
+### After Opencart Upgrade
+> :warning: **If you upgrade Opencart through `/install`**, this will remove the database field indexes!
+1. In the «Extensions -> Extensions» section drop-down list, select «Articles».
+2. Edit the OptimBlog.
+3. Backup Settings.
+2. Deactivate the OptimBlog module.
+3. Activate the OptimBlog module.
+2. Edit the OptimBlog.
+2. Restore Settings.
+6. Save OptimBlog and Exit.
