@@ -106,7 +106,7 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 7. Edit the OptimBlog module settings and save.
 
 ### After Opencart Upgrade
-> :warning: **If you upgrade Opencart through `/install`**, this will remove the database field indexes!
+> :warning: **If you upgrade Opencart through `/install`**, this will remove the DataBase Indexes Key!
 1. In the «Extensions -> Extensions» section drop-down list, select «Articles».
 2. Edit the OptimBlog.
 3. Backup Settings.
