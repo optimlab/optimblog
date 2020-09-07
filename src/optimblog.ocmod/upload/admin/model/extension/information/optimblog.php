@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.2
+ * @version    3.0.1.3
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -21,7 +21,7 @@ class ModelExtensionInformationOptimBlog extends Model {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 		");
 
-        // Category Type
+		// Category Type
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "category' AND COLUMN_NAME = 'information'");
 
 		if (!$query->num_rows) {
@@ -198,7 +198,7 @@ class ModelExtensionInformationOptimBlog extends Model {
 		}
 
 		// Information Filter
-        $this->db->query("
+		$this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_filter` (
 				`information_id` int(11) NOT NULL,
 				`filter_id` int(11) NOT NULL,
@@ -231,7 +231,7 @@ class ModelExtensionInformationOptimBlog extends Model {
 //		");
 
 		// Information Related
-        $this->db->query("
+		$this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_related` (
 				`information_id` int(11) NOT NULL,
                 `related_id` int(11) NOT NULL,
@@ -270,8 +270,8 @@ class ModelExtensionInformationOptimBlog extends Model {
 //			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 //		");
 
-        // Information User
-        $this->db->query("
+		// Information User
+		$this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "information_to_user` (
 				`information_id` int(11) NOT NULL,
 				`user_id` int(11) NOT NULL,
@@ -291,7 +291,7 @@ class ModelExtensionInformationOptimBlog extends Model {
 			$this->db->query("UPDATE `" . DB_PREFIX . "information_to_user` SET `user_id` = '" . (int)$this->user->getId() . "' WHERE `user_id` = ''");
 		}
 
-        // Information Review
+		// Information Review
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "review' AND COLUMN_NAME = 'information_id'");
 
 		if (!$query->num_rows) {
@@ -300,14 +300,14 @@ class ModelExtensionInformationOptimBlog extends Model {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "review` ADD KEY `information_id` (`information_id`)");
 		}
 
-        // Information Search
+		// Information Search
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `query` = 'information/search' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		if (!$query->num_rows) {
 			$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$this->config->get('config_store_id') . "', `language_id` = '" . (int)$this->config->get('config_language_id') . "', `query` = 'information/search', keyword = 'search-information'");
 		}
 
-        // Product Header
+		// Product Header
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_description' AND COLUMN_NAME = 'meta_h1'");
 
 		if ($query->num_rows) {
@@ -326,7 +326,7 @@ class ModelExtensionInformationOptimBlog extends Model {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` ADD `header` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `name`");
 		}
 
-        // Product Short Description
+		// Product Short Description
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_description' AND COLUMN_NAME = 'short_description'");
 
 		if (!$query->num_rows) {
@@ -345,21 +345,21 @@ class ModelExtensionInformationOptimBlog extends Model {
 			$field_name = $field['Field'];
 		}
 
-        // Product Main Category
+		// Product Main Category
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_to_category' AND COLUMN_NAME = 'main_category'");
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_to_category` ADD `main_category` tinyint(1) NOT NULL DEFAULT '0'");
 		}
 
-        // Product Related
+		// Product Related
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "product_related' AND COLUMN_NAME = 'route'");
 
 		if (!$query->num_rows) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_related` ADD `route` tinyint(1) NOT NULL DEFAULT '0'");
 		}
 
-        // Review Reply
+		// Review Reply
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . "review' AND COLUMN_NAME = 'reply'");
 
 		if (!$query->num_rows) {
