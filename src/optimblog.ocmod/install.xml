@@ -251,7 +251,7 @@
 		$sql .= " GROUP BY cp.category_id";
         ]]></search>
         <add position="before"><![CDATA[
-		if (isset($data['filter_information'])) {
+		if (isset($data['filter_information']) && ($data['filter_information'] == '0' || $data['filter_information'] == '1')) {
 			$sql .= " AND c1.information = '" . (int)$data['filter_information'] . "' AND c2.information = '" . (int)$data['filter_information'] . "'";
 		}
         ]]></add>
@@ -277,7 +277,7 @@
 
 		$sql .= " WHERE category_id != ''";
 
-		if (isset($data['filter_information'])) {
+		if (isset($data['filter_information']) && ($data['filter_information'] == '0' || $data['filter_information'] == '1')) {
 			$sql .= " AND information = '" . (int)$data['filter_information'] . "'";
 		}
 
