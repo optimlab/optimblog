@@ -12,7 +12,7 @@
 - [Admin Filter language move to OptimBlog](https://github.com/optimlab/optimblog/commit/e738072bddf18474649cd96b244b2a4acb03f0f8).
 
 ### Fixed
-- [Bug Fix category autocomplete ](https://github.com/optimlab/optimblog/commit/0d198e1cc51a99fad144da52ee3d0f03aca7bece).
+- [Category autocomplete](https://github.com/optimlab/optimblog/commit/0d198e1cc51a99fad144da52ee3d0f03aca7bece).
 
 ## [3.0.1.2](https://github.com/optimlab/optimblog/releases/tag/3.0.1.2) - 2020-06-26
 ### Added
