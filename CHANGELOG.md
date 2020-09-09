@@ -7,6 +7,13 @@
 
 ### Changed
 
+## [3.0.1.3](https://github.com/optimlab/optimblog/releases/tag/3.0.1.3) - 2020-09-09
+### Changed
+- [Admin Filter language move to OptimBlog](https://github.com/optimlab/optimblog/commit/e738072bddf18474649cd96b244b2a4acb03f0f8).
+
+### Fixed
+- [Bug Fix category autocomplete ](https://github.com/optimlab/optimblog/commit/0d198e1cc51a99fad144da52ee3d0f03aca7bece).
+
 ## [3.0.1.2](https://github.com/optimlab/optimblog/releases/tag/3.0.1.2) - 2020-06-26
 ### Added
 - [Protection from empty requests](https://github.com/optimlab/optimblog/commit/486f00d9ed18819b8931745513c99345f5952b79) [#8043](https://github.com/opencart/opencart/issues/8043).
