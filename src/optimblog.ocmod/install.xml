@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog</name>
   <code>optimblog</code>
-  <version>3.0.1.3</version>
+  <version>3.0.1.4</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>http://optimlab.com</link>
 
@@ -3246,7 +3246,7 @@ $('input[name=\'information\']').autocomplete({
 
 <!-- optimblog-category-theme-default.ocmod -->
 
-  <!-- Category -->
+  <!-- Category 
   <file path="catalog/view/theme/default/template/product/category.twig">
       <operation error="skip">
         <search><![CDATA[h2]]></search>
@@ -3347,6 +3347,7 @@ $('input[name=\'information\']').autocomplete({
         ]]></add>
       </operation>
   </file>
+-->
 
   <!-- Information -->
   <file path="catalog/view/theme/default/template/information/information.twig">

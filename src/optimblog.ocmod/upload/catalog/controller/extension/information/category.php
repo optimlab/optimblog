@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.3
+ * @version    3.0.1.4
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -418,8 +418,8 @@ class ControllerExtensionInformationCategory extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
-			$this->response->setOutput($this->load->view('product/category', $data));
-//			$this->response->setOutput($this->load->view('extension/information/category', $data));
+//			$this->response->setOutput($this->load->view('product/category', $data));
+			$this->response->setOutput($this->load->view('information/category', $data));
 		} else {
 			$url = '';
 
