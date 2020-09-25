@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.3
+ * @version    3.0.1.4
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -995,8 +995,8 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			}
 
 			// Captcha
-			if ($this->config->get('captcha_' . $this->config->get('information_captcha') . '_status') && $this->config->get('information_captcha')) {
-				$captcha = $this->load->controller('extension/captcha/' . $this->config->get('information_captcha') . '/validate');
+			if ($this->config->get('captcha_' . $this->config->get('information_optimblog_captcha') . '_status') && $this->config->get('information_optimblog_captcha')) {
+				$captcha = $this->load->controller('extension/captcha/' . $this->config->get('information_optimblog_captcha') . '/validate');
 
 				if ($captcha) {
 					$json['error'] = $captcha;
