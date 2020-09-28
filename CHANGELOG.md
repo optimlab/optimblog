@@ -7,6 +7,13 @@
 
 ### Changed
 
+## [3.0.1.4](https://github.com/optimlab/optimblog/releases/tag/3.0.1.4) - 2020-09-26
+### Added
+- [Articles Category Twig](https://github.com/optimlab/optimblog/commit/173c8f1ad5e61d4190a40aeb77f70f81ec8e8d32).
+
+### Fixed
+- [Captcha Bug](https://github.com/optimlab/optimblog/commit/b49139142e4ea1596cf8c5a43bb04f6f7815df62).
+
 ## [3.0.1.3](https://github.com/optimlab/optimblog/releases/tag/3.0.1.3) - 2020-09-09
 ### Changed
 - [Admin Filter language move to OptimBlog](https://github.com/optimlab/optimblog/commit/e738072bddf18474649cd96b244b2a4acb03f0f8).
