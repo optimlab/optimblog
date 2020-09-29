@@ -4,7 +4,8 @@ This module allows you to create an infinite number of articles and categories f
 
 ## Concept and difference from other blog modules for Opencart 3.
 ### Other blogs for Opencart 3
-Most (may been 100%, I have not seen analogues) of blog modules and other similar use the concept of cloning software code (controllers and related files - Model-View-Controller) categories of products and products themselves, turning scripts:
+Has no analogues!
+Most of the blog modules and the like use the concept of cloning program code (controllers and related files - Model-View-Controller) categories of products and products themselves, turning scripts:
 1. «product category» → «category of articles»
 2. «product» → «article»
 3. cloning Database tables is similar to categories and products.
@@ -83,6 +84,10 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 7. Go to «Design» -> «Layouts»:
    - Add Layout «Category Information»
    - Add Route `extension/information/category`
+   - Save.
+8. Go to «Design» -> «Layouts»:
+   - Add Layout «Search Information»
+   - Add Route `information/search`
    - Save.
 
 ## Upgrade Instructions
