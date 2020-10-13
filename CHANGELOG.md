@@ -6,7 +6,7 @@
 - Updating new versions from the module.
 
 ### Changed
-## [3.0.1.5](https://github.com/optimlab/optimblog/releases/tag/3.0.1.5) - 2020-10-01
+## [3.0.2.0](https://github.com/optimlab/optimblog/releases/tag/3.0.1.5) - 2020-10-20
 ### Added
 ### Changed
 ### Fixed
