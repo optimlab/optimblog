@@ -74,6 +74,8 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 [GNU General Public License version 3 (GPLv3)](https://github.com/optimlab/optimblog/blob/master/LICENSE)
 
 
+
+
 ## Install Instructions
 1. Install **optimblog.ocmod.zip**.
 2. Update modification cache.
@@ -89,6 +91,8 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
    - Add Layout «Search Information»
    - Add Route `information/search`
    - Save.
+
+
 
 ## Upgrade Instructions
 ### From 3.0.0.x to 3.0.1.x
@@ -121,8 +125,9 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 2. Restore Settings.
 6. Save OptimBlog and Exit.
 
-## Adaptation Instructions to your Theme:
 
+
+## Adaptation Instructions to your Theme:
 If your theme differs from the default theme, then you need to create an additional modification. The modification [optimblog-all-theme-twig.ocmod.zip](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modification/optimblog-all-theme-twig.ocmod.zip) was created to help. Download, unzip and edit the optimblog-all-theme-twig.ocmod.zip modifier to fit your theme, replacing the path to the theme in the modification code 
 from 
 `catalog/view/theme/*/` 
