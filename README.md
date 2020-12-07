@@ -120,3 +120,13 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 2. Edit the OptimBlog.
 2. Restore Settings.
 6. Save OptimBlog and Exit.
+
+## Adaptation Instructions to your Theme:
+
+If your theme differs from the default theme, then you need to create an additional modification. The modification [optimblog-all-theme-twig.ocmod.zip](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modification/optimblog-all-theme-twig.ocmod.zip) was created to help. Download, unzip and edit the optimblog-all-theme-twig.ocmod.zip modifier to fit your theme, replacing the path to the theme in the modification code 
+from 
+`catalog/view/theme/*/` 
+to 
+`catalog/view/theme/theme_name/`
+
+And then re-zip it under the name **optimblog-theme-name.ocmod.zip**. If it didn’t help or didn’t help completely, then you need to figure it out by fixing it or order an adaptation for your template. You also need to know that the article category template is located at [catalog/view/theme/default/template/information/category.twig](https://github.com/optimlab/optimblog/blob/master/src/optimblog.ocmod/upload/catalog/view/theme/default/template/information/category.twig).
