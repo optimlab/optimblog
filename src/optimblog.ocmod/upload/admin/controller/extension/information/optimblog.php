@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.4
+ * @version    3.0.1.5
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -12,7 +12,7 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 
 	public function index() {
 		// Version
-		define('OPTIMBLOG', '3.0.1.4');
+		define('OPTIMBLOG', '3.0.1.5');
 
 		$data['information_optimblog_version'] = OPTIMBLOG;
 
@@ -484,16 +484,16 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		}
 
 		if (isset($this->request->post['information_optimblog_exclusion_information_author'])) {
-			$exclusion_informations_author = $this->request->post['information_optimblog_exclusion_information_author'];
+			$exclusion_informations = $this->request->post['information_optimblog_exclusion_information_author'];
 		} elseif (isset($setting_info['information_optimblog_exclusion_information_author'])) {
-			$exclusion_informations_author = $setting_info['information_optimblog_exclusion_information_author'];
+			$exclusion_informations = $setting_info['information_optimblog_exclusion_information_author'];
 		} else {
-			$exclusion_informations_author = array();
+			$exclusion_informations = array();
 		}
 
 		$data['information_optimblog_exclusion_informations_author'] = array();
 
-		foreach ($exclusion_informations_author as $information_id) {
+		foreach ($exclusion_informations as $information_id) {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
 
 			if ($information_info) {
@@ -505,16 +505,16 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		}
 
 		if (isset($this->request->post['information_optimblog_exclusion_information_date'])) {
-			$exclusion_informations_date = $this->request->post['information_optimblog_exclusion_information_date'];
+			$exclusion_informations = $this->request->post['information_optimblog_exclusion_information_date'];
 		} elseif (isset($setting_info['information_optimblog_exclusion_information_date'])) {
-			$exclusion_informations_date = $setting_info['information_optimblog_exclusion_information_date'];
+			$exclusion_informations = $setting_info['information_optimblog_exclusion_information_date'];
 		} else {
-			$exclusion_informations_date = array();
+			$exclusion_informations = array();
 		}
 
 		$data['information_optimblog_exclusion_informations_date'] = array();
 
-		foreach ($exclusion_informations_date as $information_id) {
+		foreach ($exclusion_informations as $information_id) {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
 
 			if ($information_info) {
@@ -526,16 +526,16 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		}
 
 		if (isset($this->request->post['information_optimblog_exclusion_information_manufacturer'])) {
-			$exclusion_informations_manufacturer = $this->request->post['information_optimblog_exclusion_information_manufacturer'];
+			$exclusion_informations = $this->request->post['information_optimblog_exclusion_information_manufacturer'];
 		} elseif (isset($setting_info['information_optimblog_exclusion_information_manufacturer'])) {
-			$exclusion_informations_manufacturer = $setting_info['information_optimblog_exclusion_information_manufacturer'];
+			$exclusion_informations = $setting_info['information_optimblog_exclusion_information_manufacturer'];
 		} else {
-			$exclusion_informations_manufacturer = array();
+			$exclusion_informations = array();
 		}
 
 		$data['information_optimblog_exclusion_informations_manufacturer'] = array();
 
-		foreach ($exclusion_informations_manufacturer as $information_id) {
+		foreach ($exclusion_informations as $information_id) {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
 
 			if ($information_info) {
@@ -547,16 +547,16 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 		}
 
 		if (isset($this->request->post['information_optimblog_exclusion_information_review'])) {
-			$exclusion_informations_review = $this->request->post['information_optimblog_exclusion_information_review'];
+			$exclusion_informations = $this->request->post['information_optimblog_exclusion_information_review'];
 		} elseif (isset($setting_info['information_optimblog_exclusion_information_review'])) {
-			$exclusion_informations_review = $setting_info['information_optimblog_exclusion_information_review'];
+			$exclusion_informations = $setting_info['information_optimblog_exclusion_information_review'];
 		} else {
-			$exclusion_informations_review = array();
+			$exclusion_informations = array();
 		}
 
 		$data['information_optimblog_exclusion_informations_review'] = array();
 
-		foreach ($exclusion_informations_review as $information_id) {
+		foreach ($exclusion_informations as $information_id) {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
 
 			if ($information_info) {
@@ -571,16 +571,16 @@ class ControllerExtensionInformationOptimBlog extends Controller {
         $this->load->model('catalog/category');
 
 		if (isset($this->request->post['information_optimblog_exclusion_category_author'])) {
-			$exclusion_categories_author = $this->request->post['information_optimblog_exclusion_category_author'];
+			$exclusion_categories = $this->request->post['information_optimblog_exclusion_category_author'];
 		} elseif (isset($setting_info['information_optimblog_exclusion_category_author'])) {
-			$exclusion_categories_author = $setting_info['information_optimblog_exclusion_category_author'];
+			$exclusion_categories = $setting_info['information_optimblog_exclusion_category_author'];
 		} else {
-			$exclusion_categories_author = array();
+			$exclusion_categories = array();
 		}
 
 		$data['information_optimblog_exclusion_categories_author'] = array();
 
-		foreach ($exclusion_categories_author as $category_id) {
+		foreach ($exclusion_categories as $category_id) {
 			$category_info = $this->model_catalog_category->getCategory($category_id);
 
 			if ($category_info) {
@@ -591,17 +591,38 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			}
 		}
 
-		if (isset($this->request->post['information_optimblog_exclusion_category_date'])) {
-			$exclusion_categories_date = $this->request->post['information_optimblog_exclusion_category_date'];
-		} elseif (isset($setting_info['information_optimblog_exclusion_category_date'])) {
-			$exclusion_categories_date = $setting_info['information_optimblog_exclusion_category_date'];
+		if (isset($this->request->post['information_optimblog_exclusion_category_author_information'])) {
+			$exclusion_categories = $this->request->post['information_optimblog_exclusion_category_author_information'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_author_information'])) {
+			$exclusion_categories = $setting_info['information_optimblog_exclusion_category_author_information'];
 		} else {
-			$exclusion_categories_date = array();
+			$exclusion_categories = array();
+		}
+
+		$data['information_optimblog_exclusion_categories_author_information'] = array();
+
+		foreach ($exclusion_categories as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_optimblog_exclusion_categories_author_information'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_category_date'])) {
+			$exclusion_categories = $this->request->post['information_optimblog_exclusion_category_date'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_date'])) {
+			$exclusion_categories = $setting_info['information_optimblog_exclusion_category_date'];
+		} else {
+			$exclusion_categories = array();
 		}
 
 		$data['information_optimblog_exclusion_categories_date'] = array();
 
-		foreach ($exclusion_categories_date as $category_id) {
+		foreach ($exclusion_categories as $category_id) {
 			$category_info = $this->model_catalog_category->getCategory($category_id);
 
 			if ($category_info) {
@@ -612,21 +633,84 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 			}
 		}
 
-		if (isset($this->request->post['information_optimblog_exclusion_category_review'])) {
-			$exclusion_categories_review = $this->request->post['information_optimblog_exclusion_category_review'];
-		} elseif (isset($setting_info['information_optimblog_exclusion_category_review'])) {
-			$exclusion_categories_review = $setting_info['information_optimblog_exclusion_category_review'];
+		if (isset($this->request->post['information_optimblog_exclusion_category_date_information'])) {
+			$exclusion_categories = $this->request->post['information_optimblog_exclusion_category_date_information'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_date_information'])) {
+			$exclusion_categories = $setting_info['information_optimblog_exclusion_category_date_information'];
 		} else {
-			$exclusion_categories_review = array();
+			$exclusion_categories = array();
+		}
+
+		$data['information_optimblog_exclusion_categories_date_information'] = array();
+
+		foreach ($exclusion_categories as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_optimblog_exclusion_categories_date_information'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_category_review'])) {
+			$exclusion_categories = $this->request->post['information_optimblog_exclusion_category_review'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_review'])) {
+			$exclusion_categories = $setting_info['information_optimblog_exclusion_category_review'];
+		} else {
+			$exclusion_categories = array();
 		}
 
 		$data['information_optimblog_exclusion_categories_review'] = array();
 
-		foreach ($exclusion_categories_review as $category_id) {
+		foreach ($exclusion_categories as $category_id) {
 			$category_info = $this->model_catalog_category->getCategory($category_id);
 
 			if ($category_info) {
 				$data['information_optimblog_exclusion_categories_review'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_category_review_information'])) {
+			$exclusion_categories = $this->request->post['information_optimblog_exclusion_category_review_information'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_review_information'])) {
+			$exclusion_categories = $setting_info['information_optimblog_exclusion_category_review_information'];
+		} else {
+			$exclusion_categories = array();
+		}
+
+		$data['information_optimblog_exclusion_categories_review_information'] = array();
+
+		foreach ($exclusion_categories as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_optimblog_exclusion_categories_review_information'][] = array(
+					'category_id' => $category_info['category_id'],
+					'name'        => $category_info['name']
+				);
+			}
+		}
+
+		if (isset($this->request->post['information_optimblog_exclusion_category_manufacturer_information'])) {
+			$exclusion_categories = $this->request->post['information_optimblog_exclusion_category_manufacturer_information'];
+		} elseif (isset($setting_info['information_optimblog_exclusion_category_manufacturer_information'])) {
+			$exclusion_categories = $setting_info['information_optimblog_exclusion_category_manufacturer_information'];
+		} else {
+			$exclusion_categories = array();
+		}
+
+		$data['information_optimblog_exclusion_categories_manufacturer_information'] = array();
+
+		foreach ($exclusion_categories as $category_id) {
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+
+			if ($category_info) {
+				$data['information_optimblog_exclusion_categories_manufacturer_information'][] = array(
 					'category_id' => $category_info['category_id'],
 					'name'        => $category_info['name']
 				);

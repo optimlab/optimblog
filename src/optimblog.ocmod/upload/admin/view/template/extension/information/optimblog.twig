@@ -223,6 +223,20 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-author-information"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_author_information }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="information_optimblog_exclusion_categories_author_information" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-author-information" class="form-control" />
+                    <div id="information-optimblog-exclusion-category-author-information" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for information_optimblog_exclusion_category_author_information in information_optimblog_exclusion_categories_author_information %}
+                      <div id="information-optimblog-exclusion-category-author-information{{ information_optimblog_exclusion_category_author_information.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ information_optimblog_exclusion_category_author_information.name }}
+                        <input type="hidden" name="information_optimblog_exclusion_category_author_information[]" value="{{ information_optimblog_exclusion_category_author_information.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
               </fieldset>
               <fieldset>
                 <legend>{{ text_date }}</legend>
@@ -259,6 +273,20 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-date-information"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_date_information }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="information_optimblog_exclusion_categories_date_information" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-date-information" class="form-control" />
+                    <div id="information-optimblog-exclusion-category-date-information" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for information_optimblog_exclusion_category_date_information in information_optimblog_exclusion_categories_date_information %}
+                      <div id="information-optimblog-exclusion-category-date-information{{ information_optimblog_exclusion_category_date_information.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ information_optimblog_exclusion_category_date_information.name }}
+                        <input type="hidden" name="information_optimblog_exclusion_category_date_information[]" value="{{ information_optimblog_exclusion_category_date_information.category_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
               </fieldset>
               <fieldset>
                 <legend>{{ text_manufacturer }}</legend>
@@ -290,6 +318,20 @@
                       <div id="information-optimblog-exclusion-information-manufacturer{{ information_optimblog_exclusion_information_manufacturer.information_id }}"><i class="fa fa-minus-circle"></i> 
                         {{ information_optimblog_exclusion_information_manufacturer.title }}
                         <input type="hidden" name="information_optimblog_exclusion_information_manufacturer[]" value="{{ information_optimblog_exclusion_information_manufacturer.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-manufacturer-information"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_manufacturer_information }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="information_optimblog_exclusion_categories_manufacturer_information" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-manufacturer-information" class="form-control" />
+                    <div id="information-optimblog-exclusion-category-manufacturer-information" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for information_optimblog_exclusion_category_manufacturer_information in information_optimblog_exclusion_categories_manufacturer_information %}
+                      <div id="information-optimblog-exclusion-category-manufacturer-information{{ information_optimblog_exclusion_category_manufacturer_information.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ information_optimblog_exclusion_category_manufacturer_information.name }}
+                        <input type="hidden" name="information_optimblog_exclusion_category_manufacturer_information[]" value="{{ information_optimblog_exclusion_category_manufacturer_information.category_id }}" />
                       </div>
                     {% endfor %}
                     </div>
@@ -379,6 +421,20 @@
                       <div id="information-optimblog-exclusion-information-review{{ information_optimblog_exclusion_information_review.information_id }}"><i class="fa fa-minus-circle"></i> 
                         {{ information_optimblog_exclusion_information_review.title }}
                         <input type="hidden" name="information_optimblog_exclusion_information_review[]" value="{{ information_optimblog_exclusion_information_review.information_id }}" />
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-exclusion-category-review-information"><span data-toggle="tooltip" title="{{ help_exclusion_category }}">{{ entry_exclusion_category_review_information }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="information_optimblog_exclusion_categories_review_information" value="" placeholder="{{ entry_category }}" id="input-exclusion-category-review-information" class="form-control" />
+                    <div id="information-optimblog-exclusion-category-review-information" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for information_optimblog_exclusion_category_review_information in information_optimblog_exclusion_categories_review_information %}
+                      <div id="information-optimblog-exclusion-category-review-information{{ information_optimblog_exclusion_category_review_information.category_id }}"><i class="fa fa-minus-circle"></i> 
+                        {{ information_optimblog_exclusion_category_review_information.name }}
+                        <input type="hidden" name="information_optimblog_exclusion_category_review_information[]" value="{{ information_optimblog_exclusion_category_review_information.category_id }}" />
                       </div>
                     {% endfor %}
                     </div>
