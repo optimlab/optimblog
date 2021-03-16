@@ -6,10 +6,14 @@
 - Updating new versions from the module.
 
 ### Changed
-## [3.0.2.0](https://github.com/optimlab/optimblog/releases/tag/3.0.1.5) - 2020-10-20
+## [3.0.2.0](https://github.com/optimlab/optimblog/releases/tag/3.0.2.0) - 2021-03-20
 ### Added
 ### Changed
 ### Fixed
+
+## [3.0.1.5](https://github.com/optimlab/optimblog/releases/tag/3.0.1.5) - 2021-03-15
+### Added
+- [Exclusions for Articles in a Category](https://github.com/optimlab/optimblog/commit/3aed22edf89ffbad42d620c444f55b3df08f43f4).
 
 ## [3.0.1.4](https://github.com/optimlab/optimblog/releases/tag/3.0.1.4) - 2020-09-26
 ### Added
