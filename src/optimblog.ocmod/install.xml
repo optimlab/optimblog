@@ -2,9 +2,9 @@
 <modification>
   <name>  OptimBlog</name>
   <code>optimblog</code>
-  <version>3.0.1.5</version>
+  <version>3.1.0.0</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
-  <link>http://optimlab.com</link>
+  <link>https://optimlab.com</link>
 
 <!-- optimblog-admin.ocmod -->
 
@@ -3243,6 +3243,18 @@ $('input[name=\'information\']').autocomplete({
       </operation>
   </file>
 
+  <!-- Product Model -->
+  <file path="catalog/model/catalog/product.php">
+  	  <operation error="skip">
+        <search><![CDATA[
+				'name'             => $query->row['name'],
+        ]]></search>
+        <add position="after"><![CDATA[
+				'header'           => $query->row['header'],
+				'short_description'=> $query->row['short_description'],
+        ]]></add>
+      </operation>
+  </file>
 
 <!-- optimblog-category-theme-default.ocmod -->
 
