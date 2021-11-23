@@ -1,11 +1,11 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.5
+ * @version    3.1.0.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
- * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
+ * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (https://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
- * @link       http://optimlab.com
+ * @link       https://optimcart.com
  */
 // Heading
 $_['heading_title']                                     = 'OptimBlog';
@@ -36,6 +36,7 @@ $_['text_share']                                        = 'Share';
 $_['text_seo']                                          = 'SEO';
 $_['text_backup']                                       = 'Backup &amp; Restore';
 $_['text_import']                                       = 'Your file was successfully imported!';
+$_['text_list']                                         = 'List';
 
 // Entry
 $_['entry_status']                                      = 'Status';
@@ -100,6 +101,11 @@ $_['entry_restore']                                     = 'Restore';
 // Tab
 $_['tab_article']                                       = 'Article';
 $_['tab_category']                                      = 'Category';
+
+// Column
+$_['column_name']                                       = 'Store Name';
+$_['column_status']	                                    = 'Status';
+$_['column_action']                                     = 'Action';
 
 // Help
 $_['help_category_view']                                = 'Defines the layout of articles by displaying it on the category page.';

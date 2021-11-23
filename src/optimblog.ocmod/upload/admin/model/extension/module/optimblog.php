@@ -422,53 +422,76 @@ class ModelExtensionModuleOptimBlog extends Model {
 	}
 
 	public function update() {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE `code` = 'information'");
+		// 3.0.1.x
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE `code` = 'information_optimblog'");
 
 		if ($query->num_rows) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_status' WHERE `code` = 'information' AND `key` = 'information_setting_status'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_author' WHERE `code` = 'information' AND `key` = 'information_information_author'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_date' WHERE `code` = 'information' AND `key` = 'information_information_date'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_review' WHERE `code` = 'information' AND `key` = 'information_information_review'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_manufacturer' WHERE `code` = 'information' AND `key` = 'information_information_manufacturer'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_show' WHERE `code` = 'information' AND `key` = 'information_category_show'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_limit' WHERE `code` = 'information' AND `key` = 'information_limit'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_limit_show' WHERE `code` = 'information' AND `key` = 'information_category_limit_show'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_view' WHERE `code` = 'information' AND `key` = 'information_category_view'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_view_show' WHERE `code` = 'information' AND `key` = 'information_category_view_show'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_description_length' WHERE `code` = 'information' AND `key` = 'information_description_length'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_information_count' WHERE `code` = 'information' AND `key` = 'information_count'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_author' WHERE `code` = 'information' AND `key` = 'information_category_author'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_date' WHERE `code` = 'information' AND `key` = 'information_category_date'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_review' WHERE `code` = 'information' AND `key` = 'information_category_review'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_review_status' WHERE `code` = 'information' AND `key` = 'information_review_status'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_review_guest' WHERE `code` = 'information' AND `key` = 'information_review_guest'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_captcha' WHERE `code` = 'information' AND `key` = 'information_captcha'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_information' WHERE `code` = 'information' AND `key` = 'information_exclusion'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_information_author' WHERE `code` = 'information' AND `key` = 'information_exclusion_information_author'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_information_date' WHERE `code` = 'information' AND `key` = 'information_exclusion_information_date'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_information_review' WHERE `code` = 'information' AND `key` = 'information_exclusion_information_review'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_information_manufacturer' WHERE `code` = 'information' AND `key` = 'information_exclusion_information_manufacturer'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_category_author' WHERE `code` = 'information' AND `key` = 'information_exclusion_category_author'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_category_date' WHERE `code` = 'information' AND `key` = 'information_exclusion_category_date'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_exclusion_category_review' WHERE `code` = 'information' AND `key` = 'information_exclusion_category_review'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_sort' WHERE `code` = 'information' AND `key` = 'information_category_sort'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_category_sort_show' WHERE `code` = 'information' AND `key` = 'information_category_sort_show'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_category_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_category_height'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_thumb_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_thumb_height'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_popup_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_popup_height'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_information_width' WHERE `code` = 'information' AND `key` = 'information_image_information_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_information_height'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_additional_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_additional_height'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_related_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_related_height'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_category_popup_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_category_popup_height'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_category_additional_width'");
-			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_image_category_width' WHERE `code` = 'information' AND `key` = 'information_image_category_additional_height'");
+
+			$settings = array(
+				'status',
+				'canonical_category_product',
+				'canonical_category_information',
+				'canonical_information',
+				'breadcrumbs_category_product',
+				'breadcrumbs_category_information',
+				'breadcrumbs_product',
+				'breadcrumbs_information',
+				'information_author',
+				'information_date',
+				'information_manufacturer',
+				'information_review',
+				'review_status',
+				'review_guest',
+				'captcha',
+				'information_show',
+				'information_description_length',
+				'information_count',
+				'share',
+				'information_thumb',
+				'information_style',
+				'information_script',
+				'category_author',
+				'category_date',
+				'category_review',
+				'category_view',
+				'category_view_show',
+				'information_limit',
+				'category_limit_show',
+				'category_sort',
+				'category_sort_show',
+				'exclusion_information',
+				'exclusion_information_author',
+				'exclusion_information_date',
+				'exclusion_information_manufacturer',
+				'exclusion_information_review',
+				'exclusion_category_author',
+				'exclusion_category_author_information',
+				'exclusion_category_date',
+				'exclusion_category_date_information',
+				'exclusion_category_review',
+				'exclusion_category_review_information',
+				'exclusion_category_manufacturer_information',
+				'image_category_width',
+				'image_category_height',
+				'image_thumb_width',
+				'image_thumb_height',
+				'image_popup_width',
+				'image_popup_height',
+				'image_information_width',
+				'image_information_height',
+				'image_additional_width',
+				'image_additional_height',
+				'image_related_width',
+				'image_related_height',
+				'image_category_popup_width',
+				'image_category_popup_height',
+				'image_category_additional_width',
+				'image_category_additional_height',
+			);
+
+			foreach ($settings as $setting) {
+				$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_" . $this->db->escape($setting) . "' WHERE `code` = 'information_optimblog' AND `key` = 'information_optimblog_" . $this->db->escape($setting) . "'");
+			}
 		}
 	}
 }

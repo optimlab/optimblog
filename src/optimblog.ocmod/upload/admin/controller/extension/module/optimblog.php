@@ -27,6 +27,8 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		$this->load->model('setting/setting');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+			$this->request->post['module_optimblog_version'] = $this->version;
+
 			$this->model_setting_setting->editSetting('module_optimblog', $this->request->post, $this->request->get['store_id']);
             
 			if (isset($this->request->post['module_optimblog_information_script']['footer'])) {
@@ -58,7 +60,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 	}
 
 	protected function getList() {
-		$data['version'] = $this->version;
+		$data['version'] = 'v' . $this->version;
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -123,7 +125,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 	}
 
 	protected function getForm() {
-		$data['version'] = $this->version;
+		$data['version'] = 'v' . $this->version;
 
 		$this->load->language('extension/module/optimblog');
 
