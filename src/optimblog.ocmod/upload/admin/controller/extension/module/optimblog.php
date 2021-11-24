@@ -989,12 +989,11 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 
 	public function install() {
 		$this->load->model('extension/module/optimblog');
+		$this->load->model('setting/event');
         
 		$this->model_extension_module_optimblog->createTables();
 
 		$this->model_extension_module_optimblog->update();
-
-		$this->load->model('setting/event');
 
 		// Language Admin
 		$this->model_setting_event->addEvent('optimblog_admin_language_category', 'admin/language/catalog/category/after', 'extension/module/optimblog/languageCategory');
@@ -1045,19 +1044,20 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_category_type');
 ////////////////
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_header');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_footer');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_category');
-		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_category_after');
+//		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_category_after');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_product');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_information');
-		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_information_after');
+//		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_information_after');
 
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information_review');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information_write');
-		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information');
+//		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information');
 
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_information_get');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_informations_get');
-		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_get');
+//		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_get');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_related');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review_total');

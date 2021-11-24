@@ -426,7 +426,6 @@ class ModelExtensionModuleOptimBlog extends Model {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE `code` = 'information_optimblog'");
 
 		if ($query->num_rows) {
-
 			$settings = array(
 				'status',
 				'canonical_category_product',
@@ -492,6 +491,41 @@ class ModelExtensionModuleOptimBlog extends Model {
 			foreach ($settings as $setting) {
 				$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `code` = 'module_optimblog', `key` = 'module_optimblog_" . $this->db->escape($setting) . "' WHERE `code` = 'information_optimblog' AND `key` = 'information_optimblog_" . $this->db->escape($setting) . "'");
 			}
+
+			$this->db->query("DELETE FROM `" . DB_PREFIX . "setting` WHERE `code` = 'information'");
+			$this->db->query("DELETE FROM `" . DB_PREFIX . "setting` WHERE `code` = 'information_optimblog'");
 		}
+
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_category');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_information');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_review');
+		$this->model_setting_event->deleteEventByCode('optimblog_admin_language_customer_search');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_information');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_language_review');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_controller_category_type');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_category_type');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_header');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_footer');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_category');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_category_after');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_product');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_information');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_view_information_after');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information_review');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information_write');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_information');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_information_get');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_informations_get');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_get');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_related');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review');
+		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review_total');
 	}
 }

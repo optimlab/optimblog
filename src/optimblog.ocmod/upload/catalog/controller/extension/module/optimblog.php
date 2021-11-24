@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.5
+ * @version    3.0.1.6
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -1060,10 +1060,10 @@ class ControllerExtensionInformationOptimBlog extends Controller {
 	}
 
 	// model/catalog/product/getProduct/before
-	public function getProduct(&$route, &$args) {
-		$this->load->model('extension/information/optimblog_product');
-		$route = 'extension/information/optimblog_product/getProduct';
-	}
+//	public function getProduct(&$route, &$args) {
+//		$this->load->model('extension/information/optimblog_product');
+//		$route = 'extension/information/optimblog_product/getProduct';
+//	}
 
 	// model/catalog/product/getProductRelated/before
 	public function getProductRelated(&$route, &$args) {
