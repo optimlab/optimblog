@@ -3117,7 +3117,7 @@ $('input[name=\'information\']').autocomplete({
 		$this->load->model('catalog/product');
         ]]></search>
         <add position="after"><![CDATA[
-		$this->load->model('extension/information/optimblog_information');
+		$this->load->model('extension/module/optimblog_information');
         ]]></add>
       </operation>
       <operation error="skip">
@@ -3172,7 +3172,7 @@ $('input[name=\'information\']').autocomplete({
 		$this->load->model('catalog/information');
         ]]></search>
         <add position="after"><![CDATA[
-		$this->load->model('extension/information/optimblog_information');
+		$this->load->model('extension/module/optimblog_information');
         ]]></add>
       </operation>
       <operation error="skip">

@@ -1,13 +1,13 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.4
+ * @version    3.1.0.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
- * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
+ * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (https://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
- * @link       http://optimlab.com
+ * @link       https://optimcart.com
  */
-class ModelExtensionInformationOptimBlogInformation extends Model {
+class ModelExtensionModuleOptimBlogInformation extends Model {
 	public function getInformation($information_id) {
 		$query = $this->db->query("SELECT DISTINCT *, id.title AS title, i.image, m.name AS manufacturer, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.information_id = i.information_id AND r1.status = '1' GROUP BY r1.information_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.information_id = i.information_id AND r2.status = '1' GROUP BY r2.information_id) AS reviews, (SELECT u.username FROM " . DB_PREFIX . "user u WHERE u.user_id = i2u.user_id) AS author, i.sort_order FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) LEFT JOIN " . DB_PREFIX . "information_to_store i2s ON (i.information_id = i2s.information_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (i.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "information_to_user i2u ON (i.information_id = i2u.information_id) WHERE i.information_id = '" . (int)$information_id . "' AND id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND i.status = '1' AND i.date_available <= NOW() AND i.date_end >= NOW() AND i2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 

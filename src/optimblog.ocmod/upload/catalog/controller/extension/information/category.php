@@ -1,11 +1,11 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.4
+ * @version    3.1.0.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
- * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
+ * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (https://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
- * @link       http://optimlab.com
+ * @link       https://optimcart.com
  */
 class ControllerExtensionInformationCategory extends Controller {
 	public function index() {
@@ -16,8 +16,8 @@ class ControllerExtensionInformationCategory extends Controller {
 
 		$this->load->model('tool/image');
 
-		$this->load->model('extension/information/optimblog_category');
-		$this->load->model('extension/information/optimblog_information');
+		$this->load->model('extension/module/optimblog_category');
+		$this->load->model('extension/module/optimblog_information');
 
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
@@ -25,8 +25,8 @@ class ControllerExtensionInformationCategory extends Controller {
 			$filter = '';
 		}
 
-		if ($this->config->get('information_optimblog_category_sort')) {
-			$category_sort = explode('-', (string)$this->config->get('information_optimblog_category_sort'));
+		if ($this->config->get('module_optimblog_category_sort')) {
+			$category_sort = explode('-', (string)$this->config->get('module_optimblog_category_sort'));
 			$sort = $category_sort[0];
 			$order = $category_sort[1];
 		} else {
@@ -51,7 +51,7 @@ class ControllerExtensionInformationCategory extends Controller {
 		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
 		} else {
-			$limit = $this->config->get('information_optimblog_information_limit');
+			$limit = $this->config->get('module_optimblog_information_limit');
 		}
 
 		$data['breadcrumbs'] = array();
@@ -82,16 +82,16 @@ class ControllerExtensionInformationCategory extends Controller {
 
 			$category_id = (int)array_pop($parts);
 
-			if ($this->config->get('information_optimblog_breadcrumbs_category_information')) {
-				$category_path = $this->model_extension_information_optimblog_category->getCategoryPath($category_id);
+			if ($this->config->get('module_optimblog_breadcrumbs_category_information')) {
+				$category_path = $this->model_extension_module_optimblog_category->getCategoryPath($category_id);
             
 				$this->request->get['path'] = $category_path;
 
 				$parts = explode('_', (string)$this->request->get['path']);
 
 				(int)array_pop($parts);
-			} elseif (!$this->config->get('information_optimblog_breadcrumbs_category_information') && $this->config->get('information_optimblog_canonical_category_information')) {
-				$category_path = $this->model_extension_information_optimblog_category->getCategoryPath($category_id);
+			} elseif (!$this->config->get('module_optimblog_breadcrumbs_category_information') && $this->config->get('module_optimblog_canonical_category_information')) {
+				$category_path = $this->model_extension_module_optimblog_category->getCategoryPath($category_id);
 			}
 
 			foreach ($parts as $path_id) {
@@ -140,12 +140,12 @@ class ControllerExtensionInformationCategory extends Controller {
 
 			$data['images'] = array();
 
-			$results = $this->model_extension_information_optimblog_category->getCategoryImages($category_id);
+			$results = $this->model_extension_module_optimblog_category->getCategoryImages($category_id);
 
 			foreach ($results as $result) {
 				$data['images'][] = array(
-					'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('information_optimblog_image_category_popup_width'), $this->config->get('information_optimblog_image_category_popup_height')),
-					'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('information_optimblog_image_category_additional_width'), $this->config->get('information_optimblog_image_category_additional_height'))
+					'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('module_optimblog_image_category_popup_width'), $this->config->get('module_optimblog_image_category_popup_height')),
+					'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('module_optimblog_image_category_additional_width'), $this->config->get('module_optimblog_image_category_additional_height'))
 				);
 			}
         
@@ -181,7 +181,7 @@ class ControllerExtensionInformationCategory extends Controller {
 				);
 
 				$data['categories'][] = array(
-					'name' => $result['name'] . ($this->config->get('information_optimblog_information_count') ? ' (' . $this->model_extension_information_optimblog_information->getTotalInformations($filter_data) . ')' : ''),
+					'name' => $result['name'] . ($this->config->get('module_optimblog_information_count') ? ' (' . $this->model_extension_module_optimblog_information->getTotalInformations($filter_data) . ')' : ''),
 					'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '_' . $result['category_id'] . $url)
 				);
 			}
@@ -189,7 +189,7 @@ class ControllerExtensionInformationCategory extends Controller {
 			// Information
 			$data['informations'] = array();
 
-			if ($this->config->get('information_optimblog_information_show')) {
+			if ($this->config->get('module_optimblog_information_show')) {
 				$filter_data = array(
 					'filter_category_id' => $category_id,
 					'filter_filter'      => $filter,
@@ -199,18 +199,18 @@ class ControllerExtensionInformationCategory extends Controller {
 					'limit'              => $limit
 				);
 
-				$information_total = $this->model_extension_information_optimblog_information->getTotalInformations($filter_data);
+				$information_total = $this->model_extension_module_optimblog_information->getTotalInformations($filter_data);
 
-				$results = $this->model_extension_information_optimblog_information->getInformations($filter_data);
+				$results = $this->model_extension_module_optimblog_information->getInformations($filter_data);
 
 				foreach ($results as $result) {
 					if ($result['image']) {
-						$image = $this->model_tool_image->resize($result['image'], $this->config->get('information_optimblog_image_information_width'), $this->config->get('information_optimblog_image_information_height'));
+						$image = $this->model_tool_image->resize($result['image'], $this->config->get('module_optimblog_image_information_width'), $this->config->get('module_optimblog_image_information_height'));
 					} else {
 						$image = false;
 					}
 
-					if ($this->config->get('information_optimblog_review_status')) {
+					if ($this->config->get('module_optimblog_review_status')) {
 						$rating = (int)$result['rating'];
 					} else {
 						$rating = false;
@@ -220,7 +220,7 @@ class ControllerExtensionInformationCategory extends Controller {
 						'information_id' => $result['information_id'],
 						'thumb'          => $image,
 						'title'          => $result['title'],
-						'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_optimblog_information_description_length')) . '..',
+						'description'    => !empty($result['short_description']) ? trim(html_entity_decode($result['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('module_optimblog_information_description_length')) . '..',
 						'user_id'        => $result['user_id'],
 						'author'         => $result['author'],
 						'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
@@ -272,7 +272,7 @@ class ControllerExtensionInformationCategory extends Controller {
 					'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=i.date_added&order=DESC' . $url)
 				);
 
-				if ($this->config->get('information_optimblog_review_status')) {
+				if ($this->config->get('module_optimblog_review_status')) {
 					$data['sorts'][] = array(
 						'text'  => $this->language->get('text_rating_desc'),
 						'value' => 'rating-DESC',
@@ -302,7 +302,7 @@ class ControllerExtensionInformationCategory extends Controller {
 
 				$data['limits'] = array();
 
-				$limits = array_unique(array($this->config->get('information_optimblog_information_limit'), 25, 50, 75, 100));
+				$limits = array_unique(array($this->config->get('module_optimblog_information_limit'), 25, 50, 75, 100));
 
 				sort($limits);
 
@@ -343,7 +343,7 @@ class ControllerExtensionInformationCategory extends Controller {
 				$data['results'] = sprintf($this->language->get('text_pagination'), ($information_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($information_total - $limit)) ? $information_total : ((($page - 1) * $limit) + $limit), $information_total, ceil($information_total / $limit));
 
 				// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-				if ($this->config->get('information_optimblog_canonical_category_information')) {
+				if ($this->config->get('module_optimblog_canonical_category_information')) {
 					if ($page == 1) {
 			   	 		$this->document->addLink($this->url->link('product/category', 'path=' . $category_path), 'canonical');
 					} else {
@@ -377,33 +377,33 @@ class ControllerExtensionInformationCategory extends Controller {
 				$data['order'] = $order;
 				$data['limit'] = $limit;
 
-				$data['sort_show'] = $this->config->get('information_optimblog_category_sort_show');
-				$data['limit_show'] = $this->config->get('information_optimblog_category_limit_show');
-				$data['view_show'] = $this->config->get('information_optimblog_category_view_show');
-				$data['view'] = $this->config->get('information_optimblog_category_view');
+				$data['sort_show'] = $this->config->get('module_optimblog_category_sort_show');
+				$data['limit_show'] = $this->config->get('module_optimblog_category_limit_show');
+				$data['view_show'] = $this->config->get('module_optimblog_category_view_show');
+				$data['view'] = $this->config->get('module_optimblog_category_view');
 
-				if ($this->config->get('information_optimblog_category_author') && !empty($this->config->get('information_optimblog_exclusion_category_author')) && in_array($category_id, $this->config->get('information_optimblog_exclusion_category_author'))) {
+				if ($this->config->get('module_optimblog_category_author') && !empty($this->config->get('module_optimblog_exclusion_category_author')) && in_array($category_id, $this->config->get('module_optimblog_exclusion_category_author'))) {
 					$data['show_author'] = false;
-				} elseif (!$this->config->get('information_optimblog_category_author') && !empty($this->config->get('information_optimblog_exclusion_category_author')) && in_array($category_id, $this->config->get('information_optimblog_exclusion_category_author'))){
+				} elseif (!$this->config->get('module_optimblog_category_author') && !empty($this->config->get('module_optimblog_exclusion_category_author')) && in_array($category_id, $this->config->get('module_optimblog_exclusion_category_author'))){
 					$data['show_author'] = true;
 				} else {
-					$data['show_author'] = $this->config->get('information_optimblog_category_author');
+					$data['show_author'] = $this->config->get('module_optimblog_category_author');
 				}
 
-				if ($this->config->get('information_optimblog_category_date') && !empty($this->config->get('information_optimblog_exclusion_category_date')) && in_array($category_id, $this->config->get('information_optimblog_exclusion_category_date'))) {
+				if ($this->config->get('module_optimblog_category_date') && !empty($this->config->get('module_optimblog_exclusion_category_date')) && in_array($category_id, $this->config->get('module_optimblog_exclusion_category_date'))) {
 					$data['show_date'] = false;
-				} elseif (!$this->config->get('information_optimblog_category_date') && !empty($this->config->get('information_optimblog_exclusion_category_date')) && in_array($category_id, $this->config->get('information_optimblog_exclusion_category_date'))){
+				} elseif (!$this->config->get('module_optimblog_category_date') && !empty($this->config->get('module_optimblog_exclusion_category_date')) && in_array($category_id, $this->config->get('module_optimblog_exclusion_category_date'))){
 					$data['show_date'] = true;
 				} else {
-					$data['show_date'] = $this->config->get('information_optimblog_category_date');
+					$data['show_date'] = $this->config->get('module_optimblog_category_date');
 				}
 
-				if ($this->config->get('information_optimblog_category_review') && !empty($this->config->get('information_optimblog_exclusion_category_review')) && in_array($category_id, $this->config->get('information_optimblog_exclusion_category_review'))) {
+				if ($this->config->get('module_optimblog_category_review') && !empty($this->config->get('module_optimblog_exclusion_category_review')) && in_array($category_id, $this->config->get('module_optimblog_exclusion_category_review'))) {
 					$data['show_review'] = false;
-				} elseif (!$this->config->get('information_optimblog_category_review') && !empty($this->config->get('information_optimblog_exclusion_category_review')) && in_array($category_id, $this->config->get('information_optimblog_exclusion_category_review'))){
+				} elseif (!$this->config->get('module_optimblog_category_review') && !empty($this->config->get('module_optimblog_exclusion_category_review')) && in_array($category_id, $this->config->get('module_optimblog_exclusion_category_review'))){
 					$data['show_review'] = true;
 				} else {
-					$data['show_review'] = $this->config->get('information_optimblog_category_review');
+					$data['show_review'] = $this->config->get('module_optimblog_category_review');
 				}
 			}
 

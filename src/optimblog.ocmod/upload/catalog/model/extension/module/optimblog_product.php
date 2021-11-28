@@ -1,13 +1,13 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.6
+ * @version    3.1.0.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
  * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (https://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
  * @link       https://optimcart.com
  */
-class ModelExtensionInformationOptimBlogProduct extends Model {
+class ModelExtensionModuleOptimBlogProduct extends Model {
 	public function getProductRelated($product_id) {
 		$product_data = array();
 
