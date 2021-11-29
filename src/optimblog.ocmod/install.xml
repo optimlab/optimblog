@@ -3126,6 +3126,22 @@ $('input[name=\'information\']').autocomplete({
       </operation>
   </file>
 
+  <!-- Common Layout -->
+  <file path="catalog/controller/common/{content_top,content_bottom,column_left,column_right}.php">
+      <operation error="skip">
+        <search><![CDATA[$route == 'product/product']]></search>
+        <add position="before"><![CDATA[
+		if ($route == 'information/category' && isset($this->request->get['path'])) {
+			$this->load->model('catalog/category');
+
+			$path = explode('_', (string)$this->request->get['path']);
+
+			$layout_id = $this->model_catalog_category->getCategoryLayoutId(end($path));
+		}
+        ]]></add>
+      </operation>
+  </file>
+
   <!-- Information Sitemap -->
   <file path="catalog/controller/information/sitemap.php">
       <operation error="skip">

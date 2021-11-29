@@ -418,7 +418,6 @@ class ControllerExtensionInformationCategory extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
-//			$this->response->setOutput($this->load->view('product/category', $data));
 			$this->response->setOutput($this->load->view('information/category', $data));
 		} else {
 			$url = '';

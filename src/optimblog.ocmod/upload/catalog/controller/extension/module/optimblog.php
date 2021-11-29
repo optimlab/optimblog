@@ -36,7 +36,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 
 			if (!empty($category_info['information'])) {
 				$route = 'extension/information/category';
-				$this->request->get['route'] = 'extension/information/category';
+				$this->request->get['route'] = 'information/category';
 			}
 		}
 	}
