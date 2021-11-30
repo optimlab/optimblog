@@ -527,5 +527,7 @@ class ModelExtensionModuleOptimBlog extends Model {
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_related');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review');
 		$this->model_setting_event->deleteEventByCode('optimblog_catalog_model_product_review_total');
+
+		$this->db->query("UPDATE `" . DB_PREFIX . "layout_route` SET `route` = 'information/category' WHERE `route` = 'extension/information/category'");
 	}
 }
