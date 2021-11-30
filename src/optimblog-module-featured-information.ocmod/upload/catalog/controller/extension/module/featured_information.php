@@ -1,11 +1,11 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.2
+ * @version    3.1.0.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
- * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
+ * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (https://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
- * @link       http://optimlab.com
+ * @link       https://optimcart.com
  */
 class ControllerExtensionModuleFeaturedInformation extends Controller {
 	public function index($setting) {
@@ -40,7 +40,7 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 						'information_id' => $information_info['information_id'],
 						'thumb'          => $image,
 						'title'          => $information_info['title'],
-						'description'    => !empty($information_info['short_description']) ? trim(html_entity_decode($information_info['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($information_info['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('information_optimblog_information_description_length')) . '..',
+						'description'    => !empty($information_info['short_description']) ? trim(html_entity_decode($information_info['short_description'], ENT_QUOTES, 'UTF-8')) : utf8_substr(trim(strip_tags(html_entity_decode($information_info['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('module_optimblog_information_description_length')) . '..',
 						'user_id'        => $information_info['user_id'],
 						'author'         => $information_info['author'],
 						'date_added'     => date($this->language->get('date_format_short'), strtotime($information_info['date_added'])),

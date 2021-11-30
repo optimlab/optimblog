@@ -1,18 +1,17 @@
 <?php
 /**
  * @package    OptimBlog
- * @version    3.0.1.2
+ * @version    3.1.0.0
  * @author     Dmitriy Khokhlov <admin@optimlab.com>
- * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (http://optimlab.com/)
+ * @copyright  Copyright (c) 2018, Dmitriy Khokhlov. (https://optimlab.com/)
  * @license    https://opensource.org/licenses/GPL-3.0
- * @link       http://optimlab.com
+ * @link       https://optimcart.com
  */
 class ControllerExtensionModuleFeaturedInformation extends Controller {
 	private $error = array();
+	private $version = '3.1.0.0';
 
 	public function index() {
-		$data['version'] = 'v' . '3.0.1.2';
-
 		$this->load->language('extension/module/featured_information');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -199,6 +198,8 @@ class ControllerExtensionModuleFeaturedInformation extends Controller {
 		} else {
 			$data['status'] = '';
 		}
+
+		$data['version'] = 'v' . $this->version;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
