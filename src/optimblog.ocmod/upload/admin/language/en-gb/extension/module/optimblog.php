@@ -37,6 +37,14 @@ $_['text_seo']                                          = 'SEO';
 $_['text_backup']                                       = 'Backup &amp; Restore';
 $_['text_import']                                       = 'Your file was successfully imported!';
 $_['text_list']                                         = 'List';
+$_['text_version']                                      = 'Success: You are using the latest version <strong>%s</strong>';
+$_['text_version_info']                                 = 'Your current OptimBlog version is out of date! The current latest version is <strong>%s</strong>';
+$_['text_module']                                       = 'Extensions for OptimBlog';
+$_['text_modules']                                      = 'Modules';
+$_['text_modifications']                                = 'Modifications';
+$_['text_download']                                     = 'Download';
+$_['text_install']                                      = 'Install';
+$_['text_loading']                                      = 'Loading..';
 
 // Entry
 $_['entry_status']                                      = 'Status';
@@ -131,6 +139,9 @@ $_['button_block']                                      = 'Block';
 $_['button_list']                                       = 'List';
 $_['button_grid']                                       = 'Grid';
 $_['button_position']                                   = 'Header or Footer Position';
+$_['button_extension']                                  = 'Extensions for OptimBlog';
+$_['button_upgrade']                                    = 'Upgrade';
+$_['button_installed']                                  = 'Installed';
 
 // Error
 $_['error_warning']                                     = 'Warning: Please check the form carefully for errors!';
@@ -147,3 +158,30 @@ $_['error_image_additional']                            = 'Additional Article Im
 $_['error_image_related']                               = 'Related Article Image Size dimensions required!';
 $_['error_image_category_popup']                        = 'Category Image Popup Size dimensions required!';
 $_['error_image_category_additional']                   = 'Additional Category Image Size dimensions required!';
+$_['error_install']                                     = 'Extension installation taking place please wait a few seconds before trying to install!';
+$_['error_download']                                    = 'Extension could not be downloaded!';
+
+// Modules
+$_['optimblog_latest']                                  = 'Latest Articles, News';
+$_['optimblog_featured']                                = 'Featured Articles';
+$_['optimblog_bestseller']                              = 'Best Articles';
+$_['optimblog_category']                                = 'Category of Articles';
+$_['optimblog_search']                                  = 'Search Articles';
+$_['optimblog_latest_description']                      = 'The module displays the Latest articles created with the OptimBlog module, similar to the standard Opencart product module «Latest».';
+$_['optimblog_featured_description']                    = 'The module displays the Featured articles created with the OptimBlog module, similar to the standard Opencart product module «Featured».';
+$_['optimblog_bestseller_description']                  = 'The module displays the Best of articles created with the OptimBlog module, similar to the standard Opencart product module «Bestsellers».';
+$_['optimblog_category_description']                    = 'The module displays the Categories of articles created with the OptimBlog module similar to the standard Opencart module «Categories».';
+$_['optimblog_search_description']                      = 'The module displays the search form for articles created using the OptimBlog module similar to the standard Opencart module «Search».';
+$_['optimblog_latest_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/latest-information-710-380.png';
+$_['optimblog_featured_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/featured-information-710-380.png';
+$_['optimblog_bestseller_image']                        = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/bestseller-information-710-380.png';
+$_['optimblog_category_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/category-information-710-380.png';
+$_['optimblog_search_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/search-information-710-380.png';
+
+// Modifications
+$_['optimblog-admin-filter']                            = 'Admin Filter';
+$_['optimblog-admin-filter_description']                = 'Modification to extend the ability to filter Categories, Products and Articles.';
+$_['optimblog-admin-filter_image']                      = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/admin-filter-categories-products-informations-710-380.png';
+
+// URL
+$_['optimcart_url']                                     = 'https://optimcart.ru/';

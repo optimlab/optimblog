@@ -37,6 +37,14 @@ $_['text_seo']                                          = 'SEO';
 $_['text_backup']                                       = 'Резервное Копирование и Восстановление';
 $_['text_import']                                       = 'Файл успешно загружен!';
 $_['text_list']                                         = 'Список';
+$_['text_version']                                      = 'Успешно: Вы используете последнюю версию <strong>%s</strong>';
+$_['text_version_info']                                 = 'Ваша текущая версия OptimBlog устарела! Текущая последняя версия <strong>%s</strong>';
+$_['text_module']                                       = 'Расширения для OptimBlog';
+$_['text_modules']                                      = 'Модули';
+$_['text_modifications']                                = 'Модификаторы';
+$_['text_download']                                     = 'Загрузка';
+$_['text_install']                                      = 'Установка';
+$_['text_loading']                                      = 'Загрузка..';
 
 // Entry
 $_['entry_status']                                      = 'Статус';
@@ -131,6 +139,9 @@ $_['button_block']                                      = 'На всю шири�
 $_['button_list']                                       = 'Список';
 $_['button_grid']                                       = 'Сетка';
 $_['button_position']                                   = 'Позиция';
+$_['button_extension']                                  = 'Дополнительные модули';
+$_['button_upgrade']                                    = 'Обновление';
+$_['button_installed']                                  = 'Установлено';
 
 // Error
 $_['error_warning']                                     = 'Ошибка! Проверьте форму на наличие ошибок!';
@@ -147,3 +158,30 @@ $_['error_image_additional']                            = 'Необходимо 
 $_['error_image_related']                               = 'Необходимо указать размер изображения аналогичных статей!';
 $_['error_image_category_popup']                        = 'Необходимо указать размер дополнительных всплывающих изображений категории!';
 $_['error_image_category_additional']                   = 'Необходимо указать размер дополнительных изображений категории!';
+$_['error_install']                                     = 'Выполняется установка расширения, пожалуйста, подождите несколько секунд, прежде чем попытаться установить заново!';
+$_['error_download']                                    = 'Расширение не может быть загружено!';
+
+// Modules
+$_['optimblog_latest']                                  = 'Новые статьи';
+$_['optimblog_featured']                                = 'Рекомендуемые статьи';
+$_['optimblog_bestseller']                              = 'Лучшие статьи';
+$_['optimblog_category']                                = 'Категории Статей';
+$_['optimblog_search']                                  = 'Поиск статей';
+$_['optimblog_latest_description']                      = 'Можно использовать как модуль вывода Новостей или Новых статей.';
+$_['optimblog_featured_description']                    = 'Рекомендуемые статьи';
+$_['optimblog_bestseller_description']                  = 'Сортировка по Рейтингу или Просмотрам.';
+$_['optimblog_category_description']                    = 'Модуль выводит Категории статей, аналогично стандартному модулю Opencart «Категории».';
+$_['optimblog_search_description']                      = 'Модуль выводит форму строки Поиска статей, аналогично стандартному модулю Opencart «Поиск».';
+$_['optimblog_latest_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/latest-information-710-380.png';
+$_['optimblog_featured_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/featured-information-710-380.png';
+$_['optimblog_bestseller_image']                        = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/bestseller-information-710-380.png';
+$_['optimblog_category_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/category-information-710-380.png';
+$_['optimblog_search_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/search-information-710-380.png';
+
+// Modifications
+$_['optimblog-admin-filter']                            = 'Admin Filter';
+$_['optimblog-admin-filter_description']                = '<p>Расширяет фильтрацию Категорий, Товаров и Статей:</p><ol><li>Тип категории: Товары или Статьи</li><li>Принадлежность к категории или её отсутствия.</li><li>Принадлежность к производителю или его отсутствия.</li><li>Кол-во просмотров статей.</li></ol>';
+$_['optimblog-admin-filter_image']                      = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/admin-filter-categories-products-informations-710-380.png';
+
+// URL
+$_['optimcart_url']                                     = 'https://optimcart.ru/';

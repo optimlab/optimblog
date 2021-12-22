@@ -3,6 +3,8 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right">
+        <a href="{{ extension }}" data-toggle="tooltip" title="{{ button_extension }}" class="btn btn-primary"><i class="fa fa-puzzle-piece"></i></a>
+        <button type="button" data-toggle="tooltip" title="{{ button_upgrade }}" class="btn btn-info" data-loading-text="{{ text_loading }}"><i class="fa fa-refresh"></i></button>
         <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
       </div>
       <h1>{{ heading_title }} {{ version }}</h1>
@@ -39,12 +41,12 @@
               </tr>
             </thead>
             <tbody>
-              {% if extensions %}
-              {% for extension in extensions %}
+              {% if stores %}
+              {% for store in stores %}
               <tr>
-                <td class="text-left">{{ extension.store }}</td>
-                <td class="text-left">{{ extension.status }}</td>
-                <td class="text-right"><a href="{{ extension.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                <td class="text-left">{{ store.name }}</td>
+                <td class="text-left">{{ store.status }}</td>
+                <td class="text-right"><a href="{{ store.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>
               {% endfor %}
               {% else %}
@@ -58,5 +60,125 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript"><!--
+// Refresh
+$('.page-header').on('click', '.btn-info', function(e) {
+	e.preventDefault();
+	
+	var element = this;
+
+	$.ajax({
+		url: 'index.php?route=extension/module/optimblog/upgrade&user_token={{ user_token }}&extension=optimblog',
+		dataType: 'json',
+		beforeSend: function() {
+			$(element).button('loading');
+		},
+		complete: function() {
+			$(element).button('reset');
+		},
+		success: function(json) {
+			$('.alert-dismissible').remove();
+			
+			if (json['error']) {
+				$('.panel').before('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			}
+
+			if (json['success']) {
+				$('.panel').before('<div class="alert alert-success alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			}
+			
+			if (json['info']) {
+				$('.panel').before('<div class="alert alert-info alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><p><i class="fa fa-exclamation-circle"></i> ' + json['info'] + '</p><p><a type="button" href="' + json['url'] + '" class="btn btn-info"><i class="fa fa-download"></i> {{ button_download }} <i class="fa fa-github"></i></button></p></div>');
+			}
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+
+// Install
+//$('.container-fluid').on('click', '.alert .btn-info', function(e) {
+//	e.preventDefault();
+//
+//	var element = this;
+//
+//	// Reset everything
+//	$('#progress-bar').css('width', '0%');
+//	$('#progress-bar').removeClass('progress-bar-success');
+//	$('#progress-text').html('');
+//
+//	$.ajax({
+//		url: 'index.php?route=extension/module/optimblog/download&user_token={{ user_token }}&extension=optimblog',
+//		dataType: 'json',
+//		beforeSend: function() {
+//			$(element).button('loading');
+//		},
+//		complete: function() {
+//			$(element).button('reset');
+//		},
+//		success: function(json) {
+//			$('.alert-dismissible').remove();
+//			
+//			if (json['error']) {
+//				$('#extension-list').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+//			}
+//
+//			if (json['redirect']) {
+//				location = json['redirect'];
+//			}
+//
+//			if (json['text']) {
+//				$('#progress-bar').css('width', '20%');
+//				$('#progress-text').html(json['text']);
+//			}
+//
+//			if (json['next']) {
+//				next(json['next'], element, 1);
+//			}
+//
+//			if (json['extension_install_id']) {
+//				$(element).replaceWith('<button type="button" data-install="' + $(element).attr('data-install') + '" class="btn btn-success" disabled="disabled"><i class="fa fa-check" style="color:#fff"></i> {{ button_installed }}</button>');
+//			}
+//		},
+//		error: function(xhr, ajaxOptions, thrownError) {
+//			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+//		}
+//	});
+//});
+//
+//function next(url, element, i) {
+//	i = i + 1;
+//
+//	$.ajax({
+//		url: url,
+//		dataType: 'json',
+//		success: function(json) {
+//			$('#progress-bar').css('width', (i * 20) + '%');
+//
+//			if (json['error']) {
+//				$('#progress-bar').addClass('progress-bar-danger');
+//				$('#progress-text').html('<div class="text-danger">' + json['error'] + '</div>');
+//			}
+//			
+//			if (json['success']) {
+//				$('#progress-bar').addClass('progress-bar-success');
+//				$('#progress-text').html('<span class="text-success">' + json['success'] + '</span>');
+//			}
+//			
+//			if (json['text']) {
+//				$('#progress-text').html(json['text']);
+//			}
+//
+//			if (json['next']) {
+//				next(json['next'], element, i);
+//			}
+//		},
+//		error: function(xhr, ajaxOptions, thrownError) {
+//			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+//		}
+//	});
+//}
+//--></script>
 </div>
 {{ footer }}

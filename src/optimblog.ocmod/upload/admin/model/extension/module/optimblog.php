@@ -485,7 +485,7 @@ class ModelExtensionModuleOptimBlog extends Model {
 				'image_category_popup_width',
 				'image_category_popup_height',
 				'image_category_additional_width',
-				'image_category_additional_height',
+				'image_category_additional_height'
 			);
 
 			foreach ($settings as $setting) {
