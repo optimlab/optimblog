@@ -1006,7 +1006,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		$modules = array(
 			'optimblog_latest',
 			'optimblog_featured',
-			'optimblog_bestseller',
+			'optimblog_best',
 			'optimblog_category',
 			'optimblog_search'
 		);
@@ -1479,22 +1479,22 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 	// Event
 	// admin/language/catalog/category/after
 	public function languageCategory(&$route) {
-		$this->load->language('extension/module/optimblog_category');
+		$this->load->language('extension/module/optimblog_admin_category');
 	}
 
 	// admin/language/catalog/product/after
 	public function languageProduct(&$route) {
-		$this->load->language('extension/module/optimblog_product');
+		$this->load->language('extension/module/optimblog_admin_product');
 	}
 
 	// admin/language/catalog/information/after
 	public function languageInformation(&$route) {
-		$this->load->language('extension/module/optimblog_information');
+		$this->load->language('extension/module/optimblog_admin_information');
 	}
 
 	// admin/language/catalog/review/after
 	public function languageReview(&$route) {
-		$this->load->language('extension/module/optimblog_review');
+		$this->load->language('extension/module/optimblog_admin_review');
 	}
 
 	// admin/language/extension/report/customer_search/after

@@ -164,17 +164,17 @@ $_['error_download']                                    = 'Extension could not b
 // Modules
 $_['optimblog_latest']                                  = 'Latest Articles, News';
 $_['optimblog_featured']                                = 'Featured Articles';
-$_['optimblog_bestseller']                              = 'Best Articles';
+$_['optimblog_best']                                    = 'Best Articles';
 $_['optimblog_category']                                = 'Category of Articles';
 $_['optimblog_search']                                  = 'Search Articles';
 $_['optimblog_latest_description']                      = 'The module displays the Latest articles created with the OptimBlog module, similar to the standard Opencart product module «Latest».';
 $_['optimblog_featured_description']                    = 'The module displays the Featured articles created with the OptimBlog module, similar to the standard Opencart product module «Featured».';
-$_['optimblog_bestseller_description']                  = 'The module displays the Best of articles created with the OptimBlog module, similar to the standard Opencart product module «Bestsellers».';
+$_['optimblog_best_description']                        = 'The module displays the Best of articles created with the OptimBlog module, similar to the standard Opencart product module «Bestsellers».';
 $_['optimblog_category_description']                    = 'The module displays the Categories of articles created with the OptimBlog module similar to the standard Opencart module «Categories».';
 $_['optimblog_search_description']                      = 'The module displays the search form for articles created using the OptimBlog module similar to the standard Opencart module «Search».';
 $_['optimblog_latest_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/latest-information-710-380.png';
 $_['optimblog_featured_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/featured-information-710-380.png';
-$_['optimblog_bestseller_image']                        = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/bestseller-information-710-380.png';
+$_['optimblog_best_image']                              = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/bestseller-information-710-380.png';
 $_['optimblog_category_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/category-information-710-380.png';
 $_['optimblog_search_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/search-information-710-380.png';
 

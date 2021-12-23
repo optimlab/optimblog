@@ -164,17 +164,17 @@ $_['error_download']                                    = 'Расширение 
 // Modules
 $_['optimblog_latest']                                  = 'Новые статьи';
 $_['optimblog_featured']                                = 'Рекомендуемые статьи';
-$_['optimblog_bestseller']                              = 'Лучшие статьи';
+$_['optimblog_best']                                    = 'Лучшие статьи';
 $_['optimblog_category']                                = 'Категории Статей';
 $_['optimblog_search']                                  = 'Поиск статей';
 $_['optimblog_latest_description']                      = 'Можно использовать как модуль вывода Новостей или Новых статей.';
 $_['optimblog_featured_description']                    = 'Рекомендуемые статьи';
-$_['optimblog_bestseller_description']                  = 'Сортировка по Рейтингу или Просмотрам.';
+$_['optimblog_best_description']                        = 'Сортировка по Рейтингу или Просмотрам.';
 $_['optimblog_category_description']                    = 'Модуль выводит Категории статей, аналогично стандартному модулю Opencart «Категории».';
 $_['optimblog_search_description']                      = 'Модуль выводит форму строки Поиска статей, аналогично стандартному модулю Opencart «Поиск».';
 $_['optimblog_latest_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/latest-information-710-380.png';
 $_['optimblog_featured_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/featured-information-710-380.png';
-$_['optimblog_bestseller_image']                        = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/bestseller-information-710-380.png';
+$_['optimblog_best_image']                              = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/bestseller-information-710-380.png';
 $_['optimblog_category_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/category-information-710-380.png';
 $_['optimblog_search_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/search-information-710-380.png';
 
