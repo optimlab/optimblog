@@ -82,6 +82,8 @@ class ControllerExtensionModuleOptimBlogSearch extends Controller {
 		$this->load->model('setting/event');
 
 		$this->model_setting_event->addEvent('optimblog_search', 'catalog/controller/information/search/before', 'extension/module/optimblog_search/route');
+
+		$this->model_setting_event->deleteEventByCode('optimblog_search_information');
 	}
 
 	public function uninstall() {
