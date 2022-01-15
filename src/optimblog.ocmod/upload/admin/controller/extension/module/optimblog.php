@@ -137,6 +137,10 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
+		} elseif (isset($this->session->data['warning'])) {
+			$data['error_warning'] = $this->session->data['warning'];
+
+			unset($this->session->data['warning']);
 		} else {
 			$data['error_warning'] = '';
 		}
@@ -218,7 +222,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 			'href' => $this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'], true)
 		);
 
-		if (!empty($this->request->get['store_id'])) {
+		if ($this->request->get['store_id']) {
 			$this->load->model('setting/store');
 
 			$store = $this->model_setting_store->getStore($this->request->get['store_id']);
@@ -237,11 +241,31 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 
 		$data['cancel'] = $this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'], true);
 
+		$data['download'] = $this->url->link('extension/module/optimblog/export', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true);
+
+		$data['theme'] = $this->url->link('extension/module/optimblog/theme', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true);
+
 		$data['user_token'] = $this->session->data['user_token'];
 
 		$data['store_id'] = $this->request->get['store_id'];
 
-		$data['download'] = $this->url->link('extension/module/optimblog/export', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true);
+		$data['config_theme'] = $this->model_setting_setting->getSettingValue('config_theme', $this->request->get['store_id']);
+
+		$setting_info = $this->model_setting_setting->getSetting('theme_' . $data['config_theme'], $this->request->get['store_id']);
+
+		$this->load->language('extension/theme/' . $data['config_theme'], 'theme');
+
+		$data['theme_title'] = $this->language->get('theme')->get('heading_title');
+
+		$data['theme_directory'] = $setting_info['theme_' . $data['config_theme'] .'_directory'];
+
+//		$data['directories'] = array();
+//
+//		$directories = glob(DIR_CATALOG . 'view/theme/*', GLOB_ONLYDIR);
+//
+//		foreach ($directories as $directory) {
+//			$data['directories'][] = basename($directory);
+//		}
 
 		if (isset($this->request->get['store_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$setting_info = $this->model_setting_setting->getSetting('module_optimblog', $this->request->get['store_id']);
@@ -1030,14 +1054,14 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		);
 
 		foreach ($modifications as $modification) {
-				$data['modifications'][] = array(
-					'name'        => $this->language->get($modification),
-					'description' => $this->language->get($modification . '_description'),
-					'image'       => $this->language->get($modification . '_image'),
-                    'href'        => $this->language->get('optimcart_url') . 'extension/optimblog/modification/' . $modification,
-					'install'     => $modification,
-					'installed'   => $this->db->query("SELECT * FROM `" . DB_PREFIX . "extension_install` WHERE `filename` = '" . $this->db->escape($modification) . ".ocmod.zip'")->row ? true : false
-				);
+			$data['modifications'][] = array(
+				'name'        => $this->language->get($modification),
+				'description' => $this->language->get($modification . '_description'),
+				'image'       => $this->language->get($modification . '_image'),
+				'href'        => $this->language->get('optimcart_url') . 'extension/optimblog/modification/' . $modification,
+				'install'     => $modification,
+				'installed'   => $this->db->query("SELECT * FROM `" . DB_PREFIX . "extension_install` WHERE `filename` = '" . $this->db->escape($modification) . ".ocmod.zip'")->row ? true : false
+			);
 		}
 
 		$data['version'] = 'v' . $this->version;
@@ -1256,8 +1280,6 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 						}
 					}
 				}
-
-				$json['error'] = $this->language->get('error_download');
 			} else {
 				$json['error'] = $this->language->get('error_download');
 			}
@@ -1266,6 +1288,151 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+	public function theme() {
+		$this->load->language('extension/module/optimblog');
+
+		if (!$this->user->hasPermission('modify', 'extension/module/optimblog')) {
+			$this->session->data['error'] = $this->language->get('error_permission');
+
+			$this->response->redirect($this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true));
+		} else {
+			$this->load->model('setting/setting');
+
+			$config_theme = $this->model_setting_setting->getSettingValue('config_theme', $this->request->get['store_id']);
+
+			$setting_info = $this->model_setting_setting->getSetting('theme_' . $config_theme, $this->request->get['store_id']);
+
+			$theme_directory = $setting_info['theme_' . $config_theme .'_directory'];
+
+			$this->load->language('extension/theme/' . $config_theme, 'theme');
+
+			$theme_title = $this->language->get('theme')->get('heading_title');
+
+			$this->session->data['install'] = token(10);
+
+			$handle = fopen(DIR_UPLOAD . $this->session->data['install'] . '.tmp', 'w');
+
+			$curl = curl_init('https://github.com/optimlab/optimblog/releases/download/3.1.0.0/optimblog-theme.ocmod.zip');
+			$curl = curl_init('https://github.com/optimlab/optimblog/raw/master/dist/modification/optimblog-theme.ocmod.zip');			
+
+			curl_setopt($curl, CURLOPT_USERAGENT, 'OpenCart ' . VERSION);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+			curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
+			curl_setopt($curl, CURLOPT_TIMEOUT, 300);
+			curl_setopt($curl, CURLOPT_FILE, $handle);
+
+			curl_exec($curl);
+
+			fclose($handle);
+
+			$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+			curl_close($curl);
+
+			if ($status == 200) {
+				$file = DIR_UPLOAD . $this->session->data['install'] . '.tmp';
+
+				// Unzip the files
+				$zip = new ZipArchive();
+
+				if ($zip->open($file)) {
+					$zip->extractTo(DIR_UPLOAD . 'tmp-' . $this->session->data['install']);
+					$zip->close();
+				} else {
+					$this->session->data['warning'] = $this->language->get('error_unzip');
+				}
+
+				// Remove Zip
+				unlink($file);
+
+				if (is_dir(DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/upload/catalog/view/theme/theme/')) {
+					rename(DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/upload/catalog/view/theme/theme/', DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/upload/catalog/view/theme/' . $theme_directory . '/');
+
+					// Replace setting theme in install.xml
+					$file = DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/install.xml';
+
+					$xml = file_get_contents($file);
+
+					if ($xml) {
+						$xml = str_replace('theme_directory', $theme_directory, $xml);
+
+						$dom = new DOMDocument('1.0', 'UTF-8');
+
+						if ($dom->loadXML($xml)) {
+							$xml = simplexml_import_dom($dom);
+
+							$xml->name = '  OptimBlog - ' . $theme_title;
+							$xml->code = 'optimblog-' . $config_theme;
+							$xml->version = $this->version;
+
+							$xml->asXML(DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/install.xml');
+						}
+					}
+				}
+
+				if (is_dir(DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/')) {
+					$files = array();
+
+					// Get a list of files ready to upload
+					$path = array(DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/*');
+
+					while (count($path) != 0) {
+						$next = array_shift($path);
+
+						foreach ((array)glob($next) as $file) {
+							if (is_dir($file)) {
+								$path[] = $file . '/*';
+							} elseif (is_file($file)) {
+								$files[] = $file;
+							}
+						}
+					}
+				}
+
+				$file = DIR_UPLOAD . 'optimblog-' . $config_theme . '-theme.ocmod.zip';
+			
+				if ($zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+					foreach ($files as $file) {
+						$zip->addFile($file, str_replace(DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/', '', $file));                 
+					}
+
+					$zip->close();
+
+					$file = DIR_UPLOAD . 'optimblog-' . $config_theme . '-theme.ocmod.zip';
+			
+					if (is_file($file)) {
+						header('Pragma: public');
+						header('Expires: 0');
+						header('Content-Description: File Transfer');
+						header('Content-Type: application/zip');
+						header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+						header('Content-Length: ' . filesize($file));
+						header('Content-Transfer-Encoding: binary');
+						readfile($file);
+					}
+
+					// Remove Zip and Path-tmp
+					unlink($file);
+
+					$this->load->controller('marketplace/install/remove');
+				} else {
+					$this->session->data['warning'] = $this->language->get('error_file');
+				}
+
+				if (isset($this->session->data['warning'])) {
+					$this->response->redirect($this->url->link('extension/module/optimblog/edit', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true));
+				}
+			} else {
+				unlink(DIR_UPLOAD . $this->session->data['install'] . '.tmp');
+
+				$this->session->data['warning'] = $this->language->get('error_connection');
+
+				$this->response->redirect($this->url->link('extension/module/optimblog/edit', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true));
+			}
+		}
+	}	
 
 	protected function validate() {
 		if (!$this->user->hasPermission('modify', 'extension/module/optimblog')) {
@@ -1403,11 +1570,21 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 
 			$this->response->redirect($this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true));
 		} else {
+			if ($this->request->get['store_id']) {
+				$this->load->model('setting/store');
+
+				$store = $this->model_setting_store->getStore($this->request->get['store_id']);
+
+				$store_name = $store['name'];
+			} else {
+				$store_name = $this->config->get('config_name');
+			}
+
 			$this->response->addheader('Pragma: public');
 			$this->response->addheader('Expires: 0');
 			$this->response->addheader('Content-Description: File Transfer');
 			$this->response->addheader('Content-Type: application/octet-stream');
-			$this->response->addheader('Content-Disposition: attachment; filename="optimblog_setting_backup_' . $this->request->get['store_id'] . '_' . date('Y-m-d_H-i-s', time()) . '.txt"');
+			$this->response->addheader('Content-Disposition: attachment; filename="optimblog_setting_backup_' . $store_name . '_' . date('Y-m-d_H-i-s', time()) . '.txt"');
 			$this->response->addheader('Content-Transfer-Encoding: binary');
 
 			$this->load->model('setting/setting');

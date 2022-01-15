@@ -165,6 +165,17 @@
                   </div>
                 </div>
               </fieldset>
+              {% if config_theme != 'default' %}
+              <fieldset>
+                <legend>{{ text_adaptation }} {{ theme_title }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_theme }}">{{ entry_adaptation }}</span></label>
+                  <div class="col-sm-10">
+                    <a href="{{ theme }}" data-toggle="tooltip" title="{{ button_adaptation }}" class="btn btn-primary"><i class="fa fa-code"></i> {{ button_adaptation }}</a>
+                  </div>
+                </div>
+              </fieldset>
+              {% endif %}
             </div>
             <div class="tab-pane" id="tab-article">
               <fieldset>
