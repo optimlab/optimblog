@@ -978,101 +978,6 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		$this->response->setOutput($this->load->view('extension/module/optimblog_form', $data));
 	}
 
-	public function extension() {
-		$this->load->language('extension/module/optimblog');
-
-		$this->document->setTitle($this->language->get('heading_title'));
-
-		$this->load->model('setting/setting');
-
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-
-		if (isset($this->session->data['success'])) {
-			$data['success'] = $this->session->data['success'];
-
-			unset($this->session->data['success']);
-		} else {
-			$data['success'] = '';
-		}
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_extension'),
-			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true)
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'], true)
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/module/optimblog/extension', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $this->request->get['store_id'], true)
-		);
-
-		$data['user_token'] = $this->session->data['user_token'];
-
-		$data['cancel'] = $this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'], true);
-
-        $data['modules'] = array();
-
-		$modules = array(
-			'optimblog_latest',
-			'optimblog_featured',
-			'optimblog_best',
-			'optimblog_category',
-			'optimblog_search'
-		);
-
-		foreach ($modules as $module) {
-			$data['modules'][] = array(
-				'module'      => str_replace('_', '-', $module),
-				'name'        => $this->language->get($module),
-				'description' => $this->language->get($module . '_description'),
-				'image'       => $this->language->get($module . '_image'),
-				'href'        => $this->language->get('optimcart_url') . 'extension/optimblog/module/' . str_replace('_', '-', $module),
-				'install'     => str_replace('_', '-', $module),
-				'installed'   => is_file(DIR_APPLICATION . 'controller/extension/module/' . $module . '.php') ? true : false
-			);
-		}
-
-		$data['modifications'] = array();
-
-		$modifications = array(
-			'optimblog-admin-filter'
-		);
-
-		foreach ($modifications as $modification) {
-			$data['modifications'][] = array(
-				'name'        => $this->language->get($modification),
-				'description' => $this->language->get($modification . '_description'),
-				'image'       => $this->language->get($modification . '_image'),
-				'href'        => $this->language->get('optimcart_url') . 'extension/optimblog/modification/' . $modification,
-				'install'     => $modification,
-				'installed'   => $this->db->query("SELECT * FROM `" . DB_PREFIX . "extension_install` WHERE `filename` = '" . $this->db->escape($modification) . ".ocmod.zip'")->row ? true : false
-			);
-		}
-
-		$data['version'] = 'v' . $this->version;
-
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
-
-		$this->response->setOutput($this->load->view('extension/module/optimblog_extension', $data));
-	}
-
 	public function upgrade() {
 		$this->load->language('extension/module/optimblog');
 
@@ -1140,6 +1045,103 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
+	public function extension() {
+		$this->load->language('extension/module/optimblog');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('setting/setting');
+
+		if (isset($this->error['warning'])) {
+			$data['error_warning'] = $this->error['warning'];
+		} else {
+			$data['error_warning'] = '';
+		}
+
+		if (isset($this->session->data['success'])) {
+			$data['success'] = $this->session->data['success'];
+
+			unset($this->session->data['success']);
+		} else {
+			$data['success'] = '';
+		}
+
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
+		);
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_extension'),
+			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true)
+		);
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'], true)
+		);
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_module'),
+			'href' => $this->url->link('extension/module/optimblog/extension', 'user_token=' . $this->session->data['user_token'], true)
+		);
+
+		$data['user_token'] = $this->session->data['user_token'];
+
+		$data['cancel'] = $this->url->link('extension/module/optimblog', 'user_token=' . $this->session->data['user_token'], true);
+
+		$language_code = $this->config->get('config_admin_language');
+
+		$data['modules'] = array();
+
+		$modules = array(
+			'optimblog_latest',
+			'optimblog_featured',
+			'optimblog_best',
+			'optimblog_category',
+			'optimblog_search'
+		);
+
+		foreach ($modules as $module) {
+			$data['modules'][] = array(
+				'module'      => str_replace('_', '-', $module),
+				'name'        => $this->language->get($module),
+				'description' => $this->language->get($module . '_description'),
+				'image'       => 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/module/image/' . $language_code . '/' . str_replace('_', '-', $module) . '.png',
+				'href'        => $this->language->get('optimcart_url') . 'extension/optimblog/module/' . str_replace('_', '-', $module),
+				'install'     => str_replace('_', '-', $module),
+				'installed'   => is_file(DIR_APPLICATION . 'controller/extension/module/' . $module . '.php') ? true : false
+			);
+		}
+
+		$data['modifications'] = array();
+
+		$modifications = array(
+			'optimblog-admin-filter'
+		);
+
+		foreach ($modifications as $modification) {
+			$data['modifications'][] = array(
+				'name'        => $this->language->get($modification),
+				'description' => $this->language->get($modification . '_description'),
+				'image'       => 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/module/image/' . $language_code . '/' . $modification . '.png',
+				'href'        => $this->language->get('optimcart_url') . 'extension/optimblog/modification/' . $modification,
+				'install'     => $modification,
+				'installed'   => $this->db->query("SELECT * FROM `" . DB_PREFIX . "extension_install` WHERE `filename` = '" . $this->db->escape($modification) . ".ocmod.zip'")->row ? true : false
+			);
+		}
+
+		$data['version'] = 'v' . $this->version;
+
+		$data['header'] = $this->load->controller('common/header');
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['footer'] = $this->load->controller('common/footer');
+
+		$this->response->setOutput($this->load->view('extension/module/optimblog_extension', $data));
+	}
+
 	public function download() {
 		$this->load->language('extension/module/optimblog');
 
@@ -1153,9 +1155,9 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 			$json['error'] = $this->language->get('error_download');
 		}
 
-		if (isset($this->request->get['version'])) {
-			$this->version = $this->request->get['version'];
-		}
+//		if (isset($this->request->get['version'])) {
+//			$this->version = $this->request->get['version'];
+//		}
 
 		// Check if there is a install zip already there
 		$files = glob(DIR_UPLOAD . '*.tmp');
@@ -1313,7 +1315,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 
 			$handle = fopen(DIR_UPLOAD . $this->session->data['install'] . '.tmp', 'w');
 
-			$curl = curl_init('https://github.com/optimlab/optimblog/releases/download/3.1.0.0/optimblog-theme.ocmod.zip');
+//			$curl = curl_init('https://github.com/optimlab/optimblog/releases/download/3.1.0.0/optimblog-theme.ocmod.zip');
 			$curl = curl_init('https://github.com/optimlab/optimblog/raw/master/dist/modification/optimblog-theme.ocmod.zip');			
 
 			curl_setopt($curl, CURLOPT_USERAGENT, 'OpenCart ' . VERSION);

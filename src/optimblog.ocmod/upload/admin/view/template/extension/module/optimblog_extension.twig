@@ -102,7 +102,6 @@ $('#extension-list').on('click', '.btn-primary', function(e) {
 	var element = this;
 
 	// Reset everything
-	$('#' + $(this).attr('data-install') + ' .progress').removeClass('invisible');
 	$('#' + $(this).attr('data-install') + ' .progress-bar').css('width', '0%');
 	$('#' + $(this).attr('data-install') + ' .progress-bar').removeClass('progress-bar-success');
 	$('#' + $(this).attr('data-install') + ' .progress-text').html('');
@@ -128,6 +127,7 @@ $('#extension-list').on('click', '.btn-primary', function(e) {
 			}
 
 			if (json['text']) {
+				$('#' + $(element).attr('data-install') + ' .progress').removeClass('invisible');
 				$('#' + $(element).attr('data-install') + ' .progress-bar').css('width', '20%');
 				$('#' + $(element).attr('data-install') + ' .progress-text').html(json['text']);
 			}

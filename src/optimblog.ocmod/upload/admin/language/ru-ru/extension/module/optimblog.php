@@ -177,16 +177,10 @@ $_['optimblog_featured_description']                    = 'Рекомендуе�
 $_['optimblog_best_description']                        = 'Сортировка по Рейтингу или Просмотрам.';
 $_['optimblog_category_description']                    = 'Модуль выводит Категории статей, аналогично стандартному модулю Opencart «Категории».';
 $_['optimblog_search_description']                      = 'Модуль выводит форму строки Поиска статей, аналогично стандартному модулю Opencart «Поиск».';
-$_['optimblog_latest_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/latest-information-710-380.png';
-$_['optimblog_featured_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/featured-information-710-380.png';
-$_['optimblog_best_image']                              = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/bestseller-information-710-380.png';
-$_['optimblog_category_image']                          = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/category-information-710-380.png';
-$_['optimblog_search_image']                            = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/search-information-710-380.png';
 
 // Modifications
 $_['optimblog-admin-filter']                            = 'Admin Filter';
 $_['optimblog-admin-filter_description']                = '<p>Расширяет фильтрацию Категорий, Товаров и Статей:</p><ol><li>Тип категории: Товары или Статьи</li><li>Принадлежность к категории или её отсутствия.</li><li>Принадлежность к производителю или его отсутствия.</li><li>Кол-во просмотров статей.</li></ol>';
-$_['optimblog-admin-filter_image']                      = 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/image/admin-filter-categories-products-informations-710-380.png';
 
 // URL
 $_['optimcart_url']                                     = 'https://optimcart.ru/';
