@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name> OptimBlog - Admin Filter</name>
+  <code>optimblog-admin-filter</code>
+  <version>3.1.0.0</version>
+  <author>Dmitriy Khokhlov | optimlab.com</author>
+  <link>https://optimcart.com</link>
+
+  <!-- Category -->      
+  <file path="admin/controller/catalog/category.php">
+    <operation error="skip">
+      <search><![CDATA[
+	protected function getList() {
+      ]]></search>
+      <add position="after"><![CDATA[
+		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = '';
+		}
+     
+		if (isset($this->request->get['filter_category_id'])) {
+			$filter_category_id = $this->request->get['filter_category_id'];
+		} else {
+			$filter_category_id = '';
+		}
+
+		if (isset($this->request->get['filter_store_id'])) {
+			$filter_store_id = $this->request->get['filter_store_id'];
+		} else {
+			$filter_store_id = '';
+		}
+
+		if (isset($this->request->get['filter_status'])) {
+			$filter_status = $this->request->get['filter_status'];
+		} else {
+			$filter_status = '';
+		}
+
+		$data['user_token'] = $this->session->data['user_token'];
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$url = '';
+      ]]></search>
+      <add position="after"><![CDATA[
+        if (isset($this->request->get['filter_name'])) {
+            $url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+        }
+
+        if (isset($this->request->get['filter_category_id'])) {
+            $url .= '&filter_category_id=' . $this->request->get['filter_category_id'];
+        }
+
+		if (isset($this->request->get['filter_store_id'])) {
+			$url .= '&filter_store_id=' . $this->request->get['filter_store_id'];
+		}
+
+		if (isset($this->request->get['filter_status'])) {
+			$url .= '&filter_status=' . $this->request->get['filter_status'];
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			'filter_information' => $filter_information,
+      ]]></search>
+      <add position="after"><![CDATA[
+			'filter_category_id' => $filter_category_id,
+			'filter_store_id'    => $filter_store_id,
+			'filter_status'      => $filter_status,
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+				'information' => $result['information'],
+      ]]></search>
+      <add position="after"><![CDATA[
+				'status'      => $result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+        $data['sort_information'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&sort=information' . $url, true);
+      ]]></search>
+      <add position="after"><![CDATA[
+		$data['sort_category'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&sort=category' . $url, true);
+		$data['sort_status'] = $this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . '&sort=c1.status' . $url, true);
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$data['filter_information'] = $filter_information;
+      ]]></search>
+      <add position="after"><![CDATA[
+		$data['filter_name'] = $filter_name;
+		$data['filter_category_id'] = $filter_category_id;         
+		$data['filter_store_id'] = $filter_store_id;         
+		$data['filter_status'] = $filter_status;
+
+		$this->load->model('setting/store');
+
+		$data['stores'] = $this->model_setting_store->getStores();
+      ]]></add>
+    </operation>
+  </file>
+
+  <file path="admin/model/catalog/category.php">
+    <operation error="skip">
+      <search><![CDATA[c1.sort_order]]></search>
+      <add position="replace"><![CDATA[c1.sort_order, c1.status]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$sql .= " GROUP BY cp.category_id";
+      ]]></search>
+      <add position="before"><![CDATA[
+		if (!empty($data['filter_category_id'])) {
+			$sql .= " AND cp.category_id IN (SELECT `category_id` FROM `" . DB_PREFIX . "category_path` WHERE `path_id` = '" . (int)$data['filter_category_id'] . "')";
+		} elseif (isset($data['filter_category_id']) && $data['filter_category_id'] == '0') {
+			$sql .= " AND c1.parent_id = '" . (int)$data['filter_category_id'] . "'";
+		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND cp.category_id IN (SELECT `category_id` FROM `" . DB_PREFIX . "category_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
+      
+		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
+			$sql .= " AND c1.status = '" . (int)$data['filter_status'] . "'";
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$sql .= " WHERE category_id != ''";
+      ]]></search>
+      <add position="after"><![CDATA[
+		if (!empty($data['filter_category_id'])) {
+			$sql .= " AND category_id IN (SELECT category_id FROM " . DB_PREFIX . "category_path WHERE path_id = '" . (int)$data['filter_category_id'] . "')";
+		} elseif (isset($data['filter_category_id']) && $data['filter_category_id'] == '0') {
+			$sql .= " AND parent_id = '" . (int)$data['filter_category_id'] . "'";
+		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND category_id IN (SELECT `category_id` FROM `" . DB_PREFIX . "category_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
+      
+		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
+			$sql .= " AND status = '" . (int)$data['filter_status'] . "'";
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			'information',
+      ]]></search>
+      <add position="after"><![CDATA[
+			'c1.status',
+      ]]></add>
+    </operation>
+  </file>	
+
+  <file path="admin/view/template/catalog/category_list.twig">
+    <operation error="skip">
+      <search><![CDATA[
+      <div class="pull-right">
+      ]]></search>
+      <add position="after"><![CDATA[
+        <button type="button" data-toggle="tooltip" title="{{ button_filter }}" onclick="$('#filter-category').toggleClass('hidden-sm hidden-xs');" class="btn btn-default hidden-md hidden-lg"><i class="fa fa-filter"></i></button>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[<div class="btn-group">]]></search>
+      <add position="replace"><![CDATA[<div class="btn-group hidden">]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+<div class="panel panel-default">
+      ]]></search>
+      <add position="before"><![CDATA[
+    <div class="row">
+      <div id="filter-category" class="col-md-3 col-md-push-9 col-sm-12 hidden-sm hidden-xs">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="control-label" for="input-type">{{ entry_type }}</label>
+              <select name="filter_information" id="input-type" class="form-control">
+                <option value="">{{ text_type_all }}</option>
+                  {% if filter_information == '1' %}
+                <option value="1" selected="selected">{{ text_type_information }}</option>
+                  {% else %}
+                <option value="1">{{ text_type_information }}</option>
+                  {% endif %}
+                  {% if filter_information == '0' %}
+                <option value="0" selected="selected">{{ text_type_product }}</option>
+                  {% else %}
+                <option value="0">{{ text_type_product }}</option>
+                  {% endif %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-category">{{ entry_category }}</label>
+              <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_category }}" id="input-category" class="form-control" />
+              <input type="hidden" name="filter_category_id" value="{{ filter_category_id }}" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-store">{{ entry_store }}</label>
+              <select name="filter_store_id" id="input-store" class="form-control">
+                <option value=""></option>
+                {% if filter_store_id == '0' %}
+                <option value="0" selected="selected">{{ text_default }}</option>
+                {% else %}
+                <option value="0">{{ text_default }}</option>
+                {% endif %}                  
+                {% for store in stores %}
+                {% if store.store_id == filter_store_id %}
+                <option value="{{ store.store_id }}" selected="selected">{{ store.name }}</option>
+                {% else %}
+                <option value="{{ store.store_id }}">{{ store.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-status">{{ entry_status }}</label>
+              <select name="filter_status" id="input-status" class="form-control">
+                <option value=""></option>
+                  {% if filter_status == '1' %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                  {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                  {% endif %}
+                  {% if filter_status == '0' %}
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                  {% else %}
+                <option value="0">{{ text_disabled }}</option>
+                  {% endif %}
+              </select>
+            </div>
+            <div class="form-group text-right">
+              <button type="button" id="button-filter" class="btn btn-default"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9 col-md-pull-3 col-sm-12">
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+{{ footer }}
+      ]]></search>
+      <add position="before" ><![CDATA[
+      </div>
+    </div>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+                  <td class="text-right">{{ column_action }}</td>
+      ]]></search>
+      <add position="before"><![CDATA[
+                  <td class="text-left">
+                    {% if sort == 'c1.status' %}
+                    <a href="{{ sort_status }}" class="{{ order|lower }}">{{ column_status }}</a>
+                    {% else %}
+                    <a href="{{ sort_status }}">{{ column_status }}</a>
+                    {% endif %}
+                  </td>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+                  <td class="text-right">{{ category.sort_order }}</td>
+      ]]></search>
+      <add position="after"><![CDATA[
+                  <td class="text-left">{{ category.status }}</td>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+{{ footer }}
+      ]]></search>
+      <add position="before"><![CDATA[
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = '';
+
+	var filter_information = $('select[name=\'filter_information\']').val();
+
+    if (filter_information != '') {
+        url += '&filter_information=' + encodeURIComponent(filter_information);
+    }
+        
+	var filter_name = $('input[name=\'filter_name\']').val();
+
+    if (filter_name) {
+        url += '&filter_name=' + encodeURIComponent(filter_name);
+    }
+        
+    var filter_category_id = $('input[name=\'filter_category_id\']').val();
+
+    if (filter_category_id) {
+        url += '&filter_category_id=' + encodeURIComponent(filter_category_id);
+    }        
+      
+	var filter_store_id = $('select[name=\'filter_store_id\']').val();
+
+	if (filter_store_id) {
+		url += '&filter_store_id=' + encodeURIComponent(filter_store_id);
+	}
+	
+	var filter_status = $('select[name=\'filter_status\']').val();
+
+	if (filter_status != '') {
+		url += '&filter_status=' + encodeURIComponent(filter_status);
+	}
+
+	location = 'index.php?route=catalog/category&user_token={{ user_token }}' + url;
+});
+//--></script> 
+  <script type="text/javascript"><!--
+// IE and Edge fix!
+$('button[form=\'form-category\']').on('click', function(e) {
+	$('#form-category').attr('action', $(this).attr('formaction'));
+});
+  
+$('input[name=\'filter_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				json.unshift({
+					category_id: 0,
+					name: '{{ text_none_category }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_name\']').val(item['label']);
+        $('input[name=\'filter_category_id\']').val(item['value']);
+	}
+});
+
+$('input[name=\'filter_name\']').keyup(function() {
+    var value = $(this).val();
+    if (value == '') {
+        $('input[name=\'filter_category_id\']').val('')
+    }
+});
+      
+//--></script>
+      ]]></add>
+    </operation>
+  </file>
+
+  <!-- Product -->      
+  <file path="admin/controller/catalog/product.php">
+    <operation error="skip">
+      <search><![CDATA[
+	protected function getList() {
+      ]]></search>
+      <add position="after"><![CDATA[
+		if (isset($this->request->get['filter_category'])) {
+			$filter_category = $this->request->get['filter_category'];
+		} else {
+			$filter_category = '';
+		}
+
+		if (isset($this->request->get['filter_category_id'])) {
+			$filter_category_id = $this->request->get['filter_category_id'];
+		} else {
+			$filter_category_id = '';
+		}
+
+		if (isset($this->request->get['filter_manufacturer'])) {
+			$filter_manufacturer = $this->request->get['filter_manufacturer'];
+		} else {
+			$filter_manufacturer = '';
+		}
+
+		if (isset($this->request->get['filter_manufacturer_id'])) {
+			$filter_manufacturer_id = $this->request->get['filter_manufacturer_id'];
+		} else {
+			$filter_manufacturer_id = '';
+		}
+
+		if (isset($this->request->get['filter_store_id'])) {
+			$filter_store_id = $this->request->get['filter_store_id'];
+		} else {
+			$filter_store_id = '';
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+        $url = '';
+      ]]></search>
+      <add position="after"><![CDATA[
+        	if (isset($this->request->get['filter_category'])) {
+            	$url .= '&filter_category=' . urlencode(html_entity_decode($this->request->get['filter_category'], ENT_QUOTES, 'UTF-8'));
+        	}
+
+        	if (isset($this->request->get['filter_category_id'])) {
+            	$url .= '&filter_category_id=' . $this->request->get['filter_category_id'];
+        	}
+
+        	if (isset($this->request->get['filter_manufacturer'])) {
+            	$url .= '&filter_manufacturer=' . urlencode(html_entity_decode($this->request->get['filter_manufacturer'], ENT_QUOTES, 'UTF-8'));
+        	}
+
+        	if (isset($this->request->get['filter_manufacturer_id'])) {
+            	$url .= '&filter_manufacturer_id=' . $this->request->get['filter_manufacturer_id'];
+        	}
+
+        	if (isset($this->request->get['filter_store_id'])) {
+            	$url .= '&filter_store_id=' . $this->request->get['filter_store_id'];
+        	}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			'filter_model'	  => $filter_model,
+      ]]></search>
+      <add position="after"><![CDATA[
+			'filter_category_id'	 => $filter_category_id,
+			'filter_manufacturer_id' => $filter_manufacturer_id,
+			'filter_store_id'        => $filter_store_id,
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search index="0"><![CDATA[
+		$this->load->model('tool/image');
+      ]]></search>
+      <add position="after"><![CDATA[
+		$this->load->model('catalog/category');
+		$this->load->model('catalog/manufacturer');
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search index="0"><![CDATA[
+				'model'      => $result['model'],
+      ]]></search>
+      <add position="after"><![CDATA[
+				'category'     => isset($result['category']) ? $result['category'] : '',
+				'manufacturer' => $result['manufacturer'],
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$data['sort_model'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=p.model' . $url, true);
+      ]]></search>
+      <add position="after"><![CDATA[
+		$data['sort_manufacturer'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=manufacturer' . $url, true);
+		$data['sort_category'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=category' . $url, true);
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$data['filter_status'] = $filter_status;
+      ]]></search>
+      <add position="after"><![CDATA[
+		$data['filter_category'] = $filter_category;
+		$data['filter_category_id'] = $filter_category_id;         
+		$data['filter_manufacturer'] = $filter_manufacturer;
+		$data['filter_manufacturer_id'] = $filter_manufacturer_id;
+		$data['filter_store_id'] = $filter_store_id;
+
+		$this->load->model('setting/store');
+
+		$data['stores'] = $this->model_setting_store->getStores();
+      ]]></add>
+    </operation>
+  </file>
+  
+  <file path="admin/model/catalog/product.php">
+    <operation error="skip">
+      <search><![CDATA[
+		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+      ]]></search>
+      <add position="replace"><![CDATA[]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+      ]]></search>
+      <add position="replace"><![CDATA[
+		if (isset($data['filter_category_id']) && $data['filter_category_id'] === '0') {
+			$sql = "SELECT p.*, pd.*, m.name AS manufacturer, IF(p.product_id IS NULL, '', '') AS category FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.product_id NOT IN (SELECT p2c.product_id FROM " . DB_PREFIX . "product_to_category p2c)";
+		} else {
+			$sql = "SELECT p.*, pd.*, p2c1.main_category, m.name AS manufacturer, IF(p2c1.main_category = '1', (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id) WHERE cp.category_id = p2c1.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id), '') AS category FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c1 ON (p.product_id = p2c1.product_id) LEFT JOIN " . DB_PREFIX . "category_description cd ON (p2c1.category_id = cd.category_id)";
+
+			if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+				$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_category p2c2 ON (p.product_id = p2c2.product_id) ";
+			}
+
+			$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND (cd.language_id = '" . (int)$this->config->get('config_language_id') . "' OR cd.language_id IS NULL) AND (p2c1.main_category = (SELECT MAX(p2c2.main_category) FROM " . DB_PREFIX . "product_to_category p2c2 WHERE p2c2.product_id = p.product_id) OR p2c1.main_category IS NULL)";
+
+			if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+				$sql .= " AND p2c2.category_id = '" . (int)$data['filter_category_id'] . "'";
+			}
+		}
+
+		if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
+			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND p.product_id IN (SELECT `product_id` FROM `" . DB_PREFIX . "product_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
+      ]]></search>
+      <add position="replace"><![CDATA[
+		if (isset($data['filter_category_id']) && $data['filter_category_id'] === '0') {
+			$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
+
+			$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+			$sql .= " AND p.product_id NOT IN (SELECT p2c.product_id FROM " . DB_PREFIX . "product_to_category p2c)";
+		} else {
+			$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
+
+			$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+			if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+				$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+			}
+		}
+
+		if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
+			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND p.product_id IN (SELECT `product_id` FROM `" . DB_PREFIX . "product_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			'p.model',
+      ]]></search>
+      <add position="after"><![CDATA[
+			'manufacturer',
+			'category',
+      ]]></add>
+    </operation>
+  </file>	
+
+  <file path="admin/view/template/catalog/product_list.twig">
+    <operation error="skip">
+      <search><![CDATA[
+              <label class="control-label" for="input-price">{{ entry_price }}</label>
+      ]]></search>
+      <add position="before"><![CDATA[
+              <label class="control-label" for="input-category">{{ entry_category_filter }}</label>
+              <input type="text" name="filter_category" value="{{ filter_category }}" placeholder="{{ entry_category_filter }}" id="input-category" class="form-control" />
+              <input type="hidden" name="filter_category_id" value="{{ filter_category_id }}" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-manufacturer">{{ entry_manufacturer }}</label>
+              <input type="text" name="filter_manufacturer" value="{{ filter_manufacturer }}" placeholder="{{ entry_manufacturer }}" id="input-manufacturer" class="form-control" />
+              <input type="hidden" name="filter_manufacturer_id" value="{{ filter_manufacturer_id }}" />
+            </div>
+            <div class="form-group">
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+              <label class="control-label" for="input-status">{{ entry_status }}</label>
+      ]]></search>
+      <add position="before"><![CDATA[
+              <label class="control-label" for="input-store">{{ entry_store }}</label>
+              <select name="filter_store_id" id="input-store" class="form-control">
+                <option value=""></option>
+                {% if filter_store_id == '0' %}
+                <option value="0" selected="selected">{{ text_default }}</option>
+                {% else %}
+                <option value="0">{{ text_default }}</option>
+                {% endif %}                  
+                {% for store in stores %}
+                {% if store.store_id == filter_store_id %}
+                <option value="{{ store.store_id }}" selected="selected">{{ store.name }}</option>
+                {% else %}
+                <option value="{{ store.store_id }}">{{ store.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA['p.price']]></search>
+      <add position="before"><![CDATA[
+                      <td class="text-left">{% if sort == 'category' %} <a href="{{ sort_category }}" class="{{ order|lower }}">{{ column_category }}</a> {% else %} <a href="{{ sort_category }}">{{ column_category }}</a> {% endif %}</td>
+                      <td class="text-left">{% if sort == 'manufacturer' %} <a href="{{ sort_manufacturer }}" class="{{ order|lower }}">{{ column_manufacturer }}</a> {% else %} <a href="{{ sort_manufacturer }}">{{ column_manufacturer }}</a> {% endif %}</td>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+                    <td class="text-left">{{ product.model }}</td>
+      ]]></search>
+      <add position="after"><![CDATA[
+                    <td class="text-left">{{ product.category }}</td>
+                    <td class="text-left">{{ product.manufacturer }}</td>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+	var filter_model = $('input[name=\'filter_model\']').val();
+      ]]></search>
+      <add position="before"><![CDATA[
+    var filter_manufacturer = $('input[name=\'filter_manufacturer\']').val();
+
+    if (filter_manufacturer) {
+        url += '&filter_manufacturer=' + encodeURIComponent(filter_manufacturer);
+    }
+        
+    var filter_manufacturer_id = $('input[name=\'filter_manufacturer_id\']').val();
+
+    if (filter_manufacturer_id) {
+        url += '&filter_manufacturer_id=' + encodeURIComponent(filter_manufacturer_id);
+    }    
+
+    var filter_category = $('input[name=\'filter_category\']').val();
+
+    if (filter_category) {
+        url += '&filter_category=' + encodeURIComponent(filter_category);
+    }
+        
+    var filter_category_id = $('input[name=\'filter_category_id\']').val();
+
+    if (filter_category_id) {
+        url += '&filter_category_id=' + encodeURIComponent(filter_category_id);
+    }        
+
+	var filter_store_id = $('select[name=\'filter_store_id\']').val();
+
+	if (filter_store_id) {
+		url += '&filter_store_id=' + encodeURIComponent(filter_store_id);
+	}
+	      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+        //--></script></div>
+      ]]></search>
+      <add position="before"><![CDATA[
+$('input[name=\'filter_manufacturer\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manufacturer/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				json.unshift({
+					manufacturer_id: 0,
+					name: '{{ text_none_manufacturer }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['manufacturer_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_manufacturer\']').val(item['label']);
+        $('input[name=\'filter_manufacturer_id\']').val(item['value']);
+	}	
+});
+
+$('input[name=\'filter_manufacturer\']').keyup(function() {
+    var value = $(this).val();
+    if (value == '') {
+        $('input[name=\'filter_manufacturer_id\']').val('')
+    }
+});
+
+$('input[name=\'filter_category\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=0&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				json.unshift({
+					category_id: 0,
+					name: '{{ text_none_category }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_category\']').val(item['label']);
+        $('input[name=\'filter_category_id\']').val(item['value']);
+	}
+});
+
+$('input[name=\'filter_category\']').keyup(function() {
+    var value = $(this).val();
+    if (value == '') {
+        $('input[name=\'filter_category_id\']').val('')
+    }
+});
+      ]]></add>
+    </operation>
+  </file>
+
+  <!-- Information -->
+  <file path="admin/controller/catalog/information.php">
+    <operation error="skip">
+      <search><![CDATA[
+	protected function getList() {
+      ]]></search>
+      <add position="after"><![CDATA[
+		if (isset($this->request->get['filter_category'])) {
+			$filter_category = $this->request->get['filter_category'];
+		} else {
+			$filter_category = '';
+		}
+     
+		if (isset($this->request->get['filter_category_id'])) {
+			$filter_category_id = $this->request->get['filter_category_id'];
+		} else {
+			$filter_category_id = '';
+		}
+
+		if (isset($this->request->get['filter_manufacturer'])) {
+			$filter_manufacturer = $this->request->get['filter_manufacturer'];
+		} else {
+			$filter_manufacturer = '';
+		}
+
+		if (isset($this->request->get['filter_manufacturer_id'])) {
+			$filter_manufacturer_id = $this->request->get['filter_manufacturer_id'];
+		} else {
+			$filter_manufacturer_id = '';
+		}
+
+		if (isset($this->request->get['filter_store_id'])) {
+			$filter_store_id = $this->request->get['filter_store_id'];
+		} else {
+			$filter_store_id = '';
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+        $url = '';
+      ]]></search>
+      <add position="after"><![CDATA[
+        	if (isset($this->request->get['filter_category'])) {
+            	$url .= '&filter_category=' . urlencode(html_entity_decode($this->request->get['filter_category'], ENT_QUOTES, 'UTF-8'));
+        	}
+
+        	if (isset($this->request->get['filter_category_id'])) {
+            	$url .= '&filter_category_id=' . $this->request->get['filter_category_id'];
+        	}
+
+        	if (isset($this->request->get['filter_manufacturer'])) {
+            	$url .= '&filter_manufacturer=' . urlencode(html_entity_decode($this->request->get['filter_manufacturer'], ENT_QUOTES, 'UTF-8'));
+        	}
+
+        	if (isset($this->request->get['filter_manufacturer_id'])) {
+            	$url .= '&filter_manufacturer_id=' . $this->request->get['filter_manufacturer_id'];
+        	}
+
+        	if (isset($this->request->get['filter_store_id'])) {
+            	$url .= '&filter_store_id=' . $this->request->get['filter_store_id'];
+        	}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			'filter_status'   => $filter_status,
+      ]]></search>
+      <add position="after"><![CDATA[
+			'filter_category_id'	 => $filter_category_id,
+			'filter_manufacturer_id' => $filter_manufacturer_id,
+			'filter_store_id'	     => $filter_store_id,
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search index="0"><![CDATA[
+		$this->load->model('tool/image');
+      ]]></search>
+      <add position="after"><![CDATA[
+		$this->load->model('catalog/category');
+		$this->load->model('catalog/manufacturer');
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+				'viewed'         => $result['viewed'],
+      ]]></search>
+      <add position="after"><![CDATA[
+				'category'     => isset($result['category']) ? $result['category'] : '',
+				'manufacturer' => $result['manufacturer'],
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$data['sort_status'] = $this->url->link('catalog/information', 'user_token=' . $this->session->data['user_token'] . '&sort=i.status' . $url, true);
+      ]]></search>
+      <add position="after"><![CDATA[
+		$data['sort_manufacturer'] = $this->url->link('catalog/information', 'user_token=' . $this->session->data['user_token'] . '&sort=manufacturer' . $url, true);
+		$data['sort_category'] = $this->url->link('catalog/information', 'user_token=' . $this->session->data['user_token'] . '&sort=category' . $url, true);
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$data['filter_status'] = $filter_status;
+      ]]></search>
+      <add position="after"><![CDATA[
+		$data['filter_category'] = $filter_category;
+		$data['filter_category_id'] = $filter_category_id;         
+		$data['filter_manufacturer'] = $filter_manufacturer;
+		$data['filter_manufacturer_id'] = $filter_manufacturer_id;
+		$data['filter_store_id'] = $filter_store_id;
+
+		$this->load->model('setting/store');
+
+		$data['stores'] = $this->model_setting_store->getStores();
+      ]]></add>
+    </operation>
+  </file>
+  
+  <file path="admin/model/catalog/information.php">
+    <operation error="skip">
+      <search><![CDATA[
+		$sql .= " WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+      ]]></search>
+      <add position="replace"><![CDATA[]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+			$sql = "SELECT * FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+      ]]></search>
+      <add position="replace"><![CDATA[
+			if (isset($data['filter_category_id']) && $data['filter_category_id'] === '0') {
+				$sql = "SELECT i.*, id.*, m.name AS manufacturer, IF(i.information_id IS NULL, '', '') AS category FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (i.manufacturer_id = m.manufacturer_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND i.information_id NOT IN (SELECT i2c.information_id FROM " . DB_PREFIX . "information_to_category i2c)";
+			} else {
+				$sql = "SELECT i.*, id.*, i2c1.main_category, m.name AS manufacturer, IF(i2c1.main_category = '1', (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id) WHERE cp.category_id = i2c1.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id), '') AS category FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (i.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "information_to_category i2c1 ON (i.information_id = i2c1.information_id) LEFT JOIN " . DB_PREFIX . "category_description cd ON (i2c1.category_id = cd.category_id)";
+
+				if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+					$sql .= " LEFT JOIN " . DB_PREFIX . "information_to_category i2c2 ON (i.information_id = i2c2.information_id) ";
+				}
+
+				$sql .= " WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND (cd.language_id = '" . (int)$this->config->get('config_language_id') . "' OR cd.language_id IS NULL) AND (i2c1.main_category = (SELECT MAX(i2c2.main_category) FROM " . DB_PREFIX . "information_to_category i2c2 WHERE i2c2.information_id = i.information_id) OR i2c1.main_category IS NULL)";
+
+				if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+					$sql .= " AND i2c2.category_id = '" . (int)$data['filter_category_id'] . "'";
+				}
+			}
+
+			if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
+				$sql .= " AND i.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			}
+
+			if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+				$sql .= " AND i.information_id IN (SELECT `information_id` FROM `" . DB_PREFIX . "information_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+			}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+		$sql = "SELECT COUNT(DISTINCT i.information_id) AS total FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id)";
+      ]]></search>
+      <add position="replace"><![CDATA[
+		if (isset($data['filter_category_id']) && $data['filter_category_id'] === '0') {
+			$sql = "SELECT COUNT(DISTINCT i.information_id) AS total FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id)";
+
+			$sql .= " WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+			$sql .= " AND i.information_id NOT IN (SELECT i2c.information_id FROM " . DB_PREFIX . "information_to_category i2c)";
+		} else {
+			$sql = "SELECT COUNT(DISTINCT i.information_id) AS total FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_to_category i2c ON (i.information_id = i2c.information_id) LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id)";
+
+			$sql .= " WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+			if (isset($data['filter_category_id']) && $data['filter_category_id'] !== '') {
+				$sql .= " AND i2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+			}
+		}
+
+		if (isset($data['filter_manufacturer_id']) && $data['filter_manufacturer_id'] !== '') {
+			$sql .= " AND i.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+		}
+
+		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
+			$sql .= " AND i.information_id IN (SELECT `information_id` FROM `" . DB_PREFIX . "information_to_store` WHERE `store_id` = '" . (int)$data['filter_store_id'] . "')";
+		}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+				'id.title',
+      ]]></search>
+      <add position="after"><![CDATA[
+				'manufacturer',
+				'category',
+      ]]></add>
+    </operation>
+  </file>	
+
+  <file path="admin/view/template/catalog/information_list.twig">
+    <operation error="skip">
+      <search><![CDATA[
+              <label class="control-label" for="input-viewed">{{ entry_viewed }}</label>
+      ]]></search>
+      <add position="before"><![CDATA[
+              <label class="control-label" for="input-category">{{ entry_category_filter }}</label>
+              <input type="text" name="filter_category" value="{{ filter_category }}" placeholder="{{ entry_category_filter }}" id="input-category" class="form-control" />
+              <input type="hidden" name="filter_category_id" value="{{ filter_category_id }}" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="input-manufacturer">{{ entry_manufacturer }}</label>
+              <input type="text" name="filter_manufacturer" value="{{ filter_manufacturer }}" placeholder="{{ entry_manufacturer }}" id="input-manufacturer" class="form-control" />
+              <input type="hidden" name="filter_manufacturer_id" value="{{ filter_manufacturer_id }}" />
+            </div>
+            <div class="form-group">
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+              <label class="control-label" for="input-status">{{ entry_status }}</label>
+      ]]></search>
+      <add position="before"><![CDATA[
+              <label class="control-label" for="input-store">{{ entry_store }}</label>
+              <select name="filter_store_id" id="input-store" class="form-control">
+                <option value=""></option>
+                {% if filter_store_id == '0' %}
+                <option value="0" selected="selected">{{ text_default }}</option>
+                {% else %}
+                <option value="0">{{ text_default }}</option>
+                {% endif %}                  
+                {% for store in stores %}
+                {% if store.store_id == filter_store_id %}
+                <option value="{{ store.store_id }}" selected="selected">{{ store.name }}</option>
+                {% else %}
+                <option value="{{ store.store_id }}">{{ store.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+                  <td class="text-right">{% if sort == 'i.viewed' %}
+      ]]></search>
+      <add position="before"><![CDATA[
+                      <td class="text-left">{% if sort == 'category' %} <a href="{{ sort_category }}" class="{{ order|lower }}">{{ column_category }}</a> {% else %} <a href="{{ sort_category }}">{{ column_category }}</a> {% endif %}</td>
+                      <td class="text-left">{% if sort == 'manufacturer' %} <a href="{{ sort_manufacturer }}" class="{{ order|lower }}">{{ column_manufacturer }}</a> {% else %} <a href="{{ sort_manufacturer }}">{{ column_manufacturer }}</a> {% endif %}</td>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+                  <td class="text-left">{{ information.title }}</td>
+      ]]></search>
+      <add position="after"><![CDATA[
+                  <td class="text-left">{{ information.category }}</td>
+                  <td class="text-left">{{ information.manufacturer }}</td>
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+	var filter_viewed = $('input[name=\'filter_viewed\']').val();
+      ]]></search>
+      <add position="before"><![CDATA[
+    var filter_manufacturer = $('input[name=\'filter_manufacturer\']').val();
+
+    if (filter_manufacturer) {
+        url += '&filter_manufacturer=' + encodeURIComponent(filter_manufacturer);
+    }
+        
+    var filter_manufacturer_id = $('input[name=\'filter_manufacturer_id\']').val();
+
+    if (filter_manufacturer_id) {
+        url += '&filter_manufacturer_id=' + encodeURIComponent(filter_manufacturer_id);
+    }    
+
+    var filter_category = $('input[name=\'filter_category\']').val();
+
+    if (filter_category) {
+        url += '&filter_category=' + encodeURIComponent(filter_category);
+    }
+        
+    var filter_category_id = $('input[name=\'filter_category_id\']').val();
+
+    if (filter_category_id) {
+        url += '&filter_category_id=' + encodeURIComponent(filter_category_id);
+    }        
+
+	var filter_store_id = $('select[name=\'filter_store_id\']').val();
+
+	if (filter_store_id) {
+		url += '&filter_store_id=' + encodeURIComponent(filter_store_id);
+	}
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+        //--></script></div>
+      ]]></search>
+      <add position="before"><![CDATA[
+$('input[name=\'filter_manufacturer\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manufacturer/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				json.unshift({
+					manufacturer_id: 0,
+					name: '{{ text_none_manufacturer }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['manufacturer_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_manufacturer\']').val(item['label']);
+        $('input[name=\'filter_manufacturer_id\']').val(item['value']);
+	}	
+});
+
+$('input[name=\'filter_manufacturer\']').keyup(function() {
+    var value = $(this).val();
+    if (value == '') {
+        $('input[name=\'filter_manufacturer_id\']').val('')
+    }
+});
+
+$('input[name=\'filter_category\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_information=1&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				json.unshift({
+					category_id: 0,
+					name: '{{ text_none_category }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_category\']').val(item['label']);
+        $('input[name=\'filter_category_id\']').val(item['value']);
+	}
+});
+
+$('input[name=\'filter_category\']').keyup(function() {
+    var value = $(this).val();
+    if (value == '') {
+        $('input[name=\'filter_category_id\']').val('')
+    }
+});
+      ]]></add>
+    </operation>
+  </file>
+</modification>

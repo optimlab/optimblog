@@ -991,10 +991,6 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 			$json['error'] = $this->language->get('error_download');
 		}
 
-		if (isset($this->request->get['version'])) {
-			$this->version = $this->request->get['version'];
-		}
-
 		if (!$json) {
 			$curl = curl_init($this->github . $this->releases);
 
@@ -1126,7 +1122,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 			$data['modifications'][] = array(
 				'name'        => $this->language->get($modification),
 				'description' => $this->language->get($modification . '_description'),
-				'image'       => 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/module/image/' . $language_code . '/' . $modification . '.png',
+				'image'       => 'https://raw.githubusercontent.com/optimlab/optimblog/master/src/modification/image/' . $language_code . '/' . $modification . '.png',
 				'href'        => $this->language->get('optimcart_url') . 'extension/optimblog/modification/' . $modification,
 				'install'     => $modification,
 				'installed'   => $this->db->query("SELECT * FROM `" . DB_PREFIX . "extension_install` WHERE `filename` = '" . $this->db->escape($modification) . ".ocmod.zip'")->row ? true : false
