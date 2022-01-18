@@ -1,9 +1,8 @@
 # Changelog
 ## [Unreleased]
 ### Added
-- Bootstrap 4 adaptation.
-
 ### Changed
+
 ## [3.1.0.0](https://github.com/optimlab/optimblog/releases/tag/3.1.0.0) - 2022-01-20
 ### Added
 - Theme adaptation.
