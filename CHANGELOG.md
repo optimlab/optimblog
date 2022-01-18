@@ -2,14 +2,19 @@
 ## [Unreleased]
 ### Added
 - Bootstrap 4 adaptation.
-- Theme adaptation.
-- Updating new versions from the module.
 
 ### Changed
-## [3.0.2.0](https://github.com/optimlab/optimblog/releases/tag/3.0.2.0) - 2021-03-20
+## [3.1.0.0](https://github.com/optimlab/optimblog/releases/tag/3.1.0.0) - 2022-01-20
 ### Added
+- Theme adaptation.
+- Updating new versions from the module.
 ### Changed
+- New path structure.
+- Rename OptimBlog extensions.
+- Install extensions from the main module.
+- Renaming backup file.
 ### Fixed
+- Cancel load product model from event.
 
 ## [3.0.1.5](https://github.com/optimlab/optimblog/releases/tag/3.0.1.5) - 2021-03-15
 ### Added
