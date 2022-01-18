@@ -107,6 +107,7 @@ $_['entry_breadcrumbs_information']                     = 'Хлебные кро
 $_['entry_backup']                                      = 'Резервное копирование';
 $_['entry_restore']                                     = 'Восстановление';
 $_['entry_adaptation']                                  = 'Модификатор';
+
 // Tab
 $_['tab_article']                                       = 'Статьи';
 $_['tab_category']                                      = 'Категории';
@@ -164,7 +165,7 @@ $_['error_image_category_additional']                   = 'Необходимо 
 $_['error_install']                                     = 'Выполняется установка расширения, пожалуйста, подождите несколько секунд, прежде чем попытаться установить заново!';
 $_['error_download']                                    = 'Расширение не может быть загружено!';
 $_['error_unzip']                                       = 'Zip архив не удалось открыть!';
-$_['error_connection']                                  = 'Could not connect to GitHub';
+$_['error_connection']                                  = 'Не удалось подключиться к GitHub';
 
 // Modules
 $_['optimblog_latest']                                  = 'Новые статьи';

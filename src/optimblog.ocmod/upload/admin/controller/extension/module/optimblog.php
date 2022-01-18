@@ -992,7 +992,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		}
 
 		if (!$json) {
-			$curl = curl_init($this->github . $this->releases);
+			$curl = curl_init($this->github . '/releases');
 
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -1216,7 +1216,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 		}
 
 		if (!$json) {
-			$curl = curl_init($this->github . $this->releases);
+			$curl = curl_init($this->github . '/releases');
 
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -1311,8 +1311,7 @@ class ControllerExtensionModuleOptimBlog extends Controller {
 
 			$handle = fopen(DIR_UPLOAD . $this->session->data['install'] . '.tmp', 'w');
 
-//			$curl = curl_init('https://github.com/optimlab/optimblog/releases/download/3.1.0.0/optimblog-theme.ocmod.zip');
-			$curl = curl_init('https://github.com/optimlab/optimblog/raw/master/dist/modification/optimblog-theme.ocmod.zip');			
+			$curl = curl_init('https://github.com/optimlab/optimblog/releases/download/3.1.0.0/optimblog-theme.ocmod.zip');		
 
 			curl_setopt($curl, CURLOPT_USERAGENT, 'OpenCart ' . VERSION);
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
