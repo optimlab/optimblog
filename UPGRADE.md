@@ -1,5 +1,15 @@
 
 # Upgrade Instructions
+## From 3.0.1.x to 3.1.0.0
+1. In the «Extensions->Extensions» section drop-down list, select «Articles».
+2. Deactivate the OptimBlog module.
+3. Download the latest version OptimBlog modules and modifications.
+4. Go to «Extension Installer».
+5. Uninstall **optimblog.ocmod.zip**.
+6. Uninstall all old version OptimBlog modules and optimblog-modifications.
+7. Install all new version OptimBlog modules and modifications.
+8. Follow the instructions to install the modules ..
+
 ## From 3.0.0.x to 3.0.1.x
 1. In the «Extensions->Extensions» section drop-down list, select «Articles».
 2. Deactivate the OptimBlog module.
