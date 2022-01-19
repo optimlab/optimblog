@@ -5,6 +5,7 @@
 2. Go to «Extension Installer».
 3. Uninstall **optimblog.ocmod.zip**.
 4. Install new version OptimBlog.
+5. Activate the OptimBlog module.
 
 ## From 3.0.0.x to 3.0.1.x
 1. In the «Extensions->Extensions» section drop-down list, select «Articles».
