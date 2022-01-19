@@ -1,6 +1,22 @@
 
-## Upgrade Instructions
-### From 3.0.0.x to 3.0.1.x
+# Upgrade Instructions
+## From 3.0.1.x to 3.1.0.0
+1. Download the latest version OptimBlog.
+2. Go to «Extension Installer».
+3. Uninstall **optimblog.ocmod.zip**.
+4. Install new version OptimBlog.
+5. Activate the OptimBlog module.
+
+## From 3.0.1.x to 3.0.1.x+n
+1. Download the latest version OptimBlog module.
+2. Go to «Extension Installer».
+3. Uninstall **optimblog.ocmod.zip**.
+4. Install new version OptimBlog module **optimblog.ocmod.zip**.
+5. Update modification cache.
+6. In the «Extensions -> Extensions» section drop-down list, select «Articles».
+7. Edit the OptimBlog module settings and save.
+
+## From 3.0.0.x to 3.0.1.x
 1. In the «Extensions->Extensions» section drop-down list, select «Articles».
 2. Deactivate the OptimBlog module.
 3. Download the latest version OptimBlog modules and modifications.
@@ -10,16 +26,7 @@
 7. Install all new version OptimBlog modules and modifications.
 8. Follow the instructions to install the modules ..
 
-### From 3.0.1.x to 3.0.1.x+n
-1. Download the latest version OptimBlog module.
-2. Go to «Extension Installer».
-3. Uninstall **optimblog.ocmod.zip**.
-4. Install new version OptimBlog module **optimblog.ocmod.zip**.
-5. Update modification cache.
-6. In the «Extensions -> Extensions» section drop-down list, select «Articles».
-7. Edit the OptimBlog module settings and save.
-
-### After Opencart Upgrade
+# After Opencart Upgrade
 > :warning: **If you upgrade Opencart through `/install`**, this will remove the DataBase Indexes Key!
 1. In the «Extensions -> Extensions» section drop-down list, select «Articles».
 2. Edit the OptimBlog.
