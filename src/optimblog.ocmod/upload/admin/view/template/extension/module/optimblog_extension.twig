@@ -102,9 +102,10 @@ $('#extension-list').on('click', '.btn-primary', function(e) {
 	var element = this;
 
 	// Reset everything
-	$('#' + $(this).attr('data-install') + ' .progress-bar').css('width', '0%');
-	$('#' + $(this).attr('data-install') + ' .progress-bar').removeClass('progress-bar-success');
-	$('#' + $(this).attr('data-install') + ' .progress-text').html('');
+	$('.progress').addClass('invisible');
+	$('.progress-bar').css('width', '0%');
+	$('.progress-bar').removeClass('progress-bar-success');
+	$('.progress-text').html('');
 
 	$.ajax({
 		url: 'index.php?route=extension/module/optimblog/download&user_token={{ user_token }}&extension=' + $(this).attr('data-install'),
