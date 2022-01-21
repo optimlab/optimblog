@@ -1,0 +1,41 @@
+<h3>{{ heading_title }}</h3>
+<div class="row">
+  {% for information in informations %}
+  <div class="information-layout col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="information-thumb transition thumbnail">
+      {% if information.thumb %}
+      <div class="image"><a href="{{ information.href }}"><img src="{{ information.thumb }}" alt="{{ information.title }}" title="{{ information.title }}" class="img-responsive" /></a></div>
+      {% endif %}
+      <div class="caption">
+        <h4><a href="{{ information.href }}">{{ information.title }}</a></h4>
+        {% if author or date or review %}
+        <ul class="list-inline text-muted small">
+          {% if date %}
+          <li>{{ information.date_added }}</li>
+          {% endif %}
+          {% if author %}
+          <li>{{ information.author }}</li>
+          {% endif %}
+          {% if review %}
+          <li>{{ information.reviews }}</li>
+          {% endif %}
+          {% if rating %}
+          <li class="rating">
+          {% for i in 1..5 %}
+          {% if information.rating < i %}
+          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+          {% else %}
+          <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+          {% endif %}
+          {% endfor %}
+          </li>
+          {% endif %}
+        </ul>
+        {% endif %}
+        <p>{{ information.description }}</p>
+        <a href="{{ information.href }}" type="button" class="btn btn-primary" title="{{ text_read }}">{{ text_read }}</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
