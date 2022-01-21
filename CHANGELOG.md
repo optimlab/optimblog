@@ -1,8 +1,4 @@
 # Changelog
-## [Unreleased]
-### Added
-### Changed
-
 ## [3.1.0.0](https://github.com/optimlab/optimblog/releases/tag/3.1.0.0) - 2022-01-21
 ### Added
 - Theme adaptation.
