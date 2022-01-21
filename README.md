@@ -56,12 +56,12 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 
 ## The composition of the modules and modifications of the OptimBlog Family
 1. **[OptimBlog](https://github.com/optimlab/optimblog/blob/master/dist/optimblog/optimblog.ocmod.zip)** — main module.
-2. **[Module «Latest Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-latest-information.ocmod.zip)**
-3. **[Module «Best Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-bestseller-information.ocmod.zip)**
-4. **[Module «Featured Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-featured-information.ocmod.zip)**
-5. **[Module «Category Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-category-information.ocmod.zip)**
-6. **[Module «Search Articles»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-module-search-information.ocmod.zip)**
-6. **[Modification «Admin Filter»](https://github.com/optimlab/optimblog/blob/master/dist/optimblog-modules/optimblog-admin-filter.ocmod.zip)** - expands the ability to filter Categories, Products and Articles.
+2. **[Module «Latest Articles»](https://github.com/optimlab/optimblog/blob/master/dist/module/optimblog-latest.ocmod.zip)**
+3. **[Module «Best Articles»](https://github.com/optimlab/optimblog/blob/master/dist/module/optimblog-best.ocmod.zip)**
+4. **[Module «Featured Articles»](https://github.com/optimlab/optimblog/blob/master/dist/module/optimblog-featured.ocmod.zip)**
+5. **[Module «Category Articles»](https://github.com/optimlab/optimblog/blob/master/dist/module/optimblog-category.ocmod.zip)**
+6. **[Module «Search Articles»](https://github.com/optimlab/optimblog/blob/master/dist/module/optimblog-search.ocmod.zip)**
+6. **[Modification «Admin Filter»](https://github.com/optimlab/optimblog/blob/master/dist/modification/optimblog-admin-filter.ocmod.zip)** - expands the ability to filter Categories, Products and Articles.
 
 
 ## Information:
