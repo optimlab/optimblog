@@ -66,8 +66,8 @@ Such an approach causes many conflicts. Errors and inconsistencies in practice w
 
 ## Information:
 ### Demo:
-- http://demo.optimcart.com
-- http://demo.optimcart.com/admin
+- https://demo.optimcart.com
+- https://demo.optimcart.com/admin
 
 
 ## License
