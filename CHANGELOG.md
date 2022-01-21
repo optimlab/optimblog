@@ -3,17 +3,18 @@
 ### Added
 ### Changed
 
-## [3.1.0.0](https://github.com/optimlab/optimblog/releases/tag/3.1.0.0) - 2022-01-20
+## [3.1.0.0](https://github.com/optimlab/optimblog/releases/tag/3.1.0.0) - 2022-01-21
 ### Added
 - Theme adaptation.
 - Updating new versions from the module.
+- Installing OptimBlog extensions inside.
 ### Changed
 - New path structure.
 - Rename OptimBlog extensions.
-- Install extensions from the main module.
 - Renaming backup file.
 ### Fixed
 - Cancel load product model from event.
+- Layout Articles Category
 
 ## [3.0.1.5](https://github.com/optimlab/optimblog/releases/tag/3.0.1.5) - 2021-03-15
 ### Added
