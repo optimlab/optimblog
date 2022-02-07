@@ -969,7 +969,7 @@ $('input[name*=\'informations\']').autocomplete({
 
 		$('#' + $(this).next().next().attr('id') + item['value']).remove();
 
-		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
+		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="module_optimblog_' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
 	}
 });
 
@@ -994,7 +994,7 @@ $('input[name*=\'categories\']').autocomplete({
 
 		$('#' + $(this).next().next().attr('id') + item['value']).remove();
 
-		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
+		$(this).next().next().append('<div id="' + $(this).next().next().attr('id') + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="module_optimblog_' + $(this).next().next().attr('id').replace(/-/g, '_') + '[]" value="' + item['value'] + '" /></div>');
 	}
 });
 
