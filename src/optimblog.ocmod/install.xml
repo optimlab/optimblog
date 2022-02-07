@@ -2,7 +2,7 @@
 <modification>
   <name>  OptimBlog</name>
   <code>optimblog</code>
-  <version>3.1.0.0</version>
+  <version>3.1.0.1</version>
   <author>Dmitriy Khokhlov | optimlab.com</author>
   <link>https://optimcart.com</link>
 
@@ -3196,7 +3196,7 @@ $('input[name=\'information\']').autocomplete({
 		foreach ($this->model_catalog_information->getInformations() as $result) {
         ]]></search>
         <add position="after"><![CDATA[
-			if ($this->model_extension_information_optimblog_information->getMainCategory($result['information_id'])) {
+			if ($this->model_extension_module_optimblog_information->getMainCategory($result['information_id'])) {
 				continue;
 			}
         ]]></add>
