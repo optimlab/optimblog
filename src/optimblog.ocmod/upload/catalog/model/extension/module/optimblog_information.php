@@ -26,7 +26,7 @@ class ModelExtensionModuleOptimBlogInformation extends Model {
 				'bottom'            => $query->row['bottom'],
 				'manufacturer_id'   => $query->row['manufacturer_id'],
 				'manufacturer'      => $query->row['manufacturer'],
-				'rating'            => round($query->row['rating']),
+				'rating'            => round(($query->row['rating']===null) ? 0 : $query->row['rating']),
 				'reviews'           => $query->row['reviews'] ? $query->row['reviews'] : 0,
 				'user_id'           => $query->row['user_id'],
 				'author'            => $query->row['author'],
