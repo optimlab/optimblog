@@ -1,4 +1,11 @@
 # Changelog
+## [3.1.0.2](https://github.com/optimlab/optimblog/releases/tag/3.1.0.2) - 2026-09-23
+### Fixed
+- [PHP 8](https://github.com/optimlab/optimblog/commit/dd3743592a144c8364fc289da5ad4bf964856125).
+## [3.1.0.1](https://github.com/optimlab/optimblog/releases/tag/3.1.0.1) - 2022-02-07
+### Fixed
+- [Sitemap](https://github.com/optimlab/optimblog/commit/b990b27c919889b4f57b816891d88f9f72622a2b).
+- [Autocomplete](https://github.com/optimlab/optimblog/commit/2fa672b739d466ac1a2dce18c8e2f922ead55f6b).
 ## [3.1.0.0](https://github.com/optimlab/optimblog/releases/tag/3.1.0.0) - 2022-01-21
 ### Added
 - Theme adaptation.
